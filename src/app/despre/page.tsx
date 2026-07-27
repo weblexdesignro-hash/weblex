@@ -27,7 +27,7 @@ export default function DesprePage() {
             Weblex Design a fost infiintata in {site.since}, dar echipa din spate are peste{" "}
             {site.experienceYears} ani de experienta in dezvoltare web. De atunci, ne-am axat
             constant pe un singur lucru: sa oferim clientilor nostri calitate si profesionalism,
-            nu doar un site „care arata bine".
+            nu doar un site „care arata bine”.
           </p>
           <p>
             Am construit site-uri de prezentare pentru afaceri locale, restaurante, pensiuni si
