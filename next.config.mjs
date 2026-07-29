@@ -20,9 +20,7 @@ const nextConfig = {
       { source: "/service-foto", destination: "/servicii#foto", permanent: true },
       { source: "/preturi-site-web", destination: "/servicii#preturi-site-web", permanent: true },
       { source: "/preturi-magazin-online", destination: "/servicii#preturi-magazin-online", permanent: true },
-      { source: "/despre-noi", destination: "/despre", permanent: true },
-      { source: "/portofoliu", destination: "/portofoliu", permanent: true },
-      { source: "/contact", destination: "/contact", permanent: true },
+      { source: "/despre-noi", destination: "/despre", permanent: true }
     ];
   },
 };
