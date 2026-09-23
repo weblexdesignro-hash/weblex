@@ -15,6 +15,7 @@ import { ContactMessages } from "./collections/ContactMessages";
 import { Contracts } from "./collections/Contracts";
 import { Pages } from "./collections/Pages";
 import { SiteSettings } from "./globals/SiteSettings";
+import { PageTexts } from "./globals/PageTexts";
 import { aiEndpoints } from "./lib/aiEndpoints";
 
 const filename = fileURLToPath(import.meta.url);
@@ -29,7 +30,7 @@ export default buildConfig({
     },
   },
   collections: [Users, Media, Services, Projects, Testimonials, BlogPosts, ContactMessages, Contracts, Pages],
-  globals: [SiteSettings],
+  globals: [SiteSettings, PageTexts],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || "",
   typescript: {

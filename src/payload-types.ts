@@ -103,9 +103,11 @@ export interface Config {
   fallbackLocale: ('false' | 'none' | 'null') | false | null | ('ro' | 'en') | ('ro' | 'en')[];
   globals: {
     'site-settings': SiteSetting;
+    'page-texts': PageText;
   };
   globalsSelect: {
     'site-settings': SiteSettingsSelect<false> | SiteSettingsSelect<true>;
+    'page-texts': PageTextsSelect<false> | PageTextsSelect<true>;
   };
   locale: 'ro' | 'en';
   widgets: {
@@ -971,6 +973,68 @@ export interface SiteSetting {
   createdAt?: string | null;
 }
 /**
+ * Textele fixe de pe Home, Despre, Portofoliu, Contact și Blog.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "page-texts".
+ */
+export interface PageText {
+  id: number;
+  hero?: {
+    heading?: string | null;
+    /**
+     * Partea evidențiată cu culoare, ex: "clienti reali."
+     */
+    headingHighlight?: string | null;
+    subheading?: string | null;
+    ctaPrimaryLabel?: string | null;
+    ctaSecondaryLabel?: string | null;
+  };
+  home?: {
+    servicesHeading?: string | null;
+    portfolioHeading?: string | null;
+    benefitsHeading?: string | null;
+    benefitsText?: string | null;
+    benefits?:
+      | {
+          title: string;
+          text?: string | null;
+          id?: string | null;
+        }[]
+      | null;
+    processHeading?: string | null;
+    pricingHeading?: string | null;
+  };
+  despre?: {
+    heading?: string | null;
+    paragraph1?: string | null;
+    paragraph2?: string | null;
+    paragraph3?: string | null;
+  };
+  portofoliu?: {
+    heading?: string | null;
+    subheading?: string | null;
+  };
+  contact?: {
+    heading?: string | null;
+    subheading?: string | null;
+  };
+  blog?: {
+    heading?: string | null;
+    emptyMessage?: string | null;
+  };
+  stats?: {
+    /**
+     * Anul înființării.
+     */
+    since?: number | null;
+    experienceYears?: number | null;
+    projectsDelivered?: number | null;
+  };
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "site-settings_select".
  */
@@ -992,6 +1056,74 @@ export interface SiteSettingsSelect<T extends boolean = true> {
         title?: T;
         description?: T;
         ogImage?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "page-texts_select".
+ */
+export interface PageTextsSelect<T extends boolean = true> {
+  hero?:
+    | T
+    | {
+        heading?: T;
+        headingHighlight?: T;
+        subheading?: T;
+        ctaPrimaryLabel?: T;
+        ctaSecondaryLabel?: T;
+      };
+  home?:
+    | T
+    | {
+        servicesHeading?: T;
+        portfolioHeading?: T;
+        benefitsHeading?: T;
+        benefitsText?: T;
+        benefits?:
+          | T
+          | {
+              title?: T;
+              text?: T;
+              id?: T;
+            };
+        processHeading?: T;
+        pricingHeading?: T;
+      };
+  despre?:
+    | T
+    | {
+        heading?: T;
+        paragraph1?: T;
+        paragraph2?: T;
+        paragraph3?: T;
+      };
+  portofoliu?:
+    | T
+    | {
+        heading?: T;
+        subheading?: T;
+      };
+  contact?:
+    | T
+    | {
+        heading?: T;
+        subheading?: T;
+      };
+  blog?:
+    | T
+    | {
+        heading?: T;
+        emptyMessage?: T;
+      };
+  stats?:
+    | T
+    | {
+        since?: T;
+        experienceYears?: T;
+        projectsDelivered?: T;
       };
   updatedAt?: T;
   createdAt?: T;

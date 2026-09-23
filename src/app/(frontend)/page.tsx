@@ -7,27 +7,34 @@ import ProcessTimeline from "@/components/ProcessTimeline";
 import TestimonialCarousel from "@/components/TestimonialCarousel";
 import CTASection from "@/components/CTASection";
 import RevealOnScroll, { StaggerGroup } from "@/components/RevealOnScroll";
-import { getServices, getProjects, getPricingTiers, getTestimonials } from "@/lib/payload-data";
+import { getServices, getProjects, getPricingTiers, getTestimonials, getPageTexts } from "@/lib/payload-data";
 
 export default async function HomePage() {
-  const [services, projects, { website: websitePricing }, testimonials] = await Promise.all([
+  const [services, projects, { website: websitePricing }, testimonials, texts] = await Promise.all([
     getServices(),
     getProjects(),
     getPricingTiers(),
     getTestimonials(),
+    getPageTexts(),
   ]);
 
   return (
     <>
-      <Hero />
+      <Hero
+        heading={texts.hero.heading}
+        headingHighlight={texts.hero.headingHighlight}
+        subheading={texts.hero.subheading}
+        ctaPrimaryLabel={texts.hero.ctaPrimaryLabel}
+        ctaSecondaryLabel={texts.hero.ctaSecondaryLabel}
+        experienceYears={texts.stats.experienceYears}
+        projectsDelivered={texts.stats.projectsDelivered}
+      />
 
       {/* Servicii */}
       <section className="container-px mx-auto max-w-7xl py-24">
         <RevealOnScroll className="mx-auto max-w-2xl text-center">
           <p className="text-sm font-medium text-brand">Servicii</p>
-          <h2 className="mt-3 font-display text-3xl font-semibold sm:text-4xl">
-            Tot ce ai nevoie pentru o prezenta online solida
-          </h2>
+          <h2 className="mt-3 font-display text-3xl font-semibold sm:text-4xl">{texts.home.servicesHeading}</h2>
         </RevealOnScroll>
 
         <StaggerGroup className="mt-14 grid gap-6 md:grid-cols-2 lg:grid-cols-4">
@@ -47,9 +54,7 @@ export default async function HomePage() {
       <section className="container-px mx-auto max-w-7xl py-12">
         <RevealOnScroll className="mx-auto max-w-2xl text-center">
           <p className="text-sm font-medium text-brand">Portofoliu</p>
-          <h2 className="mt-3 font-display text-3xl font-semibold sm:text-4xl">
-            Proiecte reprezentative
-          </h2>
+          <h2 className="mt-3 font-display text-3xl font-semibold sm:text-4xl">{texts.home.portfolioHeading}</h2>
         </RevealOnScroll>
 
         <StaggerGroup className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
@@ -70,25 +75,15 @@ export default async function HomePage() {
         <div className="grid gap-10 md:grid-cols-2 md:gap-16">
           <RevealOnScroll>
             <p className="text-sm font-medium text-brand">De ce Weblex Design</p>
-            <h2 className="mt-3 font-display text-3xl font-semibold sm:text-4xl">
-              Beneficii clare, fara promisiuni goale
-            </h2>
-            <p className="mt-4 text-mist">
-              Fiecare proiect pleaca de la un obiectiv de business concret, nu doar de la un
-              design frumos.
-            </p>
+            <h2 className="mt-3 font-display text-3xl font-semibold sm:text-4xl">{texts.home.benefitsHeading}</h2>
+            <p className="mt-4 text-mist">{texts.home.benefitsText}</p>
           </RevealOnScroll>
 
           <StaggerGroup className="grid gap-6 sm:grid-cols-2">
-            {[
-              { title: "Livrare rapida", desc: "Termene clare, comunicate din prima discutie." },
-              { title: "Panou de administrare inclus", desc: "Gestionezi singur continutul, fara programator." },
-              { title: "SEO on-page inclus", desc: "Nu e un add-on separat, e parte din livrabil." },
-              { title: "Mentenanta continua", desc: "Ramanem alaturi de tine si dupa lansare." },
-            ].map((b) => (
+            {texts.home.benefits.map((b) => (
               <div key={b.title} className="rounded-3xl border border-black/5 bg-white/60 p-6">
                 <p className="font-display font-semibold">{b.title}</p>
-                <p className="mt-2 text-sm text-mist">{b.desc}</p>
+                <p className="mt-2 text-sm text-mist">{b.text}</p>
               </div>
             ))}
           </StaggerGroup>
@@ -99,9 +94,7 @@ export default async function HomePage() {
       <section className="container-px mx-auto max-w-7xl py-12">
         <RevealOnScroll className="mx-auto max-w-2xl text-center">
           <p className="text-sm font-medium text-brand">Procesul de lucru</p>
-          <h2 className="mt-3 font-display text-3xl font-semibold sm:text-4xl">
-            Cum lucram impreuna
-          </h2>
+          <h2 className="mt-3 font-display text-3xl font-semibold sm:text-4xl">{texts.home.processHeading}</h2>
         </RevealOnScroll>
         <div className="mt-16">
           <ProcessTimeline />
@@ -112,9 +105,7 @@ export default async function HomePage() {
       <section className="container-px mx-auto max-w-7xl py-24">
         <RevealOnScroll className="mx-auto max-w-2xl text-center">
           <p className="text-sm font-medium text-brand">Preturi</p>
-          <h2 className="mt-3 font-display text-3xl font-semibold sm:text-4xl">
-            Site web de prezentare
-          </h2>
+          <h2 className="mt-3 font-display text-3xl font-semibold sm:text-4xl">{texts.home.pricingHeading}</h2>
         </RevealOnScroll>
         <StaggerGroup className="mt-14 grid gap-6 md:grid-cols-3">
           {websitePricing.map((tier) => (

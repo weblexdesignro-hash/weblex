@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import ContactForm from "@/components/ContactForm";
 import RevealOnScroll from "@/components/RevealOnScroll";
 import { site } from "@/content/site";
-import { getPricingTiers } from "@/lib/payload-data";
+import { getPricingTiers, getPageTexts } from "@/lib/payload-data";
 
 export const metadata: Metadata = {
   title: "Contact",
@@ -10,20 +10,15 @@ export const metadata: Metadata = {
 };
 
 export default async function ContactPage() {
-  const { all: packages } = await getPricingTiers();
+  const [{ all: packages }, texts] = await Promise.all([getPricingTiers(), getPageTexts()]);
 
   return (
     <section className="container-px mx-auto max-w-6xl py-40">
       <div className="grid gap-16 lg:grid-cols-2">
         <RevealOnScroll>
           <p className="text-sm font-medium text-brand">Contact</p>
-          <h1 className="mt-3 font-display text-4xl font-semibold sm:text-5xl">
-            Hai sa vorbim despre proiectul tau
-          </h1>
-          <p className="mt-4 text-mist">
-            Completeaza formularul si iti raspundem cu o oferta personalizata in maximum o
-            zi lucratoare.
-          </p>
+          <h1 className="mt-3 font-display text-4xl font-semibold sm:text-5xl">{texts.contact.heading}</h1>
+          <p className="mt-4 text-mist">{texts.contact.subheading}</p>
 
           <div className="mt-10 space-y-4 text-sm">
             <p>

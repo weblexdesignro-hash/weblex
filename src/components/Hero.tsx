@@ -3,9 +3,26 @@
 import Link from "next/link";
 import { motion } from "framer-motion";
 import AnimatedCounter from "./AnimatedCounter";
-import { site } from "@/content/site";
 
-export default function Hero() {
+type HeroProps = {
+  heading: string;
+  headingHighlight: string;
+  subheading: string;
+  ctaPrimaryLabel: string;
+  ctaSecondaryLabel: string;
+  experienceYears: number;
+  projectsDelivered: number;
+};
+
+export default function Hero({
+  heading,
+  headingHighlight,
+  subheading,
+  ctaPrimaryLabel,
+  ctaSecondaryLabel,
+  experienceYears,
+  projectsDelivered,
+}: HeroProps) {
   return (
     <section className="gradient-hero relative overflow-hidden pb-24 pt-40 md:pt-48">
       <div className="container-px mx-auto max-w-6xl text-center">
@@ -15,7 +32,7 @@ export default function Hero() {
           transition={{ duration: 0.6 }}
           className="mb-6 inline-flex items-center gap-2 rounded-full border border-black/10 bg-white/60 px-4 py-1.5 text-xs font-medium text-mist"
         >
-          {site.experienceYears}+ ani experienta · {site.projectsDelivered}+ proiecte livrate
+          {experienceYears}+ ani experienta · {projectsDelivered}+ proiecte livrate
         </motion.p>
 
         <motion.h1
@@ -24,8 +41,8 @@ export default function Hero() {
           transition={{ duration: 0.8, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
           className="font-display text-4xl font-semibold leading-[1.05] tracking-tight sm:text-6xl lg:text-7xl"
         >
-          Site-uri web si magazine online
-          <br className="hidden sm:block" /> care aduc <span className="text-brand">clienti reali.</span>
+          {heading}
+          <br className="hidden sm:block" /> <span className="text-brand">{headingHighlight}</span>
         </motion.h1>
 
         <motion.p
@@ -34,8 +51,7 @@ export default function Hero() {
           transition={{ duration: 0.8, delay: 0.25 }}
           className="mx-auto mt-6 max-w-xl text-lg text-mist"
         >
-          Proiectam si construim prezente online rapide, moderne si optimizate pentru
-          conversii — de la primul brief pana la mentenanta continua.
+          {subheading}
         </motion.p>
 
         <motion.div
@@ -48,13 +64,13 @@ export default function Hero() {
             href="/contact"
             className="rounded-full bg-ink px-7 py-3.5 text-sm font-medium text-cream transition hover:bg-brand"
           >
-            Cere oferta
+            {ctaPrimaryLabel}
           </Link>
           <Link
             href="/portofoliu"
             className="rounded-full border border-black/10 bg-white/70 px-7 py-3.5 text-sm font-medium text-ink transition hover:border-brand hover:text-brand"
           >
-            Vezi portofoliul
+            {ctaSecondaryLabel}
           </Link>
         </motion.div>
 
@@ -66,13 +82,13 @@ export default function Hero() {
         >
           <div>
             <p className="font-display text-3xl font-semibold sm:text-4xl">
-              <AnimatedCounter value={site.projectsDelivered} suffix="+" />
+              <AnimatedCounter value={projectsDelivered} suffix="+" />
             </p>
             <p className="mt-1 text-xs text-mist">proiecte finalizate</p>
           </div>
           <div>
             <p className="font-display text-3xl font-semibold sm:text-4xl">
-              <AnimatedCounter value={site.experienceYears} suffix="+" />
+              <AnimatedCounter value={experienceYears} suffix="+" />
             </p>
             <p className="mt-1 text-xs text-mist">ani experienta</p>
           </div>

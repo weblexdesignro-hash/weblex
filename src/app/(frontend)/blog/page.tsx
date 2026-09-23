@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import { getBlogPosts, type Locale } from "@/lib/payload-data";
+import { getBlogPosts, getPageTexts, type Locale } from "@/lib/payload-data";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
 import RevealOnScroll from "@/components/RevealOnScroll";
 
@@ -17,18 +17,18 @@ function resolveLocale(lang?: string): Locale {
 export default async function BlogPage({ searchParams }: { searchParams: Promise<{ lang?: string }> }) {
   const { lang } = await searchParams;
   const locale = resolveLocale(lang);
-  const posts = await getBlogPosts(locale);
+  const [posts, texts] = await Promise.all([getBlogPosts(locale), getPageTexts(locale)]);
 
   return (
     <>
       <LanguageSwitcher locale={locale} />
       <section className="container-px mx-auto max-w-5xl pb-24 pt-10">
         <RevealOnScroll>
-          <h1 className="font-display text-4xl font-semibold sm:text-5xl">Blog</h1>
+          <h1 className="font-display text-4xl font-semibold sm:text-5xl">{texts.blog.heading}</h1>
         </RevealOnScroll>
 
         {posts.length === 0 ? (
-          <p className="mt-10 text-ink/60">Niciun articol publicat încă.</p>
+          <p className="mt-10 text-ink/60">{texts.blog.emptyMessage}</p>
         ) : (
           <div className="mt-12 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
             {posts.map((post: any) => {
