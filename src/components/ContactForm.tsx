@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, type FormEvent } from "react";
+import type { PricingTier } from "@/content/pricing";
 
 const serviceOptions = [
   "Site web de prezentare",
@@ -11,10 +12,12 @@ const serviceOptions = [
   "Alt serviciu",
 ];
 
+type PackageOption = { serviceTitle: string; tier: PricingTier };
 type Status = "idle" | "loading" | "success" | "error";
 
-export default function ContactForm() {
+export default function ContactForm({ packages = [] }: { packages?: PackageOption[] }) {
   const [status, setStatus] = useState<Status>("idle");
+  const [selectedPackage, setSelectedPackage] = useState<string>("");
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -27,6 +30,7 @@ export default function ContactForm() {
       email: formData.get("email"),
       phone: formData.get("phone"),
       services: formData.getAll("services"),
+      selectedPackage,
       message: formData.get("message"),
       gdpr: formData.get("gdpr") === "on",
     };
@@ -40,6 +44,7 @@ export default function ContactForm() {
       if (!res.ok) throw new Error("Request failed");
       setStatus("success");
       form.reset();
+      setSelectedPackage("");
     } catch {
       setStatus("error");
     }
@@ -55,7 +60,7 @@ export default function ContactForm() {
       </div>
 
       <div>
-        <p className="mb-3 text-sm font-medium text-ink">Ce servicii te intereseaza?</p>
+        <p className="mb-3 text-sm font-medium text-ink">Ce servicii te interesează?</p>
         <div className="flex flex-wrap gap-3">
           {serviceOptions.map((opt) => (
             <label
@@ -69,6 +74,51 @@ export default function ContactForm() {
         </div>
       </div>
 
+      {packages.length > 0 && (
+        <div>
+          <p className="mb-3 text-sm font-medium text-ink">
+            Ai deja un pachet în minte? <span className="font-normal text-mist">(opțional)</span>
+          </p>
+          <div className="grid gap-3 sm:grid-cols-2">
+            {packages.map(({ serviceTitle, tier }) => {
+              const value = `${serviceTitle} — ${tier.name} (${tier.price})`;
+              const checked = selectedPackage === value;
+              return (
+                <label
+                  key={value}
+                  className={`flex cursor-pointer items-start gap-3 rounded-2xl border px-4 py-3 text-sm transition ${
+                    checked ? "border-brand bg-brand/5" : "border-black/10 bg-white/60 hover:border-black/20"
+                  }`}
+                >
+                  <input
+                    type="radio"
+                    name="package"
+                    className="mt-1 accent-brand"
+                    checked={checked}
+                    onChange={() => setSelectedPackage(value)}
+                  />
+                  <span>
+                    <span className="block font-medium">
+                      {serviceTitle} — {tier.name}
+                    </span>
+                    <span className="block text-xs text-mist">{tier.price}</span>
+                  </span>
+                </label>
+              );
+            })}
+          </div>
+          {selectedPackage && (
+            <button
+              type="button"
+              onClick={() => setSelectedPackage("")}
+              className="mt-2 text-xs text-mist hover:text-brand"
+            >
+              Renunță la selecție
+            </button>
+          )}
+        </div>
+      )}
+
       <div>
         <label className="mb-2 block text-sm font-medium text-ink" htmlFor="message">
           Detalii despre proiect
@@ -79,13 +129,13 @@ export default function ContactForm() {
           required
           rows={5}
           className="w-full rounded-2xl border border-black/10 bg-white/70 px-4 py-3 text-sm outline-none transition focus:border-brand"
-          placeholder="Spune-ne cateva cuvinte despre afacerea ta si ce ai nevoie."
+          placeholder="Spune-ne câteva cuvinte despre afacerea ta și ce ai nevoie."
         />
       </div>
 
       <label className="flex items-start gap-3 text-xs text-mist">
         <input type="checkbox" name="gdpr" required className="mt-0.5 accent-brand" />
-        Sunt de acord cu prelucrarea datelor conform politicii de confidentialitate.
+        Sunt de acord cu prelucrarea datelor conform politicii de confidențialitate.
       </label>
 
       <button
@@ -97,10 +147,10 @@ export default function ContactForm() {
       </button>
 
       {status === "success" && (
-        <p className="text-sm text-brand">Multumim! Iti raspundem in cel mai scurt timp.</p>
+        <p className="text-sm text-brand">Mulțumim! Îți răspundem în cel mai scurt timp.</p>
       )}
       {status === "error" && (
-        <p className="text-sm text-red-500">A aparut o eroare. Te rugam sa ne contactezi direct.</p>
+        <p className="text-sm text-red-500">A apărut o eroare. Te rugăm să ne contactezi direct.</p>
       )}
     </form>
   );

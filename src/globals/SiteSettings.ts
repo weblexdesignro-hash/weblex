@@ -2,7 +2,7 @@ import type { GlobalConfig } from "payload";
 
 export const SiteSettings: GlobalConfig = {
   slug: "site-settings",
-  admin: { group: "Setari" },
+  admin: { group: "Setări" },
   access: { read: () => true },
   fields: [
     { name: "logo", type: "upload", relationTo: "media" },

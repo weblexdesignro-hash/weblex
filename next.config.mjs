@@ -1,9 +1,14 @@
+import { withPayload } from "@payloadcms/next/withPayload";
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
   images: {
     remotePatterns: [
       { protocol: "https", hostname: "**" },
+    ],
+    localPatterns: [
+      { pathname: "/api/media/file/**" },
     ],
   },
   async redirects() {
@@ -20,11 +25,9 @@ const nextConfig = {
       { source: "/service-foto", destination: "/servicii#foto", permanent: true },
       { source: "/preturi-site-web", destination: "/servicii#preturi-site-web", permanent: true },
       { source: "/preturi-magazin-online", destination: "/servicii#preturi-magazin-online", permanent: true },
-      { source: "/despre-noi", destination: "/despre", permanent: true },
-      { source: "/portofoliu", destination: "/portofoliu", permanent: true },
-      { source: "/contact", destination: "/contact", permanent: true },
+      { source: "/despre-noi", destination: "/despre", permanent: true }
     ];
   },
 };
 
-export default nextConfig;
+export default withPayload(nextConfig, { devBundleServerPackages: false });
