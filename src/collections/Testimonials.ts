@@ -6,8 +6,8 @@ export const Testimonials: CollectionConfig = {
   access: { read: () => true },
   fields: [
     { name: "name", type: "text", required: true },
-    { name: "role", type: "text" },
-    { name: "quote", type: "textarea", required: true },
+    { name: "role", type: "text", localized: true },
+    { name: "quote", type: "textarea", required: true, localized: true },
     { name: "rating", type: "number", min: 1, max: 5, defaultValue: 5 },
     { name: "photo", type: "upload", relationTo: "media" },
     {

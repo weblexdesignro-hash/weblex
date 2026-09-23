@@ -75,6 +75,7 @@ export interface Config {
     'blog-posts': BlogPost;
     'contact-messages': ContactMessage;
     contracts: Contract;
+    pages: Page;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -90,6 +91,7 @@ export interface Config {
     'blog-posts': BlogPostsSelect<false> | BlogPostsSelect<true>;
     'contact-messages': ContactMessagesSelect<false> | ContactMessagesSelect<true>;
     contracts: ContractsSelect<false> | ContractsSelect<true>;
+    pages: PagesSelect<false> | PagesSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -98,14 +100,14 @@ export interface Config {
   db: {
     defaultIDType: number;
   };
-  fallbackLocale: null;
+  fallbackLocale: ('false' | 'none' | 'null') | false | null | ('ro' | 'en') | ('ro' | 'en')[];
   globals: {
     'site-settings': SiteSetting;
   };
   globalsSelect: {
     'site-settings': SiteSettingsSelect<false> | SiteSettingsSelect<true>;
   };
-  locale: null;
+  locale: 'ro' | 'en';
   widgets: {
     collections: CollectionsWidget;
   };
@@ -423,6 +425,106 @@ export interface Contract {
   createdAt: string;
 }
 /**
+ * Pagini noi, construite din blocuri (drag & drop) — apar la adresa /pagini/<slug-ul-tau>.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "pages".
+ */
+export interface Page {
+  id: number;
+  title: string;
+  /**
+   * Partea din URL, ex: „despre-echipa” → site.ro/pagini/despre-echipa
+   */
+  slug: string;
+  layout?:
+    | (
+        | {
+            heading: string;
+            subheading?: string | null;
+            image?: (number | null) | Media;
+            /**
+             * Text buton (opțional)
+             */
+            ctaLabel?: string | null;
+            /**
+             * Link buton (opțional)
+             */
+            ctaHref?: string | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'hero';
+          }
+        | {
+            heading?: string | null;
+            richText?: {
+              root: {
+                type: string;
+                children: {
+                  type: any;
+                  version: number;
+                  [k: string]: unknown;
+                }[];
+                direction: ('ltr' | 'rtl') | null;
+                format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+                indent: number;
+                version: number;
+              };
+              [k: string]: unknown;
+            } | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'text';
+          }
+        | {
+            heading?: string | null;
+            text?: string | null;
+            image: number | Media;
+            imagePosition?: ('right' | 'left') | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'imageText';
+          }
+        | {
+            heading?: string | null;
+            items?:
+              | {
+                  /**
+                   * Nume icon (ex: rocket, shield, star)
+                   */
+                  icon?: string | null;
+                  title: string;
+                  text?: string | null;
+                  id?: string | null;
+                }[]
+              | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'featureGrid';
+          }
+        | {
+            heading: string;
+            text?: string | null;
+            buttonLabel: string;
+            buttonHref: string;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'cta';
+          }
+        | {
+            images: (number | Media)[];
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'gallery';
+          }
+      )[]
+    | null;
+  seoTitle?: string | null;
+  seoDescription?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-kv".
  */
@@ -477,6 +579,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'contracts';
         value: number | Contract;
+      } | null)
+    | ({
+        relationTo: 'pages';
+        value: number | Page;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -721,6 +827,83 @@ export interface ContractsSelect<T extends boolean = true> {
         signedAt?: T;
         signerIp?: T;
       };
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "pages_select".
+ */
+export interface PagesSelect<T extends boolean = true> {
+  title?: T;
+  slug?: T;
+  layout?:
+    | T
+    | {
+        hero?:
+          | T
+          | {
+              heading?: T;
+              subheading?: T;
+              image?: T;
+              ctaLabel?: T;
+              ctaHref?: T;
+              id?: T;
+              blockName?: T;
+            };
+        text?:
+          | T
+          | {
+              heading?: T;
+              richText?: T;
+              id?: T;
+              blockName?: T;
+            };
+        imageText?:
+          | T
+          | {
+              heading?: T;
+              text?: T;
+              image?: T;
+              imagePosition?: T;
+              id?: T;
+              blockName?: T;
+            };
+        featureGrid?:
+          | T
+          | {
+              heading?: T;
+              items?:
+                | T
+                | {
+                    icon?: T;
+                    title?: T;
+                    text?: T;
+                    id?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
+        cta?:
+          | T
+          | {
+              heading?: T;
+              text?: T;
+              buttonLabel?: T;
+              buttonHref?: T;
+              id?: T;
+              blockName?: T;
+            };
+        gallery?:
+          | T
+          | {
+              images?: T;
+              id?: T;
+              blockName?: T;
+            };
+      };
+  seoTitle?: T;
+  seoDescription?: T;
   updatedAt?: T;
   createdAt?: T;
 }

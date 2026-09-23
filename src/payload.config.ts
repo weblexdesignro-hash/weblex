@@ -13,7 +13,9 @@ import { Testimonials } from "./collections/Testimonials";
 import { BlogPosts } from "./collections/BlogPosts";
 import { ContactMessages } from "./collections/ContactMessages";
 import { Contracts } from "./collections/Contracts";
+import { Pages } from "./collections/Pages";
 import { SiteSettings } from "./globals/SiteSettings";
+import { aiEndpoints } from "./lib/aiEndpoints";
 
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
@@ -26,7 +28,7 @@ export default buildConfig({
       baseDir: path.resolve(dirname),
     },
   },
-  collections: [Users, Media, Services, Projects, Testimonials, BlogPosts, ContactMessages, Contracts],
+  collections: [Users, Media, Services, Projects, Testimonials, BlogPosts, ContactMessages, Contracts, Pages],
   globals: [SiteSettings],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || "",
@@ -39,4 +41,13 @@ export default buildConfig({
     },
   }),
   sharp,
+  endpoints: aiEndpoints,
+  localization: {
+    locales: [
+      { label: "Română", code: "ro" },
+      { label: "English", code: "en" },
+    ],
+    defaultLocale: "ro",
+    fallback: true,
+  },
 });

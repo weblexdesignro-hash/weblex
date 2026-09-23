@@ -8,15 +8,22 @@ import type { Project } from "@/content/projects";
 import type { Testimonial } from "@/content/testimonials";
 import type { PricingTier } from "@/content/pricing";
 
+export type Locale = "ro" | "en" | "all";
+
 // Sursa de adevăr pentru conținut e acum Payload CMS (baza de date). Fiecare funcție
 // de mai jos citește din CMS și, dacă baza de date nu e încă populată sau nu răspunde
 // (ex. prima instalare, înainte de a rula seed-ul), cade automat pe conținutul static
 // din src/content/*.ts — site-ul rămâne funcțional indiferent de starea CMS-ului.
+//
+// Parametrul `locale` e opțional (implicit "ro") — paginile existente (Home, Despre,
+// Servicii, Portofoliu) nu îl folosesc încă și continuă să afișeze conținutul în
+// română; noile pagini construite din blocuri (/pagini/*) și articolele de blog
+// folosesc localizarea completă RO/EN.
 
-export async function getServices(): Promise<Service[]> {
+export async function getServices(locale: Locale = "ro"): Promise<Service[]> {
   try {
     const payload = await getPayload({ config });
-    const res = await payload.find({ collection: "services", limit: 100, sort: "order", depth: 0 });
+    const res = await payload.find({ collection: "services", limit: 100, sort: "order", depth: 0, locale });
     if (!res.docs.length) return fallbackServices;
     return res.docs.map((d: any) => ({
       id: d.slug,
@@ -30,10 +37,10 @@ export async function getServices(): Promise<Service[]> {
   }
 }
 
-export async function getPricingTiers(): Promise<{ website: PricingTier[]; shop: PricingTier[]; all: { serviceTitle: string; tier: PricingTier }[] }> {
+export async function getPricingTiers(locale: Locale = "ro"): Promise<{ website: PricingTier[]; shop: PricingTier[]; all: { serviceTitle: string; tier: PricingTier }[] }> {
   try {
     const payload = await getPayload({ config });
-    const res = await payload.find({ collection: "services", limit: 100, sort: "order", depth: 0 });
+    const res = await payload.find({ collection: "services", limit: 100, sort: "order", depth: 0, locale });
     const all: { serviceTitle: string; tier: PricingTier }[] = [];
     const bySlug: Record<string, PricingTier[]> = {};
     for (const d of res.docs as any[]) {
@@ -63,10 +70,10 @@ export async function getPricingTiers(): Promise<{ website: PricingTier[]; shop:
   }
 }
 
-export async function getProjects(): Promise<Project[]> {
+export async function getProjects(locale: Locale = "ro"): Promise<Project[]> {
   try {
     const payload = await getPayload({ config });
-    const res = await payload.find({ collection: "projects", limit: 100, sort: "order", depth: 1 });
+    const res = await payload.find({ collection: "projects", limit: 100, sort: "order", depth: 1, locale });
     if (!res.docs.length) return fallbackProjects;
     return res.docs.map((d: any) => ({
       slug: d.slug,
@@ -81,13 +88,67 @@ export async function getProjects(): Promise<Project[]> {
   }
 }
 
-export async function getTestimonials(): Promise<Testimonial[]> {
+export async function getTestimonials(locale: Locale = "ro"): Promise<Testimonial[]> {
   try {
     const payload = await getPayload({ config });
-    const res = await payload.find({ collection: "testimonials", limit: 50, where: { published: { equals: true } }, depth: 0 });
+    const res = await payload.find({
+      collection: "testimonials",
+      limit: 50,
+      where: { published: { equals: true } },
+      depth: 0,
+      locale,
+    });
     if (!res.docs.length) return fallbackTestimonials;
     return res.docs.map((d: any) => ({ name: d.name, role: d.role || "", quote: d.quote }));
   } catch {
     return fallbackTestimonials;
+  }
+}
+
+export async function getPageBySlug(slug: string, locale: Locale = "ro") {
+  try {
+    const payload = await getPayload({ config });
+    const res = await payload.find({
+      collection: "pages",
+      where: { slug: { equals: slug } },
+      limit: 1,
+      depth: 2,
+      locale,
+    });
+    return res.docs[0] || null;
+  } catch {
+    return null;
+  }
+}
+
+export async function getBlogPosts(locale: Locale = "ro") {
+  try {
+    const payload = await getPayload({ config });
+    const res = await payload.find({
+      collection: "blog-posts",
+      limit: 100,
+      sort: "-publishedAt",
+      depth: 1,
+      locale,
+    });
+    return res.docs;
+  } catch {
+    return [];
+  }
+}
+
+export async function getBlogPostBySlug(slug: string, locale: Locale = "ro") {
+  try {
+    const payload = await getPayload({ config });
+    const res = await payload.find({
+      collection: "blog-posts",
+      where: { slug: { equals: slug } },
+      limit: 1,
+      depth: 1,
+      locale,
+    });
+    return res.docs[0] || null;
+  } catch {
+    return null;
   }
 }
