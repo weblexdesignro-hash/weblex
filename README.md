@@ -14,6 +14,7 @@ npm install
 cp .env.example .env   # completează DATABASE_URI și PAYLOAD_SECRET
 npx payload migrate    # creează tabelele în baza de date
 npm run seed           # populează Servicii + pachete de preț cu conținutul real din audit
+npm run seed:portfolio # înlocuiește proiectele placeholder cu portofoliul real (vezi mai jos)
 npm run dev
 ```
 
@@ -29,7 +30,13 @@ La `/admin`, organizat pe secțiuni în meniul din stânga:
   preț** (nume, preț, preț vechi, listă de beneficii, „cel mai popular”). Aceleași pachete
   apar automat și ca opțiuni de bifat în formularul de contact de pe site.
 - **Portofoliu → Projects** — adaugi/editezi proiecte: titlu, categorie, imagine copertă
-  (upload direct), galerie, „featured” (apare și pe Home).
+  (upload direct), galerie, link către site-ul live al clientului, „featured” (apare și pe
+  Home). Portofoliul este populat cu 15 proiecte reale livrate de echipă (vezi secțiunea
+  „Portofoliu real” mai jos) — fiecare card din `/portofoliu` leagă direct către site-ul
+  live al clientului. Imaginile de copertă nu sunt încărcate automat (ar fi trebuit copiate
+  fără drepturi clare) — se adaugă din admin, câte un screenshot propriu per proiect, la
+  `Portofoliu → Projects → [proiect] → Cover Image`; până atunci cardul arată corect, cu un
+  fundal gradient în loc de poză.
 - **Conținut → Testimonials** — testimoniale clienți, cu bifa „published” pentru cele care
   chiar apar pe site.
 - **Blog → Blog Posts** — articole, cu editor de text vizual (nu cod).
@@ -140,6 +147,33 @@ PostgreSQL:
    npm run seed
    ```
 5. Accesează `https://holy-glade.1wp.site/admin` și creează primul cont de administrator.
+
+## Portofoliu real (15 proiecte livrate de echipă)
+
+`src/content/projects.ts` conține portofoliul real al agenției — 15 site-uri livrate
+clienților, cu titlu, categorie, descriere și link către site-ul live al fiecăruia
+(XWELD, Alerta Licitații, Stayo, Shim Residence, LogoBrain, Vine Platforma Recovery,
+Crafter Mobilă, Vladimirus, V-SmartCard, Arizona True Construction, Hăinuțe Drăgălașe,
+MAV Boutique Villa, Tradalma, Full Moving, Reparații TCT). Pe `/portofoliu`, fiecare card
+leagă direct către site-ul live, într-un tab nou.
+
+Pentru a popula (sau a actualiza) collection-ul „Projects" din CMS cu această listă, rulează
+o singură dată, pe server, din folderul proiectului:
+
+```
+npm run seed:portfolio
+```
+
+**Atenție:** scriptul șterge toate proiectele existente din CMS înainte să le recreeze din
+`src/content/projects.ts` — dacă ai adăugat deja manual proiecte reale din admin care nu
+sunt în această listă, adaugă-le și pe ele în `src/content/projects.ts` înainte să rulezi
+scriptul, altfel se pierd. Nu necesită o migrare nouă (structura collection-ului nu se
+schimbă, doar conținutul).
+
+Imaginile de copertă nu sunt incluse automat — adaugă din admin un screenshot propriu pentru
+fiecare proiect (`Portofoliu → Projects → [proiect] → Cover Image`); până atunci, cardul
+arată corect, cu un fundal gradient în loc de poză. Poți edita oricând titlul, descrierea,
+categoria sau linkul fiecărui proiect direct din admin, fără să mai rulezi scriptul.
 
 ## Ce s-a schimbat față de prototipul inițial
 

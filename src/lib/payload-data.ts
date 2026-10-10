@@ -81,6 +81,7 @@ export async function getProjects(locale: Locale = "ro"): Promise<Project[]> {
       category: d.category,
       summary: d.summary || "",
       image: typeof d.coverImage === "object" && d.coverImage?.url ? d.coverImage.url : "/projects/placeholder-1.jpg",
+      liveUrl: d.liveUrl || undefined,
       featured: d.featured,
     }));
   } catch {
