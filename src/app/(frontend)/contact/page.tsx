@@ -9,6 +9,8 @@ export const metadata: Metadata = {
   description: "Cere o oferta personalizata pentru site-ul sau magazinul tau online.",
 };
 
+export const dynamic = "force-dynamic";
+
 export default async function ContactPage() {
   const [{ all: packages }, texts] = await Promise.all([getPricingTiers(), getPageTexts()]);
 

@@ -9,6 +9,8 @@ export const metadata: Metadata = {
   description: "Weblex Design — echipa din spatele site-urilor si magazinelor online.",
 };
 
+export const dynamic = "force-dynamic";
+
 export default async function DesprePage() {
   const texts = await getPageTexts();
   const { despre, stats } = texts;

@@ -11,6 +11,8 @@ export const metadata: Metadata = {
     "Creare site web de prezentare, magazin online, SEO, promovare, mentenanta si redesign — cu preturi transparente.",
 };
 
+export const dynamic = "force-dynamic";
+
 export default async function ServiciiPage() {
   const [services, { website: websitePricing, shop: shopPricing }] = await Promise.all([
     getServices(),

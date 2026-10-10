@@ -9,6 +9,10 @@ import CTASection from "@/components/CTASection";
 import RevealOnScroll, { StaggerGroup } from "@/components/RevealOnScroll";
 import { getServices, getProjects, getPricingTiers, getTestimonials, getPageTexts } from "@/lib/payload-data";
 
+// Randat la fiecare cerere (nu static la build) — modificările din admin (CMS) apar
+// imediat pe site, fara sa mai fie nevoie de un build nou.
+export const dynamic = "force-dynamic";
+
 export default async function HomePage() {
   const [services, projects, { website: websitePricing }, testimonials, texts] = await Promise.all([
     getServices(),

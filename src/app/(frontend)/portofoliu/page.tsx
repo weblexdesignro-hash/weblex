@@ -9,6 +9,8 @@ export const metadata: Metadata = {
   description: "Proiecte de site-uri web si magazine online realizate de Weblex Design.",
 };
 
+export const dynamic = "force-dynamic";
+
 export default async function PortofoliuPage() {
   const [projects, texts] = await Promise.all([getProjects(), getPageTexts()]);
 
