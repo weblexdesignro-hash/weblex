@@ -13,7 +13,8 @@
     "generate:importmap": "payload generate:importmap",
     "seed": "tsx src/seed/seed.ts",
     "seed:portfolio": "tsx src/seed/seed-portfolio.ts",
-    "seed:new-services": "tsx src/seed/seed-new-services.ts"
+    "seed:new-services": "tsx src/seed/seed-new-services.ts",
+    "fix:services-text": "tsx src/seed/fix-services-text.ts"
   },
   "dependencies": {
     "@fontsource/inter": "^5.3.0",

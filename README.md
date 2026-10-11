@@ -223,6 +223,33 @@ npm run seed:new-services
 E sigur de rulat de mai multe ori — adaugă doar cele 2 servicii noi dacă nu există deja,
 nu atinge celelalte 7 servicii existente.
 
+## Reparare: text lipsă la cele 7 servicii originale
+
+O migrare mai veche (cea care a făcut editabile din admin textele RO/EN — „Text editabil
+din admin...") a convertit câmpurile `title`, `summary` și `description` din collection-ul
+`services` în câmpuri localizate, dar fără să copieze și valorile deja existente în noul
+tabel de traduceri. Rezultat: cele 7 servicii originale (create înainte de acea migrare)
+au rămas cu titlu/rezumat/descriere goale în baza de date de producție, deși documentele
+existau — de-aici cardurile goale din `/servicii`.
+
+Rulează, o singură dată (dar e sigur de rulat de mai multe ori — nu atinge serviciile care
+au deja text):
+
+```
+npm run fix:services-text
+```
+
+Completează title/summary/description din `src/content/services.ts` (sursa de adevăr)
+pentru orice serviciu găsit cu text gol, identificat după `slug`.
+
+## Reparare: design carduri portofoliu (text ilizibil la hover)
+
+Designul vechi al cardurilor din `/portofoliu` suprapunea textul direct peste screenshot-ul
+site-ului, cu efect de hover care putea face textul ilizibil sau să se suprapună vizual
+între carduri. Noul `ProjectCard.tsx` afișează imaginea deasupra și textul mereu vizibil
+într-un panou alb dedesubt, fără nimic suprapus pe imagine — nu necesită nicio migrare sau
+seed, doar deploy-ul fișierului.
+
 ## Ce s-a schimbat față de prototipul inițial
 
 - **Next.js 14 → 16** și **React 18 → 19** — cerute de versiunea curentă de Payload CMS.
