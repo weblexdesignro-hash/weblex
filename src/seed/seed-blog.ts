@@ -12,13 +12,22 @@
  *   npx tsx src/seed/seed-blog.ts
  */
 import "dotenv/config";
+import fs from "fs";
+import path from "path";
+import { fileURLToPath } from "url";
 import { getPayload } from "payload";
 import config from "@payload-config";
 import { blogArticlesRound1, type BlogArticle, type ContentBlock } from "../content/blog-articles-round1";
+import { blogArticlesRound2 } from "../content/blog-articles-round2";
 
-// Pe masura ce scriem rundele urmatoare (2-5), le adaugam aici — scriptul le
+// Pe masura ce scriem rundele urmatoare (3-5), le adaugam aici — scriptul le
 // populeaza pe toate intr-o singura rulare.
-const ROUND_FILES: BlogArticle[][] = [blogArticlesRound1];
+const ROUND_FILES: BlogArticle[][] = [blogArticlesRound1, blogArticlesRound2];
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+// Imagini de coperta generate pentru articole, denumite exact ca slug-ul
+// articolului: src/seed/blog-images/<slug>.webp
+const imagesDir = path.join(__dirname, "blog-images");
 
 function textNode(text: string) {
   return { type: "text", detail: 0, format: 0, mode: "normal", style: "", text, version: 1 };
@@ -96,6 +105,8 @@ async function run() {
 
   console.log(`Populez/actualizez ${articles.length} articole de blog...`);
 
+  let withImages = 0;
+
   for (const article of articles) {
     const content = blocksToLexical(article.blocks);
     const existing = await payload.find({
@@ -103,6 +114,31 @@ async function run() {
       where: { slug: { equals: article.slug } },
       limit: 1,
     });
+
+    // Daca exista o imagine generata pentru acest articol (src/seed/blog-images/<slug>.webp),
+    // o incarcam (sau o refolosim, daca a mai fost incarcata o data) si o atasam ca coverImage.
+    let coverImageId: number | undefined;
+    const imagePath = path.join(imagesDir, `${article.slug}.webp`);
+    if (fs.existsSync(imagePath)) {
+      const imgData = fs.readFileSync(imagePath);
+      const filename = `${article.slug}.webp`;
+      const existingMedia = await payload.find({
+        collection: "media",
+        where: { filename: { equals: filename } },
+        limit: 10,
+      });
+      if (existingMedia.docs.length) {
+        coverImageId = existingMedia.docs[0].id as number;
+      } else {
+        const media = await payload.create({
+          collection: "media",
+          data: { alt: article.title },
+          file: { data: imgData, mimetype: "image/webp", name: filename, size: imgData.length },
+        });
+        coverImageId = media.id as number;
+      }
+      withImages++;
+    }
 
     const data = {
       title: article.title,
@@ -113,18 +149,22 @@ async function run() {
       seoDescription: article.seoDescription,
       publishedAt: article.publishedAt,
       author: "Weblex Design",
+      ...(coverImageId ? { coverImage: coverImageId } : {}),
     };
 
     if (existing.docs.length) {
       await payload.update({ collection: "blog-posts", id: existing.docs[0].id, data });
-      console.log(`  ~ actualizat: ${article.title}`);
+      console.log(`  ~ actualizat: ${article.title}${coverImageId ? " (cu imagine)" : ""}`);
     } else {
       await payload.create({ collection: "blog-posts", data });
-      console.log(`  + creat: ${article.title}`);
+      console.log(`  + creat: ${article.title}${coverImageId ? " (cu imagine)" : ""}`);
     }
   }
 
-  console.log("Gata. Nota: niciun articol nu are inca imagine de copertă — adaugă-le manual din admin (Blog), sau folosește butonul de generare AI de acolo.");
+  console.log(`Gata. ${withImages}/${articles.length} articole au imagine de copertă.`);
+  if (withImages < articles.length) {
+    console.log("Articolele fără imagine o poți adăuga manual din admin (Blog), sau cu butonul de generare AI de acolo.");
+  }
   process.exit(0);
 }
 
