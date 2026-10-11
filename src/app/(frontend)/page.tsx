@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import Hero from "@/components/Hero";
 import ServiceCard from "@/components/ServiceCard";
@@ -12,6 +13,12 @@ import { getServices, getProjects, getPricingTiers, getTestimonials, getPageText
 // Randat la fiecare cerere (nu static la build) — modificările din admin (CMS) apar
 // imediat pe site, fara sa mai fie nevoie de un build nou.
 export const dynamic = "force-dynamic";
+
+// Canonical explicit pentru homepage (altfel nu exista niciun tag canonical
+// pe site — vezi analiza-tehnica-seo.md, sectiunea 4).
+export const metadata: Metadata = {
+  alternates: { canonical: "/" },
+};
 
 export default async function HomePage() {
   const [services, projects, { website: websitePricing }, testimonials, texts] = await Promise.all([

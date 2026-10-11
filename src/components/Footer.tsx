@@ -1,10 +1,11 @@
 import Link from "next/link";
 import { nav, site } from "@/content/site";
+import { landingPages } from "@/content/landing-pages";
 
 export default function Footer() {
   return (
     <footer className="border-t border-black/5 bg-cream">
-      <div className="container-px mx-auto grid max-w-7xl gap-10 py-16 md:grid-cols-4">
+      <div className="container-px mx-auto grid max-w-7xl gap-10 py-16 md:grid-cols-5">
         <div className="md:col-span-2">
           <p className="font-display text-lg font-semibold">{site.name}</p>
           <p className="mt-3 max-w-sm text-sm text-mist">
@@ -34,6 +35,24 @@ export default function Footer() {
                 </Link>
               </li>
             ))}
+          </ul>
+        </div>
+
+        <div>
+          <p className="text-sm font-semibold text-ink">Servicii</p>
+          <ul className="mt-4 space-y-2 text-sm text-mist">
+            {landingPages.map((p) => (
+              <li key={p.path}>
+                <Link href={p.path} className="hover:text-brand">
+                  {p.navLabel}
+                </Link>
+              </li>
+            ))}
+            <li>
+              <Link href="/intrebari-frecvente" className="hover:text-brand">
+                Intrebari frecvente
+              </Link>
+            </li>
           </ul>
         </div>
 

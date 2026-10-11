@@ -8,6 +8,7 @@ import RevealOnScroll from "@/components/RevealOnScroll";
 export const metadata: Metadata = {
   title: "Blog",
   description: "Articole despre web design, marketing si vanzari online.",
+  alternates: { canonical: "/blog" },
 };
 
 function resolveLocale(lang?: string): Locale {

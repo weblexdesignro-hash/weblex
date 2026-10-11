@@ -31,6 +31,11 @@ export async function getServices(locale: Locale = "ro"): Promise<Service[]> {
       summary: d.summary,
       description: d.description,
       icon: d.icon,
+      // landingHref nu e un camp din CMS — e doar legatura catre pagina de
+      // servicii dedicata (SEO), definita static in src/content/services.ts.
+      // O recuperam dupa slug, ca sa functioneze indiferent daca serviciul
+      // vine din baza de date sau din fallback.
+      landingHref: fallbackServices.find((s) => s.id === d.slug)?.landingHref,
     }));
   } catch {
     return fallbackServices;

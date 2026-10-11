@@ -1,3 +1,4 @@
+import Link from "next/link";
 import Icon from "./Icon";
 import type { Service } from "@/content/services";
 import { StaggerItem } from "./RevealOnScroll";
@@ -15,6 +16,14 @@ export default function ServiceCard({ service }: { service: Service }) {
         <h3 className="mt-6 font-display text-xl font-semibold">{service.title}</h3>
         <p className="mt-2 text-sm text-mist">{service.summary}</p>
         <p className="mt-4 text-sm leading-relaxed text-ink/70">{service.description}</p>
+        {service.landingHref && (
+          <Link
+            href={service.landingHref}
+            className="mt-4 inline-flex items-center gap-1 text-sm font-medium text-brand transition group-hover:gap-1.5"
+          >
+            Vezi pagina completa <span aria-hidden>→</span>
+          </Link>
+        )}
       </div>
     </StaggerItem>
   );

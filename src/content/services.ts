@@ -7,6 +7,9 @@ export type Service = {
   summary: string;
   description: string;
   icon: "globe" | "cart" | "search" | "megaphone" | "wrench" | "camera" | "refresh" | "rocket" | "code";
+  // Optional: pagina de servicii dedicata (hiper-optimizata SEO) catre care
+  // trimitem din acest card, cand exista una corespunzatoare.
+  landingHref?: string;
 };
 
 export const services: Service[] = [
@@ -17,6 +20,7 @@ export const services: Service[] = [
     description:
       "Realizam site-uri web de prezentare la comanda, in functie de necesitatile fiecarui client. Toate site-urile sunt 100% responsive - aproape jumatate din traficul unui site vine de pe mobil, asa ca fiecare pagina este gandita intai pentru telefon. Acelasi proiect este dus de la brief pana la lansare de aceeasi echipa.",
     icon: "globe",
+    landingHref: "/creare-site-web-prezentare",
   },
   {
     id: "magazin-online",
@@ -25,6 +29,7 @@ export const services: Service[] = [
     description:
       "Un magazin online elimina costurile de chirie si personal suplimentar, insa rezultatele depind de cum este optimizat si promovat. Livram magazine cu panou de administrare propriu (fara costuri externe de management), produse nelimitate, plata ramburs si cu cardul, calcul automat de livrare si sistem de promotii si cupoane.",
     icon: "cart",
+    landingHref: "/creare-magazin-online",
   },
   {
     id: "seo",
@@ -73,6 +78,7 @@ export const services: Service[] = [
     description:
       "Realizam site-uri de prezentare si magazine online eligibile ca cheltuiala in cadrul programului Start-Up Nation si al altor finantari europene (voucherul de digitalizare, fonduri nerambursabile). Livram proiectul la timp fata de termenul din cererea de finantare, cu factura, proces-verbal de receptie si captura de ecran a site-ului functional, pregatite pentru dosarul de decontare. Site-ul include deja optimizare SEO on-page, deci bifezi dintr-un singur proiect atat cheltuiala eligibila, cat si prezenta online reala de care afacerea ta are nevoie.",
     icon: "rocket",
+    landingHref: "/digitalizare-afaceri",
   },
   {
     id: "digitalizare-aplicatii",
@@ -81,5 +87,6 @@ export const services: Service[] = [
     description:
       "Dezvoltam aplicatii web la comanda si solutii de digitalizare pentru firme care vor sa inlocuiasca Excel-urile si procesele manuale cu un sistem propriu: panouri de administrare, integrari cu alte sisteme, automatizari si fluxuri interne. Proiectele sunt construite pe aceeasi platforma folosita si pentru site-urile si magazinele noastre online, deci se pot integra direct cu acestea.",
     icon: "code",
+    landingHref: "/dezvoltare-software-custom",
   },
 ];
