@@ -15,26 +15,44 @@ function getClient() {
   return new Resend(key);
 }
 
+const SERVICE_TYPE_LABELS: Record<string, string> = {
+  "site-web": "Site web de prezentare",
+  "magazin-online": "Magazin online",
+  redesign: "Redesign site web",
+  crm: "CRM",
+  "aplicatie-custom": "Aplicație web Custom",
+  mentenanta: "Mentenanță",
+  seo: "SEO on-page",
+  altul: "Alt serviciu",
+};
+
 type ContactMessageDoc = {
   name: string;
   email: string;
   phone: string;
+  cui?: string | null;
   company?: string | null;
-  message: string;
+  serviceType?: string | null;
+  siteUrl?: string | null;
+  message?: string | null;
   selectedPackage?: string | null;
 };
 
 export async function sendContactNotification(doc: ContactMessageDoc) {
   const client = getClient();
   const subject = `Mesaj nou de contact — ${doc.name}`;
+  const serviceLabel = (doc.serviceType && SERVICE_TYPE_LABELS[doc.serviceType]) || doc.serviceType || "—";
   const html = `
     <h2>Mesaj nou primit prin formularul de contact</h2>
     <p><strong>Nume:</strong> ${doc.name}</p>
+    <p><strong>CUI:</strong> ${doc.cui || "—"}</p>
     <p><strong>Companie:</strong> ${doc.company || "—"}</p>
     <p><strong>Email:</strong> ${doc.email}</p>
     <p><strong>Telefon:</strong> ${doc.phone}</p>
+    <p><strong>Serviciu solicitat:</strong> ${serviceLabel}</p>
     <p><strong>Pachet ales:</strong> ${doc.selectedPackage || "—"}</p>
-    <p><strong>Mesaj:</strong><br/>${doc.message}</p>
+    <p><strong>Link site existent:</strong> ${doc.siteUrl || "—"}</p>
+    <p><strong>Mesaj:</strong><br/>${doc.message || "—"}</p>
   `;
 
   if (!client) {

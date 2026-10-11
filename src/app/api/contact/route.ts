@@ -10,7 +10,15 @@ export async function POST(request: Request) {
   try {
     const body = await request.json();
 
-    if (!body.name || !body.email || !body.phone || !body.gdpr) {
+    if (
+      !body.name ||
+      !body.cui ||
+      !body.company ||
+      !body.email ||
+      !body.phone ||
+      !body.serviceType ||
+      !body.gdpr
+    ) {
       return NextResponse.json({ error: "Câmpuri obligatorii lipsă." }, { status: 400 });
     }
 
@@ -20,12 +28,14 @@ export async function POST(request: Request) {
       collection: "contact-messages",
       data: {
         name: body.name,
-        company: body.company || "",
+        cui: body.cui,
+        company: body.company,
         email: body.email,
         phone: body.phone,
-        services: (body.services || []).map((label: string) => ({ label })),
+        serviceType: body.serviceType,
         selectedPackage: body.selectedPackage || "",
-        message: body.message,
+        siteUrl: body.siteUrl || "",
+        message: body.message || "",
         gdpr: Boolean(body.gdpr),
       },
     });

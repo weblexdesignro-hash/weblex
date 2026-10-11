@@ -352,20 +352,23 @@ export interface BlogPost {
 export interface ContactMessage {
   id: number;
   name: string;
-  company?: string | null;
+  /**
+   * Codul Unic de Inregistrare al firmei. Completat de client, cu autocompletare din ANAF.
+   */
+  cui: string;
+  company: string;
   email: string;
   phone: string;
-  services?:
-    | {
-        label?: string | null;
-        id?: string | null;
-      }[]
-    | null;
+  serviceType: 'site-web' | 'magazin-online' | 'redesign' | 'crm' | 'aplicatie-custom' | 'mentenanta' | 'seo' | 'altul';
   /**
-   * Pachetul de preț ales de client în formular (ex: „Business Standard — €479”).
+   * Pachetul de preț ales de client în formular (ex: „Business Standard — €479”), doar pentru site web/magazin online.
    */
   selectedPackage?: string | null;
-  message: string;
+  /**
+   * Link-ul site-ului vechi/existent, pentru redesign, mentenanță sau audit SEO.
+   */
+  siteUrl?: string | null;
+  message?: string | null;
   gdpr: boolean;
   status?: ('nou' | 'citit' | 'rezolvat') | null;
   updatedAt: string;
@@ -792,16 +795,13 @@ export interface BlogPostsSelect<T extends boolean = true> {
  */
 export interface ContactMessagesSelect<T extends boolean = true> {
   name?: T;
+  cui?: T;
   company?: T;
   email?: T;
   phone?: T;
-  services?:
-    | T
-    | {
-        label?: T;
-        id?: T;
-      };
+  serviceType?: T;
   selectedPackage?: T;
+  siteUrl?: T;
   message?: T;
   gdpr?: T;
   status?: T;
