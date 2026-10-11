@@ -3,7 +3,8 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { nav, site } from "@/content/site";
+import { nav } from "@/content/site";
+import Logo from "./Logo";
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
@@ -23,8 +24,8 @@ export default function Navbar() {
       }`}
     >
       <div className="container-px mx-auto flex h-20 max-w-7xl items-center justify-between">
-        <Link href="/" className="font-display text-lg font-semibold tracking-tight">
-          {site.name}
+        <Link href="/" aria-label="Weblex Design — acasa">
+          <Logo />
         </Link>
 
         <nav className="hidden items-center gap-10 md:flex">

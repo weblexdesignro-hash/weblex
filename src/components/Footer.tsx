@@ -1,13 +1,14 @@
 import Link from "next/link";
 import { nav, site } from "@/content/site";
 import { landingPages } from "@/content/landing-pages";
+import Logo from "./Logo";
 
 export default function Footer() {
   return (
     <footer className="border-t border-black/5 bg-cream">
       <div className="container-px mx-auto grid max-w-7xl gap-10 py-16 md:grid-cols-5">
         <div className="md:col-span-2">
-          <p className="font-display text-lg font-semibold">{site.name}</p>
+          <Logo />
           <p className="mt-3 max-w-sm text-sm text-mist">
             Site-uri web si magazine online create de o echipa cu peste {site.experienceYears} ani
             de experienta si {site.projectsDelivered}+ proiecte livrate.

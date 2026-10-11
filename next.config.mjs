@@ -10,6 +10,9 @@ const nextConfig = {
     ],
     localPatterns: [
       { pathname: "/api/media/file/**" },
+      // Sigla Weblex Design si alte imagini statice din /public (OG image, logo).
+      { pathname: "/logo/**" },
+      { pathname: "/og/**" },
     ],
   },
   async redirects() {

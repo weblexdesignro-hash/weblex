@@ -12,6 +12,8 @@ import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import SmoothScrollProvider from "@/components/SmoothScrollProvider";
+import WhatsAppButton from "@/components/WhatsAppButton";
+import CookieConsentBar from "@/components/CookieConsentBar";
 import { site } from "@/content/site";
 import { getSiteSettings } from "@/lib/payload-data";
 
@@ -35,6 +37,22 @@ export async function generateMetadata(): Promise<Metadata> {
       type: "website",
       locale: "ro_RO",
       siteName: site.name,
+      images: [
+        {
+          url: "/og/og-image.png",
+          width: 1200,
+          height: 630,
+          alt: `${site.name} — Site-uri web si magazine online`,
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: settings.seoDefaults.title || `${site.name} — Site-uri web si magazine online`,
+      description:
+        settings.seoDefaults.description ||
+        "Weblex Design creeaza site-uri web de prezentare si magazine online rapide, moderne si optimizate pentru conversii. Peste 10 ani experienta, 400+ proiecte livrate.",
+      images: ["/og/og-image.png"],
     },
     robots: settings.allowIndexing
       ? { index: true, follow: true }
@@ -53,7 +71,7 @@ const organizationJsonLd = {
   name: site.legalName,
   alternateName: site.name,
   url: "https://weblexdesign.ro",
-  logo: "https://weblexdesign.ro/favicon.ico",
+  logo: "https://weblexdesign.ro/logo/weblex-mark.png",
   telephone: site.phone,
   email: site.email,
   foundingDate: String(site.since),
@@ -93,6 +111,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <main>{children}</main>
           <Footer />
         </SmoothScrollProvider>
+        <WhatsAppButton />
+        <CookieConsentBar />
       </body>
     </html>
   );
