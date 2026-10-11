@@ -22,7 +22,8 @@ const nextConfig = {
       { source: "/seo", destination: "/servicii#seo", permanent: true },
       { source: "/promovare", destination: "/servicii#promovare", permanent: true },
       { source: "/rebranding", destination: "/servicii#redesign", permanent: true },
-      { source: "/redesign-site-web", destination: "/servicii#redesign", permanent: true },
+      // "/redesign-site-web" nu mai e redirect — e acum pagina reala dedicata de
+      // redesign (src/app/(frontend)/redesign-site-web), cu continut hiper-optimizat SEO.
       { source: "/service-foto", destination: "/servicii#foto", permanent: true },
       { source: "/preturi-site-web", destination: "/servicii#preturi-site-web", permanent: true },
       { source: "/preturi-magazin-online", destination: "/servicii#preturi-magazin-online", permanent: true },

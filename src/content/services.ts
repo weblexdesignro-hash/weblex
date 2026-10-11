@@ -38,6 +38,7 @@ export const services: Service[] = [
     description:
       "Fiecare site si magazin online livrat de noi include optimizare SEO on-page inca din prima zi: structura corecta de titluri, viteza de incarcare, date structurate si integrare Google Search Console si Analytics, astfel incat site-ul sa fie pregatit pentru indexare din prima zi.",
     icon: "search",
+    landingHref: "/optimizare-seo",
   },
   {
     id: "promovare",
@@ -54,6 +55,7 @@ export const services: Service[] = [
     description:
       "Recomandam mentenanta continua atat pentru site-urile de prezentare, cat si pentru magazinele online: actualizari de securitate, back-up-uri regulate si interventii rapide atunci cand apare o problema.",
     icon: "wrench",
+    landingHref: "/mentenanta-site-web",
   },
   {
     id: "redesign",
@@ -62,6 +64,7 @@ export const services: Service[] = [
     description:
       "Preluam site-uri existente si le reconstruim complet - design, structura si viteza - pastrand identitatea si continutul valoros deja acumulat, exact ca in acest proiect.",
     icon: "refresh",
+    landingHref: "/redesign-site-web",
   },
   {
     id: "foto",
