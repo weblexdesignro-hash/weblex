@@ -2,11 +2,15 @@ import { NextResponse } from "next/server";
 
 // Interogheaza API-ul public si gratuit al ANAF (fara cheie, fara autentificare) pentru a
 // prelua automat denumirea si adresa unei firme pe baza CUI-ului introdus in formularul de
-// contact. Documentatie: https://static.anaf.ro/static/10/Anaf/Informatii_R/doc_WS_v9.txt
+// contact.
 //
 // Apelul se face server-side (nu din browser) ca sa evitam probleme de CORS si ca sa putem
 // normaliza/valida raspunsul inainte sa-l trimitem catre formular.
-const ANAF_URL = "https://webservicesp.anaf.ro/api/PlatitorTvaRest/v9/ws/tva";
+//
+// Confirmat prin test direct pe server (curl): calea NU contine segmentul "/ws/" dupa
+// versiune — "/api/PlatitorTvaRest/v9/ws/tva" (varianta veche, din documentatia publicata)
+// raspunde cu 404 "No endpoint". Calea corecta, actuala, e fara "/ws/":
+const ANAF_URL = "https://webservicesp.anaf.ro/api/PlatitorTvaRest/v9/tva";
 
 function todayISO(): string {
   return new Date().toISOString().slice(0, 10);
@@ -25,11 +29,16 @@ export async function POST(request: Request) {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify([{ cui: Number(cuiDigits), data: todayISO() }]),
-      // ANAF poate raspunde mai greu la ore de varf — nu blocam formularul la nesfarsit.
-      signal: AbortSignal.timeout(8000),
+      // ANAF poate raspunde mai greu la ore de varf — nu blocam formularul la nesfarsit,
+      // dar ii dam destul timp (serviciul lor e notoriu de lent, uneori 5-10 secunde).
+      signal: AbortSignal.timeout(15000),
     });
 
     if (!anafRes.ok) {
+      // Logam raspunsul brut in consola serverului (vezi cu `pm2 logs`), ca sa stim exact
+      // ce ne raspunde ANAF cand ceva nu merge — mesajul catre utilizator ramane simplu.
+      const rawBody = await anafRes.text().catch(() => "");
+      console.error(`ANAF a raspuns cu status ${anafRes.status} pentru CUI ${cuiDigits}:`, rawBody.slice(0, 500));
       return NextResponse.json({ error: "Serviciul ANAF nu a raspuns. Completeaza manual." }, { status: 502 });
     }
 
@@ -54,7 +63,11 @@ export async function POST(request: Request) {
       stare: general.stare_inregistrare || "",
     });
   } catch (err) {
-    console.error("Eroare la interogarea ANAF:", err);
+    const isTimeout = err instanceof Error && err.name === "TimeoutError";
+    console.error(
+      isTimeout ? "ANAF nu a raspuns in 15 secunde (timeout):" : "Eroare la interogarea ANAF:",
+      err,
+    );
     return NextResponse.json({ error: "Nu am putut contacta serviciul ANAF. Completeaza manual." }, { status: 500 });
   }
 }
