@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import ContactForm from "@/components/ContactForm";
 import RevealOnScroll from "@/components/RevealOnScroll";
 import { site } from "@/content/site";
-import { getPageTexts } from "@/lib/payload-data";
+import { getPageTexts, getPricingTiers } from "@/lib/payload-data";
 
 export const metadata: Metadata = {
   title: "Contact — Cere o ofertă pentru site-ul tău",
@@ -15,6 +15,10 @@ export const dynamic = "force-dynamic";
 
 export default async function ContactPage() {
   const texts = await getPageTexts();
+  // Pachetele din formular vin din aceeasi sursa (Payload) ca pagina /servicii si
+  // homepage — un singur loc de editat (admin -> Continut -> Services -> pachete),
+  // actualizat peste tot unde apar pachetele.
+  const { website: websiteTiers, shop: shopTiers } = await getPricingTiers();
 
   return (
     <section className="container-px mx-auto max-w-6xl py-40">
@@ -46,7 +50,7 @@ export default async function ContactPage() {
 
         <RevealOnScroll delay={0.1}>
           <div className="rounded-3xl border border-black/5 bg-white/70 p-8 shadow-card">
-            <ContactForm />
+            <ContactForm websiteTiers={websiteTiers} shopTiers={shopTiers} />
           </div>
         </RevealOnScroll>
       </div>

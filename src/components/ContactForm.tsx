@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, type FormEvent } from "react";
+import type { PricingTier } from "@/content/pricing";
 
 type ServiceValue =
   | "site-web"
@@ -23,21 +24,23 @@ const serviceOptions: { value: ServiceValue; label: string }[] = [
   { value: "altul", label: "Alt serviciu" },
 ];
 
-// Pachetele pentru site web de prezentare si magazin online — ultima optiune
-// din fiecare ("Custom") deschide campul liber "Detaliaza proiectul".
-const sitePackages = [
-  { value: "Business Basic — site web one page", label: "Business Basic", desc: "Site web one page" },
-  { value: "Business Standard — 1-20 pagini", label: "Business Standard", desc: "1-20 pagini" },
-  { value: "Business Pro — 1-50 pagini", label: "Business Pro", desc: "1-50 pagini" },
-  { value: "Custom", label: "Custom", desc: "Detaliezi tu mai jos ce ai nevoie" },
-];
+// Pachetele afisate aici (nume, pret, descriere) vin acum din Payload CMS —
+// aceleasi "pachete" (pricingTiers) editate din admin -> Continut -> Services
+// -> Site web de prezentare / Magazin online, exact cele afisate pe pagina
+// /servicii si pe homepage. Modifici pretul sau descrierea o singura data in
+// admin si se actualizeaza automat si aici, in formular. Ultima optiune din
+// fiecare lista ("Custom") e adaugata manual mai jos si deschide campul liber
+// "Detaliaza proiectul" — nu face parte din pachetele din CMS.
+type PackageOption = { value: string; label: string; desc: string };
 
-const shopPackages = [
-  { value: "Shop Basic — 1-50 produse", label: "Shop Basic", desc: "1-50 produse" },
-  { value: "Shop Standard — 1-500 produse", label: "Shop Standard", desc: "1-500 produse" },
-  { value: "Shop Pro — 1-2000 produse", label: "Shop Pro", desc: "1-2000 produse" },
-  { value: "Shop Custom", label: "Shop Custom", desc: "Detaliezi tu mai jos ce ai nevoie" },
-];
+function tiersToOptions(tiers: PricingTier[], customValue: string, customLabel: string): PackageOption[] {
+  const fromCms: PackageOption[] = tiers.map((t) => ({
+    value: `${t.name} — ${t.price}`,
+    label: t.name,
+    desc: t.note,
+  }));
+  return [...fromCms, { value: customValue, label: customLabel, desc: "Detaliezi tu mai jos ce ai nevoie" }];
+}
 
 // Servicii pentru care apare campul "Link site existent" (redesign, mentenanta, SEO —
 // toate presupun un site deja existent, de refacut/intretinut/auditat).
@@ -49,7 +52,13 @@ const SERVICES_WITH_ALWAYS_DETAILS: ServiceValue[] = ["redesign", "crm", "aplica
 type AnafStatus = "idle" | "loading" | "success" | "error";
 type Status = "idle" | "loading" | "success" | "error";
 
-export default function ContactForm() {
+export default function ContactForm({
+  websiteTiers,
+  shopTiers,
+}: {
+  websiteTiers: PricingTier[];
+  shopTiers: PricingTier[];
+}) {
   const [status, setStatus] = useState<Status>("idle");
   const [serviceType, setServiceType] = useState<ServiceValue | "">("");
   const [selectedPackage, setSelectedPackage] = useState<string>("");
@@ -58,6 +67,9 @@ export default function ContactForm() {
   const [company, setCompany] = useState("");
   const [anafStatus, setAnafStatus] = useState<AnafStatus>("idle");
   const [anafMessage, setAnafMessage] = useState<string>("");
+
+  const sitePackages = tiersToOptions(websiteTiers, "Custom", "Custom");
+  const shopPackages = tiersToOptions(shopTiers, "Shop Custom", "Shop Custom");
 
   const showPackages = serviceType === "site-web" || serviceType === "magazin-online";
   const packageList = serviceType === "site-web" ? sitePackages : serviceType === "magazin-online" ? shopPackages : [];
