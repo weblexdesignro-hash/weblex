@@ -143,6 +143,27 @@ export async function getBlogPosts(locale: Locale = "ro") {
   }
 }
 
+// Liste minimale (doar slug + data) pentru /sitemap.xml — nu are nevoie de tot
+// continutul articolului/paginii, doar de URL si data ultimei modificari.
+export async function getSitemapEntries(): Promise<{
+  blogPosts: { slug: string; updatedAt: string }[];
+  pages: { slug: string; updatedAt: string }[];
+}> {
+  try {
+    const payload = await getPayload({ config });
+    const [posts, pages] = await Promise.all([
+      payload.find({ collection: "blog-posts", limit: 200, depth: 0, locale: "all" }),
+      payload.find({ collection: "pages", limit: 200, depth: 0, locale: "all" }),
+    ]);
+    return {
+      blogPosts: posts.docs.map((d: any) => ({ slug: d.slug, updatedAt: d.updatedAt || d.publishedAt })),
+      pages: pages.docs.map((d: any) => ({ slug: d.slug, updatedAt: d.updatedAt })),
+    };
+  } catch {
+    return { blogPosts: [], pages: [] };
+  }
+}
+
 export async function getBlogPostBySlug(slug: string, locale: Locale = "ro") {
   try {
     const payload = await getPayload({ config });
