@@ -1,6 +1,17 @@
 import type { MetadataRoute } from "next";
-import { getSiteSettings } from "@/lib/payload-data";
+import { getSiteSettings, getSitemapEntries } from "@/lib/payload-data";
 import { landingPages } from "@/content/landing-pages";
+import { cities } from "@/content/cities";
+import type { LocalServiceSlug } from "@/content/local-landing";
+
+// Doar aceste 4 servicii au si pagini locale pe oras (/<serviciu>/<oras>) —
+// vezi src/content/local-landing.ts.
+const LOCAL_SERVICE_SLUGS: LocalServiceSlug[] = [
+  "creare-site-web-prezentare",
+  "creare-magazin-online",
+  "dezvoltare-software-custom",
+  "digitalizare-afaceri",
+];
 
 // Rută dinamică /sitemap.xml. Dacă indexarea e dezactivată (domeniul de test),
 // întoarcem un sitemap gol — nu are sens să trimitem Google către pagini pe
@@ -32,5 +43,43 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.9,
   }));
 
-  return [...staticRoutes, ...landingRoutes];
+  // Articole de blog si pagini custom (/pagini/<slug>) — adaugate automat in
+  // sitemap pe masura ce apar in CMS, fara sa mai fie nevoie de interventie
+  // manuala aici.
+  const { blogPosts, pages } = await getSitemapEntries();
+
+  const blogRoutes = blogPosts.map((post) => ({
+    url: `${baseUrl}/blog/${post.slug}`,
+    lastModified: post.updatedAt ? new Date(post.updatedAt) : new Date(),
+    changeFrequency: "monthly" as const,
+    priority: 0.6,
+  }));
+
+  const customPageRoutes = pages.map((page) => ({
+    url: `${baseUrl}/pagini/${page.slug}`,
+    lastModified: page.updatedAt ? new Date(page.updatedAt) : new Date(),
+    changeFrequency: "monthly" as const,
+    priority: 0.5,
+  }));
+
+  // Paginile locale pe oras (6 orase x 4 servicii = 24 pagini in aceasta runda).
+  const localRoutes = LOCAL_SERVICE_SLUGS.flatMap((serviceSlug) =>
+    cities.map((city) => ({
+      url: `${baseUrl}/${serviceSlug}/${city.slug}`,
+      lastModified: new Date(),
+      changeFrequency: "monthly" as const,
+      priority: 0.75,
+    })),
+  );
+
+  if (blogPosts.length > 0) {
+    staticRoutes.push({
+      url: `${baseUrl}/blog`,
+      lastModified: new Date(),
+      changeFrequency: "weekly" as const,
+      priority: 0.7,
+    });
+  }
+
+  return [...staticRoutes, ...landingRoutes, ...localRoutes, ...blogRoutes, ...customPageRoutes];
 }

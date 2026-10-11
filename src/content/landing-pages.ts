@@ -48,7 +48,7 @@ export const landingPages: LandingPage[] = [
     slug: "creare-site-web-prezentare",
     path: "/creare-site-web-prezentare",
     navLabel: "Creare site web",
-    seoTitle: "Creare Site Web de Prezentare — de la 249 EUR | Weblex Design",
+    seoTitle: "Creare Site Web de Prezentare — de la 249 EUR",
     seoDescription:
       "Creare si realizare site web de prezentare, 100% responsive, cu SEO on-page inclus din prima zi. Preturi clare de la 249 EUR, livrare in 2-3 saptamani. Cere o oferta.",
     breadcrumbName: "Creare site web de prezentare",
@@ -149,7 +149,7 @@ export const landingPages: LandingPage[] = [
     slug: "creare-magazin-online",
     path: "/creare-magazin-online",
     navLabel: "Creare magazin online",
-    seoTitle: "Creare Magazin Online (E-commerce) — de la 799 EUR | Weblex Design",
+    seoTitle: "Creare Magazin Online (E-commerce) — de la 799 EUR",
     seoDescription:
       "Creare si realizare magazin online la cheie: panou de administrare propriu, produse nelimitate, plata ramburs si card. Preturi de la 799 EUR. Cere o oferta.",
     breadcrumbName: "Creare magazin online",
@@ -250,7 +250,7 @@ export const landingPages: LandingPage[] = [
     slug: "dezvoltare-software-custom",
     path: "/dezvoltare-software-custom",
     navLabel: "Software la comanda",
-    seoTitle: "Dezvoltare Software Custom & Aplicatii Web | Weblex Design",
+    seoTitle: "Dezvoltare Software Custom & Aplicatii Web",
     seoDescription:
       "Dezvoltam software la comanda si aplicatii web personalizate: panouri de administrare, integrari si automatizari pentru procesele firmei tale. Audit gratuit si oferta clara.",
     breadcrumbName: "Software custom & aplicatii web",
@@ -351,7 +351,7 @@ export const landingPages: LandingPage[] = [
     slug: "digitalizare-afaceri",
     path: "/digitalizare-afaceri",
     navLabel: "Digitalizare afaceri",
-    seoTitle: "Digitalizare Afaceri & Automatizari | Weblex Design",
+    seoTitle: "Digitalizare Afaceri & Automatizari",
     seoDescription:
       "Digitalizare pentru firme: site-uri si aplicatii eligibile Start-Up Nation si fonduri europene, automatizari de procese si integrari. Audit gratuit, oferta clara.",
     breadcrumbName: "Digitalizare afaceri",
@@ -452,7 +452,7 @@ export const landingPages: LandingPage[] = [
     slug: "mentenanta-site-web",
     path: "/mentenanta-site-web",
     navLabel: "Mentenanta site",
-    seoTitle: "Mentenanta Site Web si Magazin Online | Weblex Design",
+    seoTitle: "Mentenanta Site Web si Magazin Online",
     seoDescription:
       "Mentenanta site web si magazin online: actualizari de securitate, back-up-uri regulate si interventie rapida cand apare o problema. Cere o oferta de mentenanta.",
     breadcrumbName: "Mentenanta site web",
@@ -553,7 +553,7 @@ export const landingPages: LandingPage[] = [
     slug: "redesign-site-web",
     path: "/redesign-site-web",
     navLabel: "Redesign site",
-    seoTitle: "Redesign Site Web Vechi — Design Modern, Viteza Mai Mare | Weblex Design",
+    seoTitle: "Redesign Site Web Vechi — Design Modern, Viteza Mai Mare",
     seoDescription:
       "Redesign si rebranding pentru site-ul tau vechi: design modern, viteza mai mare, structura refacuta — pastram continutul si pozitionarea deja acumulata in Google.",
     breadcrumbName: "Redesign & Rebranding",
@@ -654,7 +654,7 @@ export const landingPages: LandingPage[] = [
     slug: "optimizare-seo",
     path: "/optimizare-seo",
     navLabel: "Optimizare SEO",
-    seoTitle: "Optimizare SEO Site Web — Audit si SEO On-Page | Weblex Design",
+    seoTitle: "Optimizare SEO Site Web — Audit si SEO On-Page",
     seoDescription:
       "Optimizare SEO on-page pentru site-uri si magazine online: structura de titluri, viteza, date structurate, audit SEO complet. Inclusa in fiecare proiect Weblex Design.",
     breadcrumbName: "Optimizare SEO",

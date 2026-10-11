@@ -5,12 +5,18 @@ import CTASection from "./CTASection";
 import RevealOnScroll, { StaggerGroup, StaggerItem } from "./RevealOnScroll";
 import { buildBreadcrumbJsonLd, buildFaqJsonLd } from "@/lib/seo";
 import type { LandingPage } from "@/content/landing-pages";
+import type { City } from "@/content/cities";
 
 // Sablon comun pentru cele 4 pagini de servicii dedicate (creare site web,
 // creare magazin online, software custom, digitalizare). Fiecare pagina isi
 // aduce propriul continut din src/content/landing-pages.ts; aici e doar
 // structura vizuala (Hero, Beneficii, Proces, De ce noi, FAQ, CTA) + JSON-LD.
-export default function LandingPageTemplate({ page }: { page: LandingPage }) {
+//
+// `localCities` (optional) adauga o sectiune cu linkuri catre paginile locale
+// de SEO (/<slug-serviciu>/<oras>) — doar pentru cele 4 servicii care au si
+// variante pe oras. Esentiala pentru ca Google sa descopere acele pagini prin
+// linkuri interne, nu doar prin sitemap.
+export default function LandingPageTemplate({ page, localCities }: { page: LandingPage; localCities?: City[] }) {
   const faqJsonLd = buildFaqJsonLd(page.faq);
   const breadcrumbJsonLd = buildBreadcrumbJsonLd([
     { name: "Acasa", url: "https://weblexdesign.ro" },
@@ -122,6 +128,31 @@ export default function LandingPageTemplate({ page }: { page: LandingPage }) {
           ))}
         </StaggerGroup>
       </section>
+
+      {/* Orase deservite — linkuri catre paginile locale, doar daca exista */}
+      {localCities && localCities.length > 0 && (
+        <section className="container-px mx-auto max-w-5xl py-16">
+          <RevealOnScroll className="mx-auto max-w-2xl text-center">
+            <h2 className="font-display text-3xl font-semibold sm:text-4xl">
+              {page.breadcrumbName} in orasul tau
+            </h2>
+            <p className="mt-3 text-mist">
+              Lucram integral online cu clienti din toata tara — iata cateva orase in care avem cerere constanta.
+            </p>
+          </RevealOnScroll>
+          <div className="mt-10 flex flex-wrap justify-center gap-3">
+            {localCities.map((city) => (
+              <Link
+                key={city.slug}
+                href={`${page.path}/${city.slug}`}
+                className="rounded-full border border-black/10 bg-white/70 px-5 py-2.5 text-sm font-medium text-ink/80 transition hover:border-brand hover:text-brand"
+              >
+                {page.breadcrumbName} {city.name}
+              </Link>
+            ))}
+          </div>
+        </section>
+      )}
 
       {/* FAQ specific paginii */}
       <section className="container-px mx-auto max-w-3xl py-16">
