@@ -1,0 +1,48 @@
+import { NextResponse } from "next/server";
+import { getPayload } from "payload";
+import config from "@payload-config";
+
+// Salvează mesajul în collection-ul "contact-messages" din Payload (vizibil în admin,
+// la secțiunea Mesaje) și declanșează automat notificarea prin email (vezi hook-ul
+// afterChange din src/collections/ContactMessages.ts + src/lib/email.ts).
+
+export async function POST(request: Request) {
+  try {
+    const body = await request.json();
+
+    if (
+      !body.name ||
+      !body.cui ||
+      !body.company ||
+      !body.email ||
+      !body.phone ||
+      !body.serviceType ||
+      !body.gdpr
+    ) {
+      return NextResponse.json({ error: "Câmpuri obligatorii lipsă." }, { status: 400 });
+    }
+
+    const payload = await getPayload({ config });
+
+    await payload.create({
+      collection: "contact-messages",
+      data: {
+        name: body.name,
+        cui: body.cui,
+        company: body.company,
+        email: body.email,
+        phone: body.phone,
+        serviceType: body.serviceType,
+        selectedPackage: body.selectedPackage || "",
+        siteUrl: body.siteUrl || "",
+        message: body.message || "",
+        gdpr: Boolean(body.gdpr),
+      },
+    });
+
+    return NextResponse.json({ ok: true });
+  } catch (err) {
+    console.error("Eroare la salvarea mesajului de contact:", err);
+    return NextResponse.json({ error: "Cerere invalidă." }, { status: 400 });
+  }
+}
