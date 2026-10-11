@@ -1,6 +1,7 @@
 import type { MetadataRoute } from "next";
 import { getSiteSettings, getSitemapEntries } from "@/lib/payload-data";
 import { landingPages } from "@/content/landing-pages";
+import { nichePages } from "@/content/niche-pages";
 import { cities } from "@/content/cities";
 import type { LocalServiceSlug } from "@/content/local-landing";
 
@@ -24,7 +25,15 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const settings = await getSiteSettings();
   if (!settings.allowIndexing) return [];
 
-  const staticRoutes = ["", "/despre", "/servicii", "/portofoliu", "/contact", "/intrebari-frecvente"].map(
+  const staticRoutes = [
+    "",
+    "/despre",
+    "/servicii",
+    "/portofoliu",
+    "/contact",
+    "/intrebari-frecvente",
+    "/solutii-pe-domenii",
+  ].map(
     (path) => ({
       url: `${baseUrl}${path}`,
       lastModified: new Date(),
@@ -41,6 +50,15 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     lastModified: new Date(),
     changeFrequency: "weekly" as const,
     priority: 0.9,
+  }));
+
+  // Cele 9 pagini pe nisa/industrie (hotel, pensiune, service auto, restaurant,
+  // cabinet avocatura, industrie, energie, instalatii, fotovoltaice).
+  const nicheRoutes = nichePages.map((p) => ({
+    url: `${baseUrl}${p.path}`,
+    lastModified: new Date(),
+    changeFrequency: "weekly" as const,
+    priority: 0.8,
   }));
 
   // Articole de blog si pagini custom (/pagini/<slug>) — adaugate automat in
@@ -81,5 +99,5 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     });
   }
 
-  return [...staticRoutes, ...landingRoutes, ...localRoutes, ...blogRoutes, ...customPageRoutes];
+  return [...staticRoutes, ...landingRoutes, ...nicheRoutes, ...localRoutes, ...blogRoutes, ...customPageRoutes];
 }

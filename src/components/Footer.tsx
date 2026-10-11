@@ -50,6 +50,11 @@ export default function Footer() {
               </li>
             ))}
             <li>
+              <Link href="/solutii-pe-domenii" className="hover:text-brand">
+                Solutii pe domenii
+              </Link>
+            </li>
+            <li>
               <Link href="/intrebari-frecvente" className="hover:text-brand">
                 Intrebari frecvente
               </Link>
