@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import dynamic from "next/dynamic";
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import AnimatedCounter from "./AnimatedCounter";
 
@@ -9,8 +10,7 @@ import AnimatedCounter from "./AnimatedCounter";
 // DUPA hidratarea initiala a paginii — globul de fundal e doar decorativ (nu
 // contine text/continut necesar la primul randare) si desenul lui in canvas nu
 // trebuie sa concureze cu JS-ul critic (hidratare, butoane, text) pentru firul
-// principal. Reduce "JavaScript nefolosit la incarcare" si activitatile lungi
-// pe firul principal semnalate de PageSpeed pe mobil.
+// principal.
 const NetworkGlobeBackground = dynamic(() => import("./NetworkGlobeBackground"), { ssr: false });
 
 type HeroProps = {
@@ -36,6 +36,22 @@ export default function Hero({
   experienceYears,
   projectsDelivered,
 }: HeroProps) {
+  // Globul animat ruleaza un desen in canvas pe fiecare cadru (requestAnimationFrame),
+  // non-stop, cat timp pagina e deschisa — pe un telefon (CPU mult mai slab decat
+  // un laptop, plus throttling-ul aplicat de PageSpeed la testare) asta a devenit
+  // principalul consumator de timp pe firul principal ("Minimizeaza procesarea
+  // firului principal", scorul de viteza pe Mobil a scazut din cauza asta).
+  // Pe desktop efectul ramane neschimbat; pe ecrane de telefon (sub 768px) afisam
+  // doar glow-ul static de mai jos — vizual tot arata bine, fara costul de canvas.
+  const [showGlobe, setShowGlobe] = useState(false);
+  useEffect(() => {
+    const mq = window.matchMedia("(min-width: 768px)");
+    setShowGlobe(mq.matches);
+    const onChange = (e: MediaQueryListEvent) => setShowGlobe(e.matches);
+    mq.addEventListener("change", onChange);
+    return () => mq.removeEventListener("change", onChange);
+  }, []);
+
   return (
     <section className="relative overflow-hidden bg-ink pb-24 pt-40 md:pt-48">
       {/* Fundal: glob animat + glow radial, in spatele continutului */}
@@ -46,7 +62,7 @@ export default function Hero({
             "radial-gradient(ellipse 80% 60% at 50% 38%, rgba(61,90,254,0.22) 0%, #141414 70%)",
         }}
       />
-      <NetworkGlobeBackground />
+      {showGlobe && <NetworkGlobeBackground />}
       {/* Vinieta: intareste contrastul textului peste glob si face tranzitia catre sectiunea urmatoare */}
       <div
         className="pointer-events-none absolute inset-0"
