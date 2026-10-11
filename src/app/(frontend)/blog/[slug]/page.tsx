@@ -5,6 +5,9 @@ import { convertLexicalToHTML } from "@payloadcms/richtext-lexical/html";
 import { getBlogPostBySlug, type Locale } from "@/lib/payload-data";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
 import CTASection from "@/components/CTASection";
+import ShareButtons from "@/components/ShareButtons";
+
+const SITE_URL = "https://weblexdesign.ro";
 
 type Params = { slug: string };
 type Search = { lang?: string };
@@ -24,7 +27,11 @@ export async function generateMetadata({
   const { lang } = await searchParams;
   const post = await getBlogPostBySlug(slug, resolveLocale(lang));
   if (!post) return {};
-  return { title: post.seoTitle || post.title, description: post.seoDescription || post.excerpt || undefined };
+  return {
+    title: post.seoTitle || post.title,
+    description: post.seoDescription || post.excerpt || undefined,
+    alternates: { canonical: `/blog/${slug}` },
+  };
 }
 
 export default async function BlogPostPage({
@@ -59,6 +66,9 @@ export default async function BlogPostPage({
             dangerouslySetInnerHTML={{ __html: convertLexicalToHTML({ data: post.content as any }) }}
           />
         )}
+        <div className="mt-12 border-t border-black/5 pt-8">
+          <ShareButtons url={`${SITE_URL}/blog/${slug}`} title={post.title} />
+        </div>
       </article>
       <CTASection />
     </>
