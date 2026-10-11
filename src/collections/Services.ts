@@ -13,7 +13,7 @@ export const Services: CollectionConfig = {
     {
       name: "icon",
       type: "select",
-      options: ["globe", "cart", "search", "megaphone", "wrench", "camera", "refresh"],
+      options: ["globe", "cart", "search", "megaphone", "wrench", "camera", "refresh", "rocket", "code"],
       defaultValue: "globe",
     },
     {

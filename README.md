@@ -199,6 +199,30 @@ Acest câmp e nou în collection-ul `site-settings` și necesită o migrare nou�
 date de producție (vezi secțiunea de mai sus „Deploy pe xCloud” — rulează
 `npx payload migrate` pe server după `git pull`, înainte de rebuild).
 
+## Conținut SEO și servicii noi (Start-Up Nation, digitalizare)
+
+Pe lângă textele SEO-optimizate din Home, Despre, Servicii, Portofoliu și Contact (titluri
+și descrieri meta rescrise, text nou în „Despre noi”), am adăugat în collection-ul
+`services` două servicii noi, bazate pe analiza competitorilor (vezi
+`seo-analiza-competitori.md`):
+
+- **„Site-uri pentru Start-Up Nation și fonduri europene”**
+- **„Digitalizare firme și aplicații software”**
+
+Site-ul include acum și date structurate (JSON-LD / schema.org) cu datele firmei și
+lista de servicii, pentru o înțelegere mai bună din partea Google.
+
+Cele două servicii noi necesită, ca și comutatorul de indexare, o migrare nouă (extinde
+lista de iconițe permise pentru servicii) — rulează `npx payload migrate` ca de obicei.
+După migrare, populează-le în baza de date cu:
+
+```
+npm run seed:new-services
+```
+
+E sigur de rulat de mai multe ori — adaugă doar cele 2 servicii noi dacă nu există deja,
+nu atinge celelalte 7 servicii existente.
+
 ## Ce s-a schimbat față de prototipul inițial
 
 - **Next.js 14 → 16** și **React 18 → 19** — cerute de versiunea curentă de Payload CMS.

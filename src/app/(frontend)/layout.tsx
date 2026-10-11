@@ -42,9 +42,51 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
+// Date structurate (JSON-LD) — ajută Google să înțeleagă cine e Weblex Design
+// (firmă, date de contact, rețele sociale) și ce servicii oferă, independent de
+// textul vizibil pe pagină. Nu are legătură cu comutatorul de indexare: e în regulă
+// ca schema să existe chiar și cât robots e "noindex" — Google oricum nu va indexa
+// nimic cât timp /robots.txt blochează accesul.
+const organizationJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "ProfessionalService",
+  name: site.legalName,
+  alternateName: site.name,
+  url: "https://weblexdesign.ro",
+  logo: "https://weblexdesign.ro/favicon.ico",
+  telephone: site.phone,
+  email: site.email,
+  foundingDate: String(site.since),
+  address: {
+    "@type": "PostalAddress",
+    addressLocality: site.city,
+    addressCountry: "RO",
+  },
+  areaServed: "RO",
+  sameAs: [site.social.facebook, site.social.instagram, site.social.twitter],
+  makesOffer: [
+    { "@type": "Offer", itemOffered: { "@type": "Service", name: "Creare site web de prezentare" } },
+    { "@type": "Offer", itemOffered: { "@type": "Service", name: "Creare magazin online" } },
+    { "@type": "Offer", itemOffered: { "@type": "Service", name: "Optimizare SEO on-page" } },
+    { "@type": "Offer", itemOffered: { "@type": "Service", name: "Mentenanță site și magazin online" } },
+    { "@type": "Offer", itemOffered: { "@type": "Service", name: "Digitalizare firme și aplicații software" } },
+    {
+      "@type": "Offer",
+      itemOffered: { "@type": "Service", name: "Site-uri eligibile Start-Up Nation și fonduri europene" },
+    },
+  ],
+};
+
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="ro">
+      <head>
+        <script
+          type="application/ld+json"
+          // eslint-disable-next-line react/no-danger
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}
+        />
+      </head>
       <body>
         <SmoothScrollProvider>
           <Navbar />

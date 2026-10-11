@@ -227,7 +227,7 @@ export interface Service {
    * Ordinea de afișare (mai mic = mai sus).
    */
   order?: number | null;
-  icon?: ('globe' | 'cart' | 'search' | 'megaphone' | 'wrench' | 'camera' | 'refresh') | null;
+  icon?: ('globe' | 'cart' | 'search' | 'megaphone' | 'wrench' | 'camera' | 'refresh' | 'rocket' | 'code') | null;
   summary: string;
   description: string;
   /**

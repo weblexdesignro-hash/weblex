@@ -6,9 +6,9 @@ import RevealOnScroll, { StaggerGroup } from "@/components/RevealOnScroll";
 import { getServices, getPricingTiers } from "@/lib/payload-data";
 
 export const metadata: Metadata = {
-  title: "Servicii",
+  title: "Servicii — Creare site web, magazin online, SEO, digitalizare",
   description:
-    "Creare site web de prezentare, magazin online, SEO, promovare, mentenanta si redesign — cu preturi transparente.",
+    "Creare site web de prezentare, magazin online, SEO on-page, mentenanță, aplicații software, digitalizare firme și site-uri eligibile Start-Up Nation / fonduri europene.",
 };
 
 export const dynamic = "force-dynamic";

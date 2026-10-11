@@ -6,7 +6,7 @@ export type Service = {
   title: string;
   summary: string;
   description: string;
-  icon: "globe" | "cart" | "search" | "megaphone" | "wrench" | "camera" | "refresh";
+  icon: "globe" | "cart" | "search" | "megaphone" | "wrench" | "camera" | "refresh" | "rocket" | "code";
 };
 
 export const services: Service[] = [
@@ -65,5 +65,21 @@ export const services: Service[] = [
     description:
       "Pentru magazinele online, calitatea pozelor de produs conteaza la fel de mult ca site-ul in sine. Oferim servicii foto profesionale, astfel incat catalogul tau sa arate impecabil.",
     icon: "camera",
+  },
+  {
+    id: "start-up-nation",
+    title: "Site-uri pentru Start-Up Nation si fonduri europene",
+    summary: "Website eligibil, livrat cu documentele necesare pentru decontare.",
+    description:
+      "Realizam site-uri de prezentare si magazine online eligibile ca cheltuiala in cadrul programului Start-Up Nation si al altor finantari europene (voucherul de digitalizare, fonduri nerambursabile). Livram proiectul la timp fata de termenul din cererea de finantare, cu factura, proces-verbal de receptie si captura de ecran a site-ului functional, pregatite pentru dosarul de decontare. Site-ul include deja optimizare SEO on-page, deci bifezi dintr-un singur proiect atat cheltuiala eligibila, cat si prezenta online reala de care afacerea ta are nevoie.",
+    icon: "rocket",
+  },
+  {
+    id: "digitalizare-aplicatii",
+    title: "Digitalizare firme si aplicatii software",
+    summary: "Aplicatii web personalizate si solutii de digitalizare pentru procesele firmei.",
+    description:
+      "Dezvoltam aplicatii web la comanda si solutii de digitalizare pentru firme care vor sa inlocuiasca Excel-urile si procesele manuale cu un sistem propriu: panouri de administrare, integrari cu alte sisteme, automatizari si fluxuri interne. Proiectele sunt construite pe aceeasi platforma folosita si pentru site-urile si magazinele noastre online, deci se pot integra direct cu acestea.",
+    icon: "code",
   },
 ];

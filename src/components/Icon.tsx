@@ -8,7 +8,9 @@ type IconName =
   | "refresh"
   | "arrow"
   | "check"
-  | "star";
+  | "star"
+  | "rocket"
+  | "code";
 
 const paths: Record<IconName, string> = {
   globe:
@@ -24,6 +26,9 @@ const paths: Record<IconName, string> = {
   arrow: "M5 12h14M13 6l6 6-6 6",
   check: "M5 13l4 4L19 7",
   star: "M12 2l2.9 6.6 7.1.6-5.4 4.7 1.7 7-6.3-3.8L6 21l1.7-7L2.3 9.2l7.1-.6L12 2z",
+  rocket:
+    "M12 2c3 1.5 5 4.8 5 8.5 0 2-0.6 3.8-1.6 5.3L12 22l-3.4-6.2C7.6 14.3 7 12.5 7 10.5 7 6.8 9 3.5 12 2zM9.5 14.5L5 16l1.5-4.5M14.5 14.5L19 16l-1.5-4.5M12 11a1.5 1.5 0 100-3 1.5 1.5 0 000 3z",
+  code: "M9 18l-5-6 5-6M15 6l5 6-5 6M13 4l-2 16",
 };
 
 export default function Icon({ name, className }: { name: IconName; className?: string }) {

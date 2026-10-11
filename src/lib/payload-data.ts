@@ -185,18 +185,19 @@ export const defaultPageTexts = {
     paragraph1:
       "Weblex Design a fost infiintata in {since}, dar echipa din spate are peste {experienceYears} ani de experienta in dezvoltare web. De atunci, ne-am axat constant pe un singur lucru: sa oferim clientilor nostri calitate si profesionalism, nu doar un site „care arata bine”.",
     paragraph2:
-      "Am construit site-uri de prezentare pentru afaceri locale, restaurante, pensiuni si hoteluri, si magazine online complete — cu plata ramburs, card sau transfer bancar — pentru comercianti care vor sa vanda online fara batai de cap tehnice.",
+      "Am construit site-uri de prezentare pentru afaceri locale, restaurante, pensiuni si hoteluri, si magazine online complete — cu plata ramburs, card sau transfer bancar — pentru comercianti care vor sa vanda online fara batai de cap tehnice. Pe langa site-uri si magazine online, dezvoltam si aplicatii software la comanda pentru digitalizarea proceselor interne, si livram proiecte eligibile pentru decontare prin Start-Up Nation sau alte fonduri europene.",
     paragraph3:
-      "Pana acum am finalizat peste {projectsDelivered} de proiecte, pastrand aceeasi echipa alaturi de client de la primul brief pana la lansare — si dupa, prin mentenanta continua.",
+      "Pana acum am finalizat peste {projectsDelivered} de proiecte, pastrand aceeasi echipa alaturi de client de la primul brief pana la lansare — si dupa, prin mentenanta continua. Fiecare proiect include optimizare SEO on-page inca din prima zi, nu ca un serviciu separat.",
   },
   portofoliu: {
     heading: "Proiecte livrate clientilor nostri",
     subheading:
-      "Peste 400 de proiecte finalizate — site-uri de prezentare, magazine online si redesign-uri complete.",
+      "Peste 400 de proiecte finalizate — site-uri de prezentare, magazine online, aplicatii software si redesign-uri complete.",
   },
   contact: {
     heading: "Hai sa vorbim despre proiectul tau",
-    subheading: "Completeaza formularul si iti raspundem cu o oferta personalizata in maximum o zi lucratoare.",
+    subheading:
+      "Completeaza formularul si iti raspundem cu o oferta personalizata in maximum o zi lucratoare — pentru site-uri de prezentare, magazine online, aplicatii software sau proiecte eligibile Start-Up Nation si fonduri europene.",
   },
   blog: {
     heading: "Blog",

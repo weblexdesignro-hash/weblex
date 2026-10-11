@@ -5,8 +5,9 @@ import RevealOnScroll, { StaggerGroup } from "@/components/RevealOnScroll";
 import { getProjects, getPageTexts } from "@/lib/payload-data";
 
 export const metadata: Metadata = {
-  title: "Portofoliu",
-  description: "Proiecte de site-uri web si magazine online realizate de Weblex Design.",
+  title: "Portofoliu — Proiecte reale de site-uri și magazine online",
+  description:
+    "Peste 400 de proiecte livrate: site-uri de prezentare, magazine online și aplicații software create de Weblex Design pentru afaceri din România.",
 };
 
 export const dynamic = "force-dynamic";

@@ -5,8 +5,9 @@ import { site } from "@/content/site";
 import { getPricingTiers, getPageTexts } from "@/lib/payload-data";
 
 export const metadata: Metadata = {
-  title: "Contact",
-  description: "Cere o oferta personalizata pentru site-ul sau magazinul tau online.",
+  title: "Contact — Cere o ofertă pentru site-ul tău",
+  description:
+    "Cere o ofertă personalizată pentru crearea site-ului de prezentare, magazinului online sau aplicației tale software. Răspundem în maximum o zi lucrătoare.",
 };
 
 export const dynamic = "force-dynamic";

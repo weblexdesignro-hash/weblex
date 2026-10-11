@@ -5,8 +5,9 @@ import AnimatedCounter from "@/components/AnimatedCounter";
 import { getPageTexts } from "@/lib/payload-data";
 
 export const metadata: Metadata = {
-  title: "Despre noi",
-  description: "Weblex Design — echipa din spatele site-urilor si magazinelor online.",
+  title: "Despre noi — Agenție web design cu 10+ ani experiență",
+  description:
+    "Weblex Design: agenție de creare site-uri web, magazine online și digitalizare firme din 2017. Peste 400 de proiecte livrate, aceeași echipă de la brief la lansare.",
 };
 
 export const dynamic = "force-dynamic";
