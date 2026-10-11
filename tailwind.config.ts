@@ -1,4 +1,5 @@
 import type { Config } from "tailwindcss";
+import typography from "@tailwindcss/typography";
 
 const config: Config = {
   content: [
@@ -44,7 +45,10 @@ const config: Config = {
       },
     },
   },
-  plugins: [],
+  // Stilizeaza automat continutul HTML generat din Lexical (titluri, liste, paragrafe)
+  // in articolele de blog — fara acest plugin, clasa "prose" folosita in pagina de
+  // blog nu are niciun efect, iar titlurile si listele arata identic cu paragrafele.
+  plugins: [typography],
 };
 
 export default config;

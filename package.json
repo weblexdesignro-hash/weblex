@@ -37,6 +37,7 @@
     "sharp": "^0.35.4"
   },
   "devDependencies": {
+    "@tailwindcss/typography": "^0.5.20",
     "@types/node": "^22.10.5",
     "@types/react": "19.2.14",
     "@types/react-dom": "19.2.3",
@@ -50,5 +51,12 @@
   },
   "engines": {
     "node": ">=20.9.0"
-  }
+  },
+  "browserslist": [
+    "last 2 Chrome versions",
+    "last 2 Firefox versions",
+    "last 2 Safari versions",
+    "last 2 Edge versions",
+    "not dead"
+  ]
 }
