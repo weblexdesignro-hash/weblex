@@ -1,0 +1,61 @@
+{
+  "name": "weblex-design",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "payload": "payload",
+    "generate:types": "payload generate:types",
+    "generate:importmap": "payload generate:importmap",
+    "seed": "tsx src/seed/seed.ts",
+    "seed:portfolio": "tsx src/seed/seed-portfolio.ts",
+    "seed:new-services": "tsx src/seed/seed-new-services.ts",
+    "fix:services-text": "tsx src/seed/fix-services-text.ts"
+  },
+  "dependencies": {
+    "@fontsource/inter": "^5.3.0",
+    "@fontsource/manrope": "^5.3.0",
+    "@payloadcms/db-postgres": "3.90.1",
+    "@payloadcms/next": "3.90.1",
+    "@payloadcms/richtext-lexical": "3.90.1",
+    "@payloadcms/ui": "3.90.1",
+    "clsx": "^2.1.1",
+    "dotenv": "^16.4.7",
+    "framer-motion": "^13.4.1",
+    "graphql": "^16.8.1",
+    "gsap": "^3.12.5",
+    "lenis": "^1.1.9",
+    "next": "16.3.3",
+    "payload": "3.90.1",
+    "react": "19.2.6",
+    "react-dom": "19.2.6",
+    "resend": "^4.0.1",
+    "sharp": "^0.35.4"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.5",
+    "@types/react": "19.2.14",
+    "@types/react-dom": "19.2.3",
+    "autoprefixer": "^10.4.19",
+    "eslint": "^9.16.0",
+    "eslint-config-next": "16.3.3",
+    "postcss": "^8.4.40",
+    "tailwindcss": "^3.4.7",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.2"
+  },
+  "engines": {
+    "node": ">=20.9.0"
+  },
+  "browserslist": [
+    "last 2 Chrome versions",
+    "last 2 Firefox versions",
+    "last 2 Safari versions",
+    "last 2 Edge versions",
+    "not dead"
+  ]
+}
