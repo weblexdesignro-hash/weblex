@@ -1,9 +1,17 @@
 "use client";
 
 import Link from "next/link";
+import dynamic from "next/dynamic";
 import { motion } from "framer-motion";
 import AnimatedCounter from "./AnimatedCounter";
-import NetworkGlobeBackground from "./NetworkGlobeBackground";
+
+// Incarcat dinamic (fara SSR) si deci intr-un chunk JS separat, descarcat/executat
+// DUPA hidratarea initiala a paginii — globul de fundal e doar decorativ (nu
+// contine text/continut necesar la primul randare) si desenul lui in canvas nu
+// trebuie sa concureze cu JS-ul critic (hidratare, butoane, text) pentru firul
+// principal. Reduce "JavaScript nefolosit la incarcare" si activitatile lungi
+// pe firul principal semnalate de PageSpeed pe mobil.
+const NetworkGlobeBackground = dynamic(() => import("./NetworkGlobeBackground"), { ssr: false });
 
 type HeroProps = {
   heading: string;

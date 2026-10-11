@@ -81,10 +81,16 @@ export default function Navbar() {
       <AnimatePresence>
         {open && (
           <motion.div
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: "auto", opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+            // Animam doar opacity si transform (y) — nu "height". Animarea lui "height"
+            // obliga browserul sa recalculeze layout-ul la fiecare cadru (nu poate fi
+            // compusa doar din GPU), ceea ce PageSpeed semnaleaza ca "animatie necompusa"
+            // si poate incetini randarea pe mobil. La montare/demontare elementul isi ia
+            // oricum inaltimea naturala instant (fara sa fie animata), doar aparitia
+            // vizuala (opacity + usoara alunecare) e animata.
+            initial={{ opacity: 0, y: -8 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -8 }}
+            transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
             className="overflow-hidden glass md:hidden"
           >
             <div className="container-px mx-auto flex flex-col gap-4 py-6">

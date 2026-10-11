@@ -40,10 +40,13 @@ export default function FAQAccordion({
             <AnimatePresence initial={false}>
               {isOpen && (
                 <motion.div
-                  initial={{ height: 0, opacity: 0 }}
-                  animate={{ height: "auto", opacity: 1 }}
-                  exit={{ height: 0, opacity: 0 }}
-                  transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
+                  // La fel ca la meniul mobil din Navbar: animam doar opacity + transform,
+                  // nu "height" — evitam ca PageSpeed sa semnaleze "animatie necompusa"
+                  // (height obliga la recalcul de layout la fiecare cadru).
+                  initial={{ opacity: 0, y: -6 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -6 }}
+                  transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
                   className="overflow-hidden"
                 >
                   <p className="px-6 pb-5 text-sm leading-relaxed text-ink/70">{item.answer}</p>

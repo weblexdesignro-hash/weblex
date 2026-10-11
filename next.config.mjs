@@ -15,6 +15,18 @@ const nextConfig = {
       { pathname: "/og/**" },
     ],
   },
+  async headers() {
+    return [
+      {
+        // Imaginile din Payload (portofoliu, testimoniale) sunt servite prin aceasta ruta
+        // si, fara header explicit, browserul le recere la fiecare vizita (vezi auditul
+        // PageSpeed: "Use efficient cache lifetimes"). Fisierele au nume unic la fiecare
+        // upload nou, deci e sigur sa le cache-uim agresiv si pe termen lung.
+        source: "/api/media/file/:path*",
+        headers: [{ key: "Cache-Control", value: "public, max-age=31536000, immutable" }],
+      },
+    ];
+  },
   async redirects() {
     return [
       // Pastreaza autoritatea SEO acumulata de vechile URL-uri WordPress.
