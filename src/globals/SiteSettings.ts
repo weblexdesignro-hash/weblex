@@ -5,6 +5,16 @@ export const SiteSettings: GlobalConfig = {
   admin: { group: "Setări" },
   access: { read: () => true },
   fields: [
+    {
+      name: "allowIndexing",
+      type: "checkbox",
+      defaultValue: false,
+      label: "Permite indexarea în Google (robots: index, follow)",
+      admin: {
+        description:
+          "Lasă DEZACTIVAT cât timp site-ul e pe domeniul de test (holy-glade.1wp.site) — ca Google să nu îl indexeze prematur. Activează abia după ce site-ul e live pe weblexdesign.ro.",
+      },
+    },
     { name: "logo", type: "upload", relationTo: "media" },
     { name: "phone", type: "text" },
     { name: "email", type: "email" },

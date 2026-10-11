@@ -170,10 +170,34 @@ sunt în această listă, adaugă-le și pe ele în `src/content/projects.ts` î
 scriptul, altfel se pierd. Nu necesită o migrare nouă (structura collection-ului nu se
 schimbă, doar conținutul).
 
-Imaginile de copertă nu sunt incluse automat — adaugă din admin un screenshot propriu pentru
-fiecare proiect (`Portofoliu → Projects → [proiect] → Cover Image`); până atunci, cardul
-arată corect, cu un fundal gradient în loc de poză. Poți edita oricând titlul, descrierea,
-categoria sau linkul fiecărui proiect direct din admin, fără să mai rulezi scriptul.
+Imaginile de copertă sunt deja incluse — scriptul încarcă automat în collection-ul „Media”
+o captură a site-ului live pentru fiecare proiect (din `src/seed/portfolio-images/<slug>.jpg`)
+și o setează drept Cover Image. Poți oricând înlocui o imagine sau edita titlul, descrierea,
+categoria ori linkul fiecărui proiect direct din admin, fără să mai rulezi scriptul.
+
+## Comutator indexare Google (SEO) — „on/off” cât site-ul e pe domeniu de test
+
+Cât timp site-ul e accesibil pe domeniul temporar (`holy-glade.1wp.site`) și nu pe
+`weblexdesign.ro`, nu vrem ca Google să îl indexeze — ar crea conținut duplicat și ar
+„consuma” din autoritatea SEO a domeniului final. Pentru asta există un comutator în admin:
+
+**Setări → Site Settings → „Permite indexarea în Google (robots: index, follow)”**
+
+- **Dezactivat (implicit)** — site-ul trimite la toți crawlerii `noindex, nofollow`
+  (vezi `/robots.txt`, care devine `Disallow: /` pentru toată lumea) și `/sitemap.xml`
+  e gol. Asta e starea sigură, implicită, exact cât site-ul e pe domeniul de test.
+- **Activat** — site-ul trimite `index, follow`, `/robots.txt` permite crawlerii (cu
+  excepția `/admin` și `/api`), iar `/sitemap.xml` listează paginile publice.
+
+Schimbarea are efect **imediat**, fără rebuild — paginile relevante sunt deja randate
+dinamic (`force-dynamic`), la fel ca `/robots.txt` și `/sitemap.xml`.
+
+**Important:** activează acest comutator abia după ce site-ul e live pe `weblexdesign.ro`
+(domeniul final), nu înainte.
+
+Acest câmp e nou în collection-ul `site-settings` și necesită o migrare nouă în baza de
+date de producție (vezi secțiunea de mai sus „Deploy pe xCloud” — rulează
+`npx payload migrate` pe server după `git pull`, înainte de rebuild).
 
 ## Ce s-a schimbat față de prototipul inițial
 

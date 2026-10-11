@@ -13,21 +13,34 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import SmoothScrollProvider from "@/components/SmoothScrollProvider";
 import { site } from "@/content/site";
+import { getSiteSettings } from "@/lib/payload-data";
 
-export const metadata: Metadata = {
-  metadataBase: new URL("https://weblexdesign.ro"),
-  title: {
-    default: `${site.name} — Site-uri web si magazine online`,
-    template: `%s — ${site.name}`,
-  },
-  description:
-    "Weblex Design creeaza site-uri web de prezentare si magazine online rapide, moderne si optimizate pentru conversii. Peste 10 ani experienta, 400+ proiecte livrate.",
-  openGraph: {
-    type: "website",
-    locale: "ro_RO",
-    siteName: site.name,
-  },
-};
+// generateMetadata (în loc de `export const metadata` static) ca să putem citi,
+// la fiecare request, comutatorul "Permite indexarea" din Setări site — câtă
+// vreme site-ul e pe domeniul de test, robots trebuie să rămână "noindex,
+// nofollow" fără să fie nevoie de un rebuild ca să schimbăm asta din admin.
+export async function generateMetadata(): Promise<Metadata> {
+  const settings = await getSiteSettings();
+
+  return {
+    metadataBase: new URL("https://weblexdesign.ro"),
+    title: {
+      default: settings.seoDefaults.title || `${site.name} — Site-uri web si magazine online`,
+      template: `%s — ${site.name}`,
+    },
+    description:
+      settings.seoDefaults.description ||
+      "Weblex Design creeaza site-uri web de prezentare si magazine online rapide, moderne si optimizate pentru conversii. Peste 10 ani experienta, 400+ proiecte livrate.",
+    openGraph: {
+      type: "website",
+      locale: "ro_RO",
+      siteName: site.name,
+    },
+    robots: settings.allowIndexing
+      ? { index: true, follow: true }
+      : { index: false, follow: false, nocache: true },
+  };
+}
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (

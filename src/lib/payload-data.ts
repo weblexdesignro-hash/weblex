@@ -232,6 +232,36 @@ function interpolate(text: string, vars: Record<string, string | number>): strin
   return text.replace(/\{(\w+)\}/g, (_, key) => (key in vars ? String(vars[key]) : `{${key}}`));
 }
 
+// Setări globale ale site-ului (logo, contact, social, SEO default + comutatorul
+// de indexare). Implicit `allowIndexing: false` — dacă baza de date nu răspunde
+// sau global-ul nu a fost încă salvat din admin, site-ul rămâne "noindex" din
+// siguranță, ca să nu fie indexat accidental cât e pe domeniul de test.
+export type SiteSettingsData = {
+  allowIndexing: boolean;
+  seoDefaults: { title?: string; description?: string };
+};
+
+const defaultSiteSettings: SiteSettingsData = {
+  allowIndexing: false,
+  seoDefaults: {},
+};
+
+export async function getSiteSettings(): Promise<SiteSettingsData> {
+  try {
+    const payload = await getPayload({ config });
+    const fetched: any = await payload.findGlobal({ slug: "site-settings", depth: 0 });
+    return {
+      allowIndexing: Boolean(fetched?.allowIndexing),
+      seoDefaults: {
+        title: fetched?.seoDefaults?.title || undefined,
+        description: fetched?.seoDefaults?.description || undefined,
+      },
+    };
+  } catch {
+    return defaultSiteSettings;
+  }
+}
+
 export async function getPageTexts(locale: Locale = "ro"): Promise<PageTexts> {
   let fetched: any = null;
   try {

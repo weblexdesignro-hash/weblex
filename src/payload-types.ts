@@ -955,6 +955,10 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
  */
 export interface SiteSetting {
   id: number;
+  /**
+   * Lasă DEZACTIVAT cât timp site-ul e pe domeniul de test (holy-glade.1wp.site) — ca Google să nu îl indexeze prematur. Activează abia după ce site-ul e live pe weblexdesign.ro.
+   */
+  allowIndexing?: boolean | null;
   logo?: (number | null) | Media;
   phone?: string | null;
   email?: string | null;
@@ -981,6 +985,9 @@ export interface SiteSetting {
 export interface PageText {
   id: number;
   hero?: {
+    /**
+     * Titlul mare. Ultimul cuvânt/grup poate fi evidențiat separat mai jos.
+     */
     heading?: string | null;
     /**
      * Partea evidențiată cu culoare, ex: "clienti reali."
@@ -1006,9 +1013,18 @@ export interface PageText {
     pricingHeading?: string | null;
   };
   despre?: {
+    /**
+     * Poți folosi {since} — se înlocuiește automat cu anul înființării.
+     */
     heading?: string | null;
+    /**
+     * Poți folosi {since} și {experienceYears}.
+     */
     paragraph1?: string | null;
     paragraph2?: string | null;
+    /**
+     * Poți folosi {projectsDelivered}.
+     */
     paragraph3?: string | null;
   };
   portofoliu?: {
@@ -1039,6 +1055,7 @@ export interface PageText {
  * via the `definition` "site-settings_select".
  */
 export interface SiteSettingsSelect<T extends boolean = true> {
+  allowIndexing?: T;
   logo?: T;
   phone?: T;
   email?: T;
