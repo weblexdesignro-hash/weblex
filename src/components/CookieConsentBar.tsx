@@ -2,7 +2,8 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { ui, type Locale } from "@/content/i18n";
+import { usePathname } from "next/navigation";
+import { ui, localeFromPathname } from "@/content/i18n";
 
 const STORAGE_KEY = "weblex-cookie-consent"; // "accepted" | "rejected"
 
@@ -11,7 +12,12 @@ const STORAGE_KEY = "weblex-cookie-consent"; // "accepted" | "rejected"
 // Daca in viitor adaugam Google Analytics / Facebook Pixel, acele scripturi
 // trebuie sa verifice `localStorage.getItem("weblex-cookie-consent") === "accepted"`
 // inainte sa se incarce (sau sa asculte evenimentul "weblex-cookie-consent-change").
-export default function CookieConsentBar({ locale }: { locale: Locale }) {
+//
+// Nu mai primeste `locale` ca prop din layout.tsx — vezi comentariul de la
+// localeFromPathname() din @/content/i18n.
+export default function CookieConsentBar() {
+  const pathname = usePathname();
+  const locale = localeFromPathname(pathname);
   const t = ui[locale];
   const [visible, setVisible] = useState(false);
 

@@ -1,5 +1,8 @@
+"use client";
+
+import { usePathname } from "next/navigation";
 import { site } from "@/content/site";
-import { ui, type Locale } from "@/content/i18n";
+import { ui, type Locale, localeFromPathname } from "@/content/i18n";
 
 // Buton flotant de WhatsApp, vizibil pe toate paginile (adaugat in layout.tsx).
 // Foloseste acelasi numar de telefon afisat deja in header/footer/contact.
@@ -11,7 +14,11 @@ function buildHref(locale: Locale) {
   return `https://wa.me/${whatsappDigits}?text=${encodeURIComponent(message)}`;
 }
 
-export default function WhatsAppButton({ locale }: { locale: Locale }) {
+// Nu mai primeste `locale` ca prop din layout.tsx — vezi comentariul de la
+// localeFromPathname() din @/content/i18n.
+export default function WhatsAppButton() {
+  const pathname = usePathname();
+  const locale = localeFromPathname(pathname);
   const t = ui[locale];
   return (
     <a

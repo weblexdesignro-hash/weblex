@@ -15,6 +15,7 @@ import Footer from "@/components/Footer";
 import SmoothScrollProvider from "@/components/SmoothScrollProvider";
 import WhatsAppButton from "@/components/WhatsAppButton";
 import CookieConsentBar from "@/components/CookieConsentBar";
+import HtmlLangSync from "@/components/HtmlLangSync";
 import { site } from "@/content/site";
 import { getSiteSettings } from "@/lib/payload-data";
 
@@ -113,13 +114,14 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         />
       </head>
       <body>
+        <HtmlLangSync />
         <SmoothScrollProvider>
-          <Navbar locale={htmlLang} />
+          <Navbar />
           <main>{children}</main>
-          <Footer locale={htmlLang} />
+          <Footer />
         </SmoothScrollProvider>
-        <WhatsAppButton locale={htmlLang} />
-        <CookieConsentBar locale={htmlLang} />
+        <WhatsAppButton />
+        <CookieConsentBar />
       </body>
     </html>
   );

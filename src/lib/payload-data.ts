@@ -2,7 +2,7 @@ import { getPayload } from "payload";
 import config from "@payload-config";
 import { services as fallbackServices } from "@/content/services";
 import { projects as fallbackProjects } from "@/content/projects";
-import { testimonials as fallbackTestimonials } from "@/content/testimonials";
+import { testimonials as fallbackTestimonialsRo, testimonialsEn as fallbackTestimonialsEn } from "@/content/testimonials";
 import type { Service } from "@/content/services";
 import type { Project } from "@/content/projects";
 import type { Testimonial } from "@/content/testimonials";
@@ -95,6 +95,11 @@ export async function getProjects(locale: Locale = "ro"): Promise<Project[]> {
 }
 
 export async function getTestimonials(locale: Locale = "ro"): Promise<Testimonial[]> {
+  // Pana cand testimonialele reale sunt publicate in Payload (vezi collection-ul
+  // "Testimonials" din admin — deocamdata are doar 3 intrari placeholder,
+  // nepublicate), afisam o lista fallback statica din cod — in limba potrivita,
+  // ca pe /en sa nu arate text in romana peste o pagina in engleza.
+  const fallbackTestimonials = locale === "en" ? fallbackTestimonialsEn : fallbackTestimonialsRo;
   try {
     const payload = await getPayload({ config });
     const res = await payload.find({

@@ -4,13 +4,17 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
-import { getNav, ui, PATH_RO_TO_EN, PATH_EN_TO_RO, type Locale } from "@/content/i18n";
+import { getNav, ui, PATH_RO_TO_EN, PATH_EN_TO_RO, localeFromPathname } from "@/content/i18n";
 import Logo from "./Logo";
 
-export default function Navbar({ locale }: { locale: Locale }) {
+// Nu mai primeste `locale` ca prop din layout.tsx — vezi comentariul de la
+// localeFromPathname() din @/content/i18n pentru motiv (prop-ul ramanea
+// "inghetat" la navigare client-side intre "/" si "/en").
+export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
+  const locale = localeFromPathname(pathname);
   const nav = getNav(locale);
   const t = ui[locale];
   // Calea echivalenta in cealalta limba pentru pagina curenta — daca nu exista

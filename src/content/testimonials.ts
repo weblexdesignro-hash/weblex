@@ -36,3 +36,34 @@ export const testimonials: Testimonial[] = [
       "Working with Weblex Design was a smooth, professional experience from start to finish. They delivered a modern, fast website that properly represents our construction business, and we've already seen more qualified leads coming through it.",
   },
 ];
+
+// Varianta in engleza a testimonialelor de mai sus — folosita ca fallback pe
+// paginile /en/* atata timp cat collection-ul "Testimonials" din Payload nu are
+// inca testimoniale reale publicate (vezi getTestimonials() din payload-data.ts).
+// Daniel e deja in engleza in lista de mai sus, asa ca il preluam neschimbat.
+export const testimonialsEn: Testimonial[] = [
+  {
+    name: "Nicu",
+    role: "CEO, XWELD",
+    quote:
+      "We needed a website that looked as serious as our work. The Weblex Design team quickly understood our industry and delivered a clean, fast site that's easy to manage — we've been getting steady quote requests through the contact form ever since.",
+  },
+  {
+    name: "Florin",
+    role: "CEO, alertelicitatii.ro",
+    quote:
+      "Working with Weblex Design was exactly what we needed: clear communication, deadlines met, and a technically solid result. The platform runs flawlessly and we saw a noticeable traffic increase after the SEO optimization.",
+  },
+  {
+    name: "Mihaela",
+    role: "Psychotherapist & Speech Therapist, Founder of Logobrain",
+    quote:
+      "I wanted a warm, trustworthy website where future patients would feel at ease from their very first visit. Weblex Design delivered exactly that — a friendly, easy-to-navigate design with simple online bookings. I recommend them wholeheartedly.",
+  },
+  {
+    name: "Daniel",
+    role: "CEO & Founder, Arizona True Construction",
+    quote:
+      "Working with Weblex Design was a smooth, professional experience from start to finish. They delivered a modern, fast website that properly represents our construction business, and we've already seen more qualified leads coming through it.",
+  },
+];

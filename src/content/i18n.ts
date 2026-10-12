@@ -38,6 +38,25 @@ export function getNav(locale: Locale): NavItem[] {
   return locale === "en" ? NAV_EN : NAV_RO;
 }
 
+// Determina limba curenta direct din URL (pathname), ca sa poata fi recalculata
+// pe client la fiecare navigare — vezi nota de mai jos.
+//
+// De ce nu citim locale-ul dintr-un prop venit din layout.tsx (via middleware +
+// headers()): Next.js App Router NU re-executa layout-ul (si deci nici
+// componentele randate direct in el — Navbar, Footer, WhatsAppButton,
+// CookieConsentBar) la o navigare client-side (<Link>) intre doua pagini care
+// impart acelasi layout — "/" si "/en" sunt exact in cazul asta. Rezultatul:
+// un prop `locale` calculat o singura data in layout ramane "inghetat" la
+// valoarea de la primul randare pe server, chiar daca userul navigheaza intre
+// RO si EN — meniul/footerul/butonul WhatsApp raman in limba paginii initiale.
+// Solutia: aceste componente isi calculeaza singure limba din `usePathname()`
+// (care SE actualizeaza corect la fiecare navigare client-side), in loc sa
+// primeasca limba ca prop.
+export function localeFromPathname(pathname: string | null | undefined): Locale {
+  if (!pathname) return "ro";
+  return pathname === "/en" || pathname.startsWith("/en/") ? "en" : "ro";
+}
+
 // Pentru fiecare pagina care exista deja in ambele limbi, mapam calea curenta ->
 // echivalentul in cealalta limba, ca switch-ul de limba din Navbar sa duca exact
 // la aceeasi pagina, nu doar la homepage. Se completeaza pe masura ce adaugam

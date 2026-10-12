@@ -1,10 +1,18 @@
+"use client";
+
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { site } from "@/content/site";
 import { landingPages } from "@/content/landing-pages";
-import { getNav, ui, type Locale } from "@/content/i18n";
+import { getNav, ui, localeFromPathname } from "@/content/i18n";
 import Logo from "./Logo";
 
-export default function Footer({ locale }: { locale: Locale }) {
+// Nu mai primeste `locale` ca prop din layout.tsx — il calculam din pathname
+// (vezi comentariul de la localeFromPathname() din @/content/i18n) ca footer-ul
+// sa se actualizeze corect si la navigare client-side intre "/" si "/en".
+export default function Footer() {
+  const pathname = usePathname();
+  const locale = localeFromPathname(pathname);
   const nav = getNav(locale);
   const t = ui[locale];
   return (
