@@ -5,6 +5,7 @@ import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import AnimatedCounter from "./AnimatedCounter";
+import { ui, type Locale } from "@/content/i18n";
 
 // Incarcat dinamic (fara SSR) si deci intr-un chunk JS separat, descarcat/executat
 // DUPA hidratarea initiala a paginii — globul de fundal e doar decorativ (nu
@@ -21,6 +22,7 @@ type HeroProps = {
   ctaSecondaryLabel: string;
   experienceYears: number;
   projectsDelivered: number;
+  locale?: Locale;
 };
 
 // Hero cu fundal animat: un "glob" de puncte conectate (NetworkGlobeBackground),
@@ -35,7 +37,9 @@ export default function Hero({
   ctaSecondaryLabel,
   experienceYears,
   projectsDelivered,
+  locale = "ro",
 }: HeroProps) {
+  const t = ui[locale];
   // Globul animat ruleaza un desen in canvas pe fiecare cadru (requestAnimationFrame),
   // non-stop, cat timp pagina e deschisa — pe un telefon (CPU mult mai slab decat
   // un laptop, plus throttling-ul aplicat de PageSpeed la testare) asta a devenit
@@ -80,7 +84,7 @@ export default function Hero({
           className="mb-6 inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-4 py-1.5 text-xs font-medium text-cream/75 backdrop-blur-sm"
         >
           <span className="h-1.5 w-1.5 rounded-full bg-lime shadow-[0_0_8px_1px_rgba(180,244,97,0.8)]" />
-          {experienceYears}+ ani experienta · {projectsDelivered}+ proiecte livrate
+          {t.heroBadge(experienceYears, projectsDelivered)}
         </motion.p>
 
         <motion.h1
@@ -135,19 +139,19 @@ export default function Hero({
             <p className="font-display text-3xl font-semibold text-cream sm:text-4xl">
               <AnimatedCounter value={projectsDelivered} suffix="+" />
             </p>
-            <p className="mt-1 text-xs text-cream/50">proiecte finalizate</p>
+            <p className="mt-1 text-xs text-cream/50">{t.statProjects}</p>
           </div>
           <div>
             <p className="font-display text-3xl font-semibold text-cream sm:text-4xl">
               <AnimatedCounter value={experienceYears} suffix="+" />
             </p>
-            <p className="mt-1 text-xs text-cream/50">ani experienta</p>
+            <p className="mt-1 text-xs text-cream/50">{t.statExperience}</p>
           </div>
           <div>
             <p className="font-display text-3xl font-semibold text-cream sm:text-4xl">
               <AnimatedCounter value={100} suffix="%" />
             </p>
-            <p className="mt-1 text-xs text-cream/50">responsive</p>
+            <p className="mt-1 text-xs text-cream/50">{t.statResponsive}</p>
           </div>
         </motion.div>
       </div>

@@ -1,18 +1,24 @@
 import { site } from "@/content/site";
+import { ui, type Locale } from "@/content/i18n";
 
 // Buton flotant de WhatsApp, vizibil pe toate paginile (adaugat in layout.tsx).
 // Foloseste acelasi numar de telefon afisat deja in header/footer/contact.
 const whatsappDigits = site.phone.replace(/[^\d]/g, ""); // "+40 745 931 326" -> "40745931326"
-const whatsappMessage = encodeURIComponent("Buna! As vrea o oferta pentru un proiect nou.");
-const whatsappHref = `https://wa.me/${whatsappDigits}?text=${whatsappMessage}`;
 
-export default function WhatsAppButton() {
+function buildHref(locale: Locale) {
+  const message =
+    locale === "en" ? "Hello! I'd like a quote for a new project." : "Buna! As vrea o oferta pentru un proiect nou.";
+  return `https://wa.me/${whatsappDigits}?text=${encodeURIComponent(message)}`;
+}
+
+export default function WhatsAppButton({ locale }: { locale: Locale }) {
+  const t = ui[locale];
   return (
     <a
-      href={whatsappHref}
+      href={buildHref(locale)}
       target="_blank"
       rel="noopener noreferrer"
-      aria-label="Scrie-ne pe WhatsApp"
+      aria-label={t.whatsappLabel}
       // bottom e un CSS var (vezi globals.css) ca sa poata fi impinsa in sus de
       // CookieConsentBar cat timp bara de cookie-uri e vizibila, fara suprapunere.
       style={{ bottom: "var(--fab-bottom, 1.5rem)" }}

@@ -17,7 +17,10 @@ export const dynamic = "force-dynamic";
 // Canonical explicit pentru homepage (altfel nu exista niciun tag canonical
 // pe site — vezi analiza-tehnica-seo.md, sectiunea 4).
 export const metadata: Metadata = {
-  alternates: { canonical: "/" },
+  alternates: {
+    canonical: "/",
+    languages: { "ro-RO": "/", "en-US": "/en" },
+  },
 };
 
 export default async function HomePage() {

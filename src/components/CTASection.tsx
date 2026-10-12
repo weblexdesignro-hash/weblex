@@ -1,7 +1,9 @@
 import Link from "next/link";
 import RevealOnScroll from "./RevealOnScroll";
+import { ui, type Locale } from "@/content/i18n";
 
-export default function CTASection() {
+export default function CTASection({ locale = "ro" }: { locale?: Locale }) {
+  const t = ui[locale];
   return (
     <section className="container-px mx-auto max-w-7xl py-8">
       <RevealOnScroll>
@@ -9,16 +11,14 @@ export default function CTASection() {
           <div className="absolute inset-0 bg-gradient-to-br from-brand/20 via-transparent to-lime/10" />
           <div className="relative">
             <h2 className="font-display text-3xl font-semibold sm:text-5xl">
-              Hai sa construim <br className="hidden sm:block" /> urmatorul tau proiect online.
+              {t.ctaHeadingLine1} <br className="hidden sm:block" /> {t.ctaHeadingLine2}
             </h2>
-            <p className="mx-auto mt-4 max-w-md text-sm text-cream/70">
-              Raspundem in maximum o zi lucratoare cu o oferta personalizata.
-            </p>
+            <p className="mx-auto mt-4 max-w-md text-sm text-cream/70">{t.ctaText}</p>
             <Link
               href="/contact"
               className="mt-8 inline-block rounded-full bg-lime px-8 py-3.5 text-sm font-semibold text-ink transition hover:bg-white"
             >
-              Cere oferta personalizata
+              {t.ctaButton}
             </Link>
           </div>
         </div>

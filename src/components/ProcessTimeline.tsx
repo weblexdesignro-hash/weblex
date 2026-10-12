@@ -1,14 +1,8 @@
 import RevealOnScroll from "./RevealOnScroll";
+import { processSteps, type Locale } from "@/content/i18n";
 
-const steps = [
-  { title: "Discutie & brief", desc: "Intelegem afacerea ta, obiectivele si publicul tinta." },
-  { title: "Design & concept", desc: "Propunem directia vizuala si structura site-ului." },
-  { title: "Dezvoltare", desc: "Construim site-ul cu tehnologii moderne, rapide si sigure." },
-  { title: "Testare & lansare", desc: "Verificam viteza, SEO si responsive-ul pe toate device-urile." },
-  { title: "Mentenanta continua", desc: "Ramanem alaturi de tine cu actualizari si suport." },
-];
-
-export default function ProcessTimeline() {
+export default function ProcessTimeline({ locale = "ro" }: { locale?: Locale }) {
+  const steps = processSteps[locale];
   return (
     <div className="grid gap-8 md:grid-cols-5">
       {steps.map((step, i) => (

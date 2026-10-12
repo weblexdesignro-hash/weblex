@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { ui, type Locale } from "@/content/i18n";
 
 const STORAGE_KEY = "weblex-cookie-consent"; // "accepted" | "rejected"
 
@@ -10,7 +11,8 @@ const STORAGE_KEY = "weblex-cookie-consent"; // "accepted" | "rejected"
 // Daca in viitor adaugam Google Analytics / Facebook Pixel, acele scripturi
 // trebuie sa verifice `localStorage.getItem("weblex-cookie-consent") === "accepted"`
 // inainte sa se incarce (sau sa asculte evenimentul "weblex-cookie-consent-change").
-export default function CookieConsentBar() {
+export default function CookieConsentBar({ locale }: { locale: Locale }) {
+  const t = ui[locale];
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
@@ -43,10 +45,9 @@ export default function CookieConsentBar() {
     <div className="fixed inset-x-0 bottom-0 z-50 border-t border-black/10 bg-cream/95 backdrop-blur">
       <div className="container-px mx-auto flex max-w-7xl flex-col items-start gap-4 py-5 sm:flex-row sm:items-center sm:justify-between">
         <p className="text-sm text-ink/80">
-          Folosim cookie-uri esentiale pentru functionarea site-ului si, optional, cookie-uri de analiza. Poti citi
-          detalii in{" "}
+          {t.cookieText}{" "}
           <Link href="/politica-de-cookie" className="text-brand underline hover:no-underline">
-            politica de cookie
+            {t.cookiePolicyLinkLabel}
           </Link>
           .
         </p>
@@ -56,14 +57,14 @@ export default function CookieConsentBar() {
             onClick={() => choose("rejected")}
             className="rounded-full border border-black/10 bg-white px-5 py-2.5 text-sm font-medium text-ink transition hover:border-brand hover:text-brand"
           >
-            Doar esentiale
+            {t.cookieReject}
           </button>
           <button
             type="button"
             onClick={() => choose("accepted")}
             className="rounded-full bg-ink px-5 py-2.5 text-sm font-medium text-cream transition hover:bg-brand"
           >
-            Accepta toate
+            {t.cookieAccept}
           </button>
         </div>
       </div>

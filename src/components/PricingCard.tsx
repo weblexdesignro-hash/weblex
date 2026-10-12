@@ -2,8 +2,10 @@ import Icon from "./Icon";
 import Link from "next/link";
 import type { PricingTier } from "@/content/pricing";
 import { StaggerItem } from "./RevealOnScroll";
+import { ui, type Locale } from "@/content/i18n";
 
-export default function PricingCard({ tier }: { tier: PricingTier }) {
+export default function PricingCard({ tier, locale = "ro" }: { tier: PricingTier; locale?: Locale }) {
+  const t = ui[locale];
   return (
     <StaggerItem>
       <div
@@ -15,7 +17,7 @@ export default function PricingCard({ tier }: { tier: PricingTier }) {
       >
         {tier.highlighted && (
           <span className="mb-4 inline-block w-fit rounded-full bg-brand px-3 py-1 text-xs font-medium text-white">
-            Cel mai popular
+            {t.pricingPopular}
           </span>
         )}
         <h3 className="font-display text-xl font-semibold">{tier.name}</h3>
@@ -50,7 +52,7 @@ export default function PricingCard({ tier }: { tier: PricingTier }) {
               : "bg-ink text-cream hover:bg-brand"
           }`}
         >
-          Cere oferta
+          {t.pricingCta}
         </Link>
       </div>
     </StaggerItem>

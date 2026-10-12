@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { headers } from "next/headers";
 // Fonturi locale (pachete @fontsource), nu next/font/google — nu mai depindem
 // de fonts.googleapis.com la build (asta a picat intermitent și pe server).
 import "@fontsource/inter/400.css";
@@ -95,9 +96,15 @@ const organizationJsonLd = {
   ],
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default async function RootLayout({ children }: { children: React.ReactNode }) {
+  // Setat de middleware.ts in functie de cale (/en/... vs restul) — foloseste-l
+  // doar pentru atributul <html lang>; Navbar/Footer/CookieConsentBar isi
+  // detecteaza singure limba din URL (sunt Client Components, folosesc usePathname).
+  const headersList = await headers();
+  const htmlLang = headersList.get("x-locale") === "en" ? "en" : "ro";
+
   return (
-    <html lang="ro">
+    <html lang={htmlLang}>
       <head>
         <script
           type="application/ld+json"
@@ -107,12 +114,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       </head>
       <body>
         <SmoothScrollProvider>
-          <Navbar />
+          <Navbar locale={htmlLang} />
           <main>{children}</main>
-          <Footer />
+          <Footer locale={htmlLang} />
         </SmoothScrollProvider>
-        <WhatsAppButton />
-        <CookieConsentBar />
+        <WhatsAppButton locale={htmlLang} />
+        <CookieConsentBar locale={htmlLang} />
       </body>
     </html>
   );

@@ -4,8 +4,10 @@ import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import Icon from "./Icon";
 import type { Testimonial } from "@/content/testimonials";
+import { ui, type Locale } from "@/content/i18n";
 
-export default function TestimonialCarousel({ items }: { items: Testimonial[] }) {
+export default function TestimonialCarousel({ items, locale = "ro" }: { items: Testimonial[]; locale?: Locale }) {
+  const t = ui[locale];
   const [index, setIndex] = useState(0);
   const current = items[index];
 
@@ -41,14 +43,14 @@ export default function TestimonialCarousel({ items }: { items: Testimonial[] })
 
       <div className="mt-8 flex justify-center gap-3">
         <button
-          aria-label="Testimonial anterior"
+          aria-label={t.testimonialPrev}
           onClick={() => go(-1)}
           className="flex h-10 w-10 items-center justify-center rounded-full border border-black/10 transition hover:border-brand hover:text-brand"
         >
           <Icon name="arrow" className="h-4 w-4 rotate-180" />
         </button>
         <button
-          aria-label="Testimonial urmator"
+          aria-label={t.testimonialNext}
           onClick={() => go(1)}
           className="flex h-10 w-10 items-center justify-center rounded-full border border-black/10 transition hover:border-brand hover:text-brand"
         >

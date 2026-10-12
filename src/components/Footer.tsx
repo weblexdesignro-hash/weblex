@@ -1,17 +1,19 @@
 import Link from "next/link";
-import { nav, site } from "@/content/site";
+import { site } from "@/content/site";
 import { landingPages } from "@/content/landing-pages";
+import { getNav, ui, type Locale } from "@/content/i18n";
 import Logo from "./Logo";
 
-export default function Footer() {
+export default function Footer({ locale }: { locale: Locale }) {
+  const nav = getNav(locale);
+  const t = ui[locale];
   return (
     <footer className="border-t border-black/5 bg-cream">
       <div className="container-px mx-auto grid max-w-7xl gap-10 py-16 md:grid-cols-5">
         <div className="md:col-span-2">
           <Logo />
           <p className="mt-3 max-w-sm text-sm text-mist">
-            Site-uri web si magazine online create de o echipa cu peste {site.experienceYears} ani
-            de experienta si {site.projectsDelivered}+ proiecte livrate.
+            {t.footerTagline(site.experienceYears, site.projectsDelivered)}
           </p>
           <div className="mt-6 flex gap-4 text-sm text-mist">
             <a href={site.social.facebook} target="_blank" rel="noreferrer" className="hover:text-brand">
@@ -27,7 +29,7 @@ export default function Footer() {
         </div>
 
         <div>
-          <p className="text-sm font-semibold text-ink">Navigare</p>
+          <p className="text-sm font-semibold text-ink">{t.footerNavHeading}</p>
           <ul className="mt-4 space-y-2 text-sm text-mist">
             {nav.map((item) => (
               <li key={item.href}>
@@ -40,7 +42,7 @@ export default function Footer() {
         </div>
 
         <div>
-          <p className="text-sm font-semibold text-ink">Servicii</p>
+          <p className="text-sm font-semibold text-ink">{t.footerServicesHeading}</p>
           <ul className="mt-4 space-y-2 text-sm text-mist">
             {landingPages.map((p) => (
               <li key={p.path}>
@@ -51,19 +53,19 @@ export default function Footer() {
             ))}
             <li>
               <Link href="/solutii-pe-domenii" className="hover:text-brand">
-                Solutii pe domenii
+                {t.footerSolutionsLabel}
               </Link>
             </li>
             <li>
               <Link href="/intrebari-frecvente" className="hover:text-brand">
-                Intrebari frecvente
+                {t.footerFaqLabel}
               </Link>
             </li>
           </ul>
         </div>
 
         <div>
-          <p className="text-sm font-semibold text-ink">Contact</p>
+          <p className="text-sm font-semibold text-ink">{t.footerContactHeading}</p>
           <ul className="mt-4 space-y-2 text-sm text-mist">
             <li>
               <a href={site.phoneHref} className="hover:text-brand">

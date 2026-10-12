@@ -2,8 +2,14 @@ import Link from "next/link";
 import Icon from "./Icon";
 import type { Service } from "@/content/services";
 import { StaggerItem } from "./RevealOnScroll";
+import { ui, type Locale } from "@/content/i18n";
 
-export default function ServiceCard({ service }: { service: Service }) {
+export default function ServiceCard({ service, locale = "ro" }: { service: Service; locale?: Locale }) {
+  const t = ui[locale];
+  // Pagina dedicata (landingHref) nu are inca varianta in engleza — nu trimitem
+  // un vizitator care citeste in engleza spre o pagina scrisa integral in romana.
+  // O aratam din nou aici cand pagina respectiva primeste si ea traducerea.
+  const showLandingLink = locale === "ro" && service.landingHref;
   return (
     <StaggerItem>
       <div
@@ -16,12 +22,12 @@ export default function ServiceCard({ service }: { service: Service }) {
         <h3 className="mt-6 font-display text-xl font-semibold">{service.title}</h3>
         <p className="mt-2 text-sm text-mist">{service.summary}</p>
         <p className="mt-4 text-sm leading-relaxed text-ink/70">{service.description}</p>
-        {service.landingHref && (
+        {showLandingLink && (
           <Link
-            href={service.landingHref}
+            href={service.landingHref!}
             className="mt-4 inline-flex items-center gap-1 text-sm font-medium text-brand transition group-hover:gap-1.5"
           >
-            Vezi pagina completa <span aria-hidden>→</span>
+            {t.serviceCardLink} <span aria-hidden>→</span>
           </Link>
         )}
       </div>
