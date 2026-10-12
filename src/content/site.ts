@@ -25,6 +25,10 @@ export const site = {
   ],
 };
 
+// Imaginea folosita pentru og:image / twitter:image pe toate paginile (RO si EN) —
+// un singur loc de editat daca schimbam vizualul folosit la share pe retele sociale.
+export const ogImage = { url: "/og/og-image.png", width: 1200, height: 630 };
+
 export const nav = [
   { label: "Servicii", href: "/servicii" },
   { label: "Portofoliu", href: "/portofoliu" },

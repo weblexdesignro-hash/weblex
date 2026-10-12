@@ -5,7 +5,7 @@ import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import AnimatedCounter from "./AnimatedCounter";
-import { ui, type Locale } from "@/content/i18n";
+import { ui, contactHref, type Locale } from "@/content/i18n";
 
 // Incarcat dinamic (fara SSR) si deci intr-un chunk JS separat, descarcat/executat
 // DUPA hidratarea initiala a paginii — globul de fundal e doar decorativ (nu
@@ -116,13 +116,13 @@ export default function Hero({
           className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row"
         >
           <Link
-            href="/contact"
+            href={contactHref(locale)}
             className="rounded-full bg-lime px-7 py-3.5 text-sm font-semibold text-ink transition hover:bg-white"
           >
             {ctaPrimaryLabel}
           </Link>
           <Link
-            href="/portofoliu"
+            href={locale === "en" ? "/en/portofoliu" : "/portofoliu"}
             className="rounded-full border border-white/20 bg-white/5 px-7 py-3.5 text-sm font-medium text-cream backdrop-blur-sm transition hover:border-white/40"
           >
             {ctaSecondaryLabel}

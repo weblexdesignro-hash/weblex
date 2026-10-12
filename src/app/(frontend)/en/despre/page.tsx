@@ -4,13 +4,31 @@ import RevealOnScroll, { StaggerGroup, StaggerItem } from "@/components/RevealOn
 import AnimatedCounter from "@/components/AnimatedCounter";
 import { getPageTexts } from "@/lib/payload-data";
 import { ui } from "@/content/i18n";
+import { site, ogImage } from "@/content/site";
+
+const titleEn = "About us — Web design agency with 10+ years of experience";
+const descriptionEn =
+  "Weblex Design: website, online store and business digitalization agency since 2017. Over 400 delivered projects, the same team from brief to launch.";
 
 export const metadata: Metadata = {
-  title: "About us — Web design agency with 10+ years of experience",
-  description:
-    "Weblex Design: website, online store and business digitalization agency since 2017. Over 400 delivered projects, the same team from brief to launch.",
+  title: titleEn,
+  description: descriptionEn,
   alternates: { canonical: "/en/despre", languages: { "ro-RO": "/despre", "en-US": "/en/despre" } },
-  openGraph: { locale: "en_US" },
+  openGraph: {
+    type: "website",
+    locale: "en_US",
+    siteName: site.name,
+    url: "/en/despre",
+    title: titleEn,
+    description: descriptionEn,
+    images: [{ ...ogImage, alt: titleEn }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: titleEn,
+    description: descriptionEn,
+    images: [ogImage.url],
+  },
 };
 
 export const dynamic = "force-dynamic";

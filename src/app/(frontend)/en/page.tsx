@@ -10,6 +10,7 @@ import CTASection from "@/components/CTASection";
 import RevealOnScroll, { StaggerGroup } from "@/components/RevealOnScroll";
 import { getServices, getProjects, getPricingTiers, getTestimonials, getPageTexts } from "@/lib/payload-data";
 import { ui } from "@/content/i18n";
+import { site, ogImage } from "@/content/site";
 
 // English homepage (/en). Mirrors src/app/(frontend)/page.tsx but reads every
 // Payload-backed content piece with locale="en" and uses the EN dictionary
@@ -20,15 +21,43 @@ import { ui } from "@/content/i18n";
 // panel (Conținut -> ...) whenever you're ready and they'll appear here live.
 export const dynamic = "force-dynamic";
 
+// Titlul de pagina (<title>) e trecut prin template-ul din layout.tsx
+// ("%s — Weblex Design"), de-aia NU repetam numele firmei la inceput aici
+// (altfel ar aparea de doua ori: "Weblex Design — ... — Weblex Design").
+// Pentru og:title/twitter:title (care NU sunt templatizate) folosim varianta
+// completa, cu numele firmei inclus, ca preview-ul de share sa stea bine si
+// de sine statator.
+const titlePageEn = "Websites and online stores that bring real customers";
+const titleFullEn = "Weblex Design — Websites and online stores that bring real customers";
+const descriptionEn =
+  "Weblex Design builds fast, modern, conversion-optimized websites and online stores. 10+ years of experience, 400+ delivered projects.";
+
 export const metadata: Metadata = {
-  title: "Weblex Design — Websites and online stores that bring real customers",
-  description:
-    "Weblex Design builds fast, modern, conversion-optimized websites and online stores. 10+ years of experience, 400+ delivered projects.",
+  title: titlePageEn,
+  description: descriptionEn,
   alternates: {
     canonical: "/en",
     languages: { "ro-RO": "/", "en-US": "/en" },
   },
-  openGraph: { locale: "en_US" },
+  // openGraph/twitter sunt obiecte "intregi" la nivel de pagina — Next.js NU le
+  // imbina cu cele din layout.tsx (RO), ci le inlocuieste complet. De aceea le
+  // redeclaram aici cu valorile in engleza + imaginea/siteName din layout, ca
+  // paginile EN sa nu ramana fara og:image/og:site_name la share pe retele sociale.
+  openGraph: {
+    type: "website",
+    locale: "en_US",
+    siteName: site.name,
+    url: "/en",
+    title: titleFullEn,
+    description: descriptionEn,
+    images: [{ ...ogImage, alt: titleFullEn }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: titleFullEn,
+    description: descriptionEn,
+    images: [ogImage.url],
+  },
 };
 
 export default async function HomePageEn() {

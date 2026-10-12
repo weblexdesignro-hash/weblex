@@ -2,7 +2,7 @@ import Icon from "./Icon";
 import Link from "next/link";
 import type { PricingTier } from "@/content/pricing";
 import { StaggerItem } from "./RevealOnScroll";
-import { ui, type Locale } from "@/content/i18n";
+import { ui, contactHref, type Locale } from "@/content/i18n";
 
 export default function PricingCard({ tier, locale = "ro" }: { tier: PricingTier; locale?: Locale }) {
   const t = ui[locale];
@@ -45,7 +45,7 @@ export default function PricingCard({ tier, locale = "ro" }: { tier: PricingTier
         </ul>
 
         <Link
-          href="/contact"
+          href={contactHref(locale)}
           className={`mt-8 rounded-full px-5 py-3 text-center text-sm font-medium transition ${
             tier.highlighted
               ? "bg-cream text-ink hover:bg-lime"

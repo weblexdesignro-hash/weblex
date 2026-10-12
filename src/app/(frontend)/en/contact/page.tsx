@@ -1,16 +1,33 @@
 import type { Metadata } from "next";
 import ContactForm from "@/components/ContactForm";
 import RevealOnScroll from "@/components/RevealOnScroll";
-import { site } from "@/content/site";
+import { site, ogImage } from "@/content/site";
 import { getPageTexts, getPricingTiers } from "@/lib/payload-data";
 import { ui } from "@/content/i18n";
 
+const titleEn = "Contact — Get a quote for your website";
+const descriptionEn =
+  "Get a tailored quote for your presentation website, online store or software application. We respond within one business day.";
+
 export const metadata: Metadata = {
-  title: "Contact — Get a quote for your website",
-  description:
-    "Get a tailored quote for your presentation website, online store or software application. We respond within one business day.",
+  title: titleEn,
+  description: descriptionEn,
   alternates: { canonical: "/en/contact", languages: { "ro-RO": "/contact", "en-US": "/en/contact" } },
-  openGraph: { locale: "en_US" },
+  openGraph: {
+    type: "website",
+    locale: "en_US",
+    siteName: site.name,
+    url: "/en/contact",
+    title: titleEn,
+    description: descriptionEn,
+    images: [{ ...ogImage, alt: titleEn }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: titleEn,
+    description: descriptionEn,
+    images: [ogImage.url],
+  },
 };
 
 export const dynamic = "force-dynamic";

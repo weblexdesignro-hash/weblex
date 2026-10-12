@@ -5,13 +5,33 @@ import CTASection from "@/components/CTASection";
 import RevealOnScroll, { StaggerGroup } from "@/components/RevealOnScroll";
 import { getServices, getPricingTiers, getPageTexts } from "@/lib/payload-data";
 import { ui } from "@/content/i18n";
+import { site, ogImage } from "@/content/site";
+
+const titleEn = "Services — Website creation, online stores, SEO, digitalization";
+const descriptionEn =
+  "Business website creation, online stores, on-page SEO, maintenance, software applications, business digitalization and Start-Up Nation / EU funding eligible websites.";
 
 export const metadata: Metadata = {
-  title: "Services — Website creation, online stores, SEO, digitalization",
-  description:
-    "Business website creation, online stores, on-page SEO, maintenance, software applications, business digitalization and Start-Up Nation / EU funding eligible websites.",
+  title: titleEn,
+  description: descriptionEn,
   alternates: { canonical: "/en/servicii", languages: { "ro-RO": "/servicii", "en-US": "/en/servicii" } },
-  openGraph: { locale: "en_US" },
+  // Redeclaram openGraph/twitter integral (nu se imbina cu layout.tsx) ca sa nu
+  // pierdem og:image/og:site_name la share pe retele sociale pentru pagina EN.
+  openGraph: {
+    type: "website",
+    locale: "en_US",
+    siteName: site.name,
+    url: "/en/servicii",
+    title: titleEn,
+    description: descriptionEn,
+    images: [{ ...ogImage, alt: titleEn }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: titleEn,
+    description: descriptionEn,
+    images: [ogImage.url],
+  },
 };
 
 export const dynamic = "force-dynamic";

@@ -58,6 +58,14 @@ export function localeFromPathname(pathname: string | null | undefined): Locale 
   return pathname === "/en" || pathname.startsWith("/en/") ? "en" : "ro";
 }
 
+// Tinta corecta pentru orice buton "Cere oferta" / "Get a quote" — un singur
+// loc de adevar, ca sa nu mai ramana linkuri catre /contact hardcodate pe
+// paginile in engleza (bug raportat de client: butonul ducea mereu la /contact
+// in romana, indiferent de limba paginii).
+export function contactHref(locale: Locale): string {
+  return locale === "en" ? "/en/contact" : "/contact";
+}
+
 // Pentru fiecare pagina care exista deja in ambele limbi, mapam calea curenta ->
 // echivalentul in cealalta limba, ca switch-ul de limba din Navbar sa duca exact
 // la aceeasi pagina, nu doar la homepage. Se completeaza pe masura ce adaugam

@@ -1,6 +1,6 @@
 import Link from "next/link";
 import RevealOnScroll from "./RevealOnScroll";
-import { ui, type Locale } from "@/content/i18n";
+import { ui, contactHref, type Locale } from "@/content/i18n";
 
 export default function CTASection({ locale = "ro" }: { locale?: Locale }) {
   const t = ui[locale];
@@ -15,7 +15,7 @@ export default function CTASection({ locale = "ro" }: { locale?: Locale }) {
             </h2>
             <p className="mx-auto mt-4 max-w-md text-sm text-cream/70">{t.ctaText}</p>
             <Link
-              href="/contact"
+              href={contactHref(locale)}
               className="mt-8 inline-block rounded-full bg-lime px-8 py-3.5 text-sm font-semibold text-ink transition hover:bg-white"
             >
               {t.ctaButton}

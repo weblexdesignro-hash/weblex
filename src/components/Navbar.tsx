@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
-import { getNav, ui, PATH_RO_TO_EN, PATH_EN_TO_RO, localeFromPathname } from "@/content/i18n";
+import { getNav, ui, PATH_RO_TO_EN, PATH_EN_TO_RO, localeFromPathname, contactHref } from "@/content/i18n";
 import Logo from "./Logo";
 
 // Nu mai primeste `locale` ca prop din layout.tsx — vezi comentariul de la
@@ -73,7 +73,7 @@ export default function Navbar() {
             {t.switchLangTo}
           </Link>
           <Link
-            href="/contact"
+            href={contactHref(locale)}
             className={`rounded-full px-5 py-2.5 text-sm font-medium transition ${
               lightMode ? "bg-lime text-ink hover:bg-white" : "bg-ink text-cream hover:bg-brand"
             }`}
@@ -126,7 +126,7 @@ export default function Navbar() {
                 </Link>
               ))}
               <Link
-                href="/contact"
+                href={contactHref(locale)}
                 onClick={() => setOpen(false)}
                 className="rounded-full bg-ink px-5 py-3 text-center text-sm font-medium text-cream"
               >

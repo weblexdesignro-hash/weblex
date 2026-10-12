@@ -5,16 +5,34 @@ import RevealOnScroll from "@/components/RevealOnScroll";
 import { faqCategoriesEn } from "@/content/faq";
 import { buildFaqJsonLd } from "@/lib/seo";
 import { ui } from "@/content/i18n";
+import { site, ogImage } from "@/content/site";
+
+const titleEn = "FAQ — pricing, timelines, what's included";
+const descriptionEn =
+  "Clear answers to frequently asked questions about building a website, online store, digitalization and software applications: cost, delivery time, maintenance and security.";
 
 export const metadata: Metadata = {
-  title: "FAQ — pricing, timelines, what's included",
-  description:
-    "Clear answers to frequently asked questions about building a website, online store, digitalization and software applications: cost, delivery time, maintenance and security.",
+  title: titleEn,
+  description: descriptionEn,
   alternates: {
     canonical: "/en/intrebari-frecvente",
     languages: { "ro-RO": "/intrebari-frecvente", "en-US": "/en/intrebari-frecvente" },
   },
-  openGraph: { locale: "en_US" },
+  openGraph: {
+    type: "website",
+    locale: "en_US",
+    siteName: site.name,
+    url: "/en/intrebari-frecvente",
+    title: titleEn,
+    description: descriptionEn,
+    images: [{ ...ogImage, alt: titleEn }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: titleEn,
+    description: descriptionEn,
+    images: [ogImage.url],
+  },
 };
 
 // Toate intrebarile (din toate categoriile), pentru datele structurate

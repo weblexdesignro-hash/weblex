@@ -4,13 +4,31 @@ import CTASection from "@/components/CTASection";
 import RevealOnScroll, { StaggerGroup } from "@/components/RevealOnScroll";
 import { getProjects, getPageTexts } from "@/lib/payload-data";
 import { ui } from "@/content/i18n";
+import { site, ogImage } from "@/content/site";
+
+const titleEn = "Portfolio — Real website and online store projects";
+const descriptionEn =
+  "Over 400 delivered projects: presentation websites, online stores and software applications built by Weblex Design for businesses in Romania and abroad.";
 
 export const metadata: Metadata = {
-  title: "Portfolio — Real website and online store projects",
-  description:
-    "Over 400 delivered projects: presentation websites, online stores and software applications built by Weblex Design for businesses in Romania and abroad.",
+  title: titleEn,
+  description: descriptionEn,
   alternates: { canonical: "/en/portofoliu", languages: { "ro-RO": "/portofoliu", "en-US": "/en/portofoliu" } },
-  openGraph: { locale: "en_US" },
+  openGraph: {
+    type: "website",
+    locale: "en_US",
+    siteName: site.name,
+    url: "/en/portofoliu",
+    title: titleEn,
+    description: descriptionEn,
+    images: [{ ...ogImage, alt: titleEn }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: titleEn,
+    description: descriptionEn,
+    images: [ogImage.url],
+  },
 };
 
 export const dynamic = "force-dynamic";
