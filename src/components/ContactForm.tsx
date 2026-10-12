@@ -157,11 +157,17 @@ export default function ContactForm({
         <Field label={t.emailLabel} name="email" type="email" required />
         <Field label={t.phoneLabel} name="phone" type="tel" required />
 
-        <div>
+        {/* CUI ocupa tot latul randului (sm:col-span-2) — campul avea prea putin
+            loc cand statea la jumatate din grid alaturi de butonul ANAF, numarul
+            CUI aparea taiat. Pe mobil (sub "sm") e oricum pe un singur rand
+            intreg; de la "sm" in sus, input-ul si butonul stau unul langa altul
+            (flex-row), mai jos de atat stau unul sub altul, ca butonul sa nu mai
+            striveasca input-ul pe ecrane inguste. */}
+        <div className="sm:col-span-2">
           <label className="mb-2 block text-sm font-medium text-ink" htmlFor="cui">
             {t.cuiLabel}
           </label>
-          <div className="flex gap-2">
+          <div className="flex flex-col gap-2 sm:flex-row">
             <input
               id="cui"
               name="cui"
@@ -170,13 +176,13 @@ export default function ContactForm({
               value={cui}
               onChange={(e) => setCui(e.target.value)}
               placeholder={t.cuiPlaceholder}
-              className="w-full rounded-2xl border border-black/10 bg-white/70 px-4 py-3 text-sm outline-none transition focus:border-brand"
+              className="w-full min-w-0 flex-1 rounded-2xl border border-black/10 bg-white/70 px-4 py-3 text-sm outline-none transition focus:border-brand"
             />
             <button
               type="button"
               onClick={lookupAnaf}
               disabled={anafStatus === "loading"}
-              className="shrink-0 whitespace-nowrap rounded-2xl border border-black/10 bg-white px-4 py-3 text-xs font-medium text-ink transition hover:border-brand hover:text-brand disabled:opacity-60"
+              className="shrink-0 whitespace-nowrap rounded-2xl border border-black/10 bg-white px-4 py-3 text-sm font-medium text-ink transition hover:border-brand hover:text-brand disabled:opacity-60 sm:text-xs"
             >
               {anafStatus === "loading" ? t.anafLoading : t.anafButton}
             </button>
