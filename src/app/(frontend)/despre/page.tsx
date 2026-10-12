@@ -8,7 +8,7 @@ export const metadata: Metadata = {
   title: "Despre noi — Agenție web design cu 10+ ani experiență",
   description:
     "Weblex Design: agenție de creare site-uri web, magazine online și digitalizare firme din 2017. Peste 400 de proiecte livrate, aceeași echipă de la brief la lansare.",
-  alternates: { canonical: "/despre" },
+  alternates: { canonical: "/despre", languages: { "ro-RO": "/despre", "en-US": "/en/despre" } },
 };
 
 export const dynamic = "force-dynamic";

@@ -9,7 +9,7 @@ export const metadata: Metadata = {
   title: "Servicii — Creare site web, magazin online, SEO, digitalizare",
   description:
     "Creare site web de prezentare, magazin online, SEO on-page, mentenanță, aplicații software, digitalizare firme și site-uri eligibile Start-Up Nation / fonduri europene.",
-  alternates: { canonical: "/servicii" },
+  alternates: { canonical: "/servicii", languages: { "ro-RO": "/servicii", "en-US": "/en/servicii" } },
 };
 
 export const dynamic = "force-dynamic";

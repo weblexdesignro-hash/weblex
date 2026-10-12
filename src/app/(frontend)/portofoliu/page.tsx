@@ -8,7 +8,7 @@ export const metadata: Metadata = {
   title: "Portofoliu — Proiecte reale de site-uri și magazine online",
   description:
     "Peste 400 de proiecte livrate: site-uri de prezentare, magazine online și aplicații software create de Weblex Design pentru afaceri din România.",
-  alternates: { canonical: "/portofoliu" },
+  alternates: { canonical: "/portofoliu", languages: { "ro-RO": "/portofoliu", "en-US": "/en/portofoliu" } },
 };
 
 export const dynamic = "force-dynamic";

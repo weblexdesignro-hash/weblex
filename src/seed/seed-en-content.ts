@@ -214,20 +214,41 @@ const testimonialsEn: Record<string, { role: string; quote: string }> = {
 };
 
 // ---------------------------------------------------------------------------
-// Projects — summary tradus pentru toate proiectele "featured" de pe homepage.
-// Titlurile raman neschimbate (nume de brand/companie).
+// Projects — summary tradus pentru toate cele 15 proiecte din portofoliu
+// (necesar pentru /en/portofoliu, care le afiseaza pe toate, nu doar pe cele
+// featured de pe homepage). Titlurile raman neschimbate (nume de brand/companie).
 // ---------------------------------------------------------------------------
 const projectsEn: Record<string, string> = {
+  xweld:
+    "A presentation website for a Romanian manufacturer of laser welding and cleaning equipment and collaborative robots, with dedicated sections for each industry served (automotive, metal construction, agriculture, aerospace).",
+  "alerta-licitatii":
+    "A SaaS platform that monitors Romania's public procurement portal (SEAP) around the clock and sends Telegram or email alerts for public tenders matching a company's profile, with clear pricing packages and a free trial period.",
+  stayo:
+    "A presentation website for hotel management software: front desk, rates, housekeeping, e-invoicing and a commission-free direct booking engine.",
   "shim-residence":
     "A presentation website for a group of luxury hotel-style apartments in Rădăuți, with a photo gallery for each apartment type and information about amenities and the surrounding area.",
+  logobrain:
+    "A presentation website for a speech therapy and psychotherapy center in Cluj-Napoca, with a description of services, online booking and quick access to the price list.",
+  "vine-platforma":
+    "A presentation website for a 24/7 car towing company in Cluj-Napoca, covering the whole county and the A3 motorway, optimized for quick calls from local searches.",
+  "crafter-mobila":
+    "A presentation website for a custom furniture maker for indoor and outdoor spaces, from design and production to installation and delivery.",
+  vladimirus:
+    "A presentation website for a metalworking company in Călărași, specialized in plasma-cut fences, metal structures and agricultural equipment repairs.",
   "v-smartcard":
     "An online store for NFC digital business cards and Google Review cards, including a dedicated card for the digital menus of HORECA businesses.",
   "arizona-true-construction":
     "A presentation website for a construction and renovation company based in Phoenix, Arizona, with a portfolio of kitchen, bathroom and exterior projects.",
+  "hainute-dragalase":
+    "An online store for children's christening outfits and sets, with customer accounts, a shopping cart and free shipping above a minimum order value.",
   "mav-boutique-villa":
     "A presentation website for a group of boutique villas and an urban guesthouse on the Romanian coast (Eforie Nord and Constanța), featuring each location's amenities and a booking engine.",
+  tradalma:
+    "A presentation website for a certified translation agency offering legalizations and apostilles, plus interpreting services for conferences and business meetings.",
   "full-moving":
     "A presentation website for a removals company based in Cardiff, UK, covering local, commercial and international moves plus storage services.",
+  "reparatii-tct":
+    "A presentation website with an integrated store for a phone, laptop and TV repair shop in Drobeta-Turnu Severin.",
 };
 
 async function run() {

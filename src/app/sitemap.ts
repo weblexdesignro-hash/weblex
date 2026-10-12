@@ -34,6 +34,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     "/contact",
     "/intrebari-frecvente",
     "/solutii-pe-domenii",
+    "/en/servicii",
+    "/en/portofoliu",
+    "/en/despre",
+    "/en/contact",
+    "/en/intrebari-frecvente",
   ].map(
     (path) => ({
       url: `${baseUrl}${path}`,

@@ -9,7 +9,10 @@ export const metadata: Metadata = {
   title: "Intrebari frecvente — preturi, durata, ce este inclus",
   description:
     "Raspunsuri clare la intrebarile frecvente despre creare site web, realizare magazin online, digitalizare si aplicatii software: cost, durata de livrare, mentenanta si securitate.",
-  alternates: { canonical: "/intrebari-frecvente" },
+  alternates: {
+    canonical: "/intrebari-frecvente",
+    languages: { "ro-RO": "/intrebari-frecvente", "en-US": "/en/intrebari-frecvente" },
+  },
 };
 
 // Toate intrebarile (din toate categoriile), pentru datele structurate

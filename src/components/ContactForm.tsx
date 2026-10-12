@@ -2,6 +2,7 @@
 
 import { useState, type FormEvent } from "react";
 import type { PricingTier } from "@/content/pricing";
+import { ui, type Locale } from "@/content/i18n";
 
 type ServiceValue =
   | "site-web"
@@ -13,17 +14,6 @@ type ServiceValue =
   | "seo"
   | "altul";
 
-const serviceOptions: { value: ServiceValue; label: string }[] = [
-  { value: "site-web", label: "Site web de prezentare" },
-  { value: "magazin-online", label: "Magazin online" },
-  { value: "redesign", label: "Redesign site web" },
-  { value: "crm", label: "CRM" },
-  { value: "aplicatie-custom", label: "Aplicație web Custom" },
-  { value: "mentenanta", label: "Mentenanță" },
-  { value: "seo", label: "SEO on-page" },
-  { value: "altul", label: "Alt serviciu" },
-];
-
 // Pachetele afisate aici (nume, pret, descriere) vin acum din Payload CMS —
 // aceleasi "pachete" (pricingTiers) editate din admin -> Continut -> Services
 // -> Site web de prezentare / Magazin online, exact cele afisate pe pagina
@@ -33,13 +23,13 @@ const serviceOptions: { value: ServiceValue; label: string }[] = [
 // "Detaliaza proiectul" — nu face parte din pachetele din CMS.
 type PackageOption = { value: string; label: string; desc: string };
 
-function tiersToOptions(tiers: PricingTier[], customValue: string, customLabel: string): PackageOption[] {
+function tiersToOptions(tiers: PricingTier[], customValue: string, customLabel: string, customDesc: string): PackageOption[] {
   const fromCms: PackageOption[] = tiers.map((t) => ({
     value: `${t.name} — ${t.price}`,
     label: t.name,
     desc: t.note,
   }));
-  return [...fromCms, { value: customValue, label: customLabel, desc: "Detaliezi tu mai jos ce ai nevoie" }];
+  return [...fromCms, { value: customValue, label: customLabel, desc: customDesc }];
 }
 
 // Servicii pentru care apare campul "Link site existent" (redesign, mentenanta, SEO —
@@ -52,13 +42,19 @@ const SERVICES_WITH_ALWAYS_DETAILS: ServiceValue[] = ["redesign", "crm", "aplica
 type AnafStatus = "idle" | "loading" | "success" | "error";
 type Status = "idle" | "loading" | "success" | "error";
 
+// Formularul e integral bilingv prin dictionarul `ui[locale].contactForm`
+// (vezi @/content/i18n) — campurile trimise la /api/contact raman aceleasi
+// (valori tehnice in engleza, ex. "site-web"), doar etichetele vizibile se schimba.
 export default function ContactForm({
   websiteTiers,
   shopTiers,
+  locale = "ro",
 }: {
   websiteTiers: PricingTier[];
   shopTiers: PricingTier[];
+  locale?: Locale;
 }) {
+  const t = ui[locale].contactForm;
   const [status, setStatus] = useState<Status>("idle");
   const [serviceType, setServiceType] = useState<ServiceValue | "">("");
   const [selectedPackage, setSelectedPackage] = useState<string>("");
@@ -68,12 +64,12 @@ export default function ContactForm({
   const [anafStatus, setAnafStatus] = useState<AnafStatus>("idle");
   const [anafMessage, setAnafMessage] = useState<string>("");
 
-  const sitePackages = tiersToOptions(websiteTiers, "Custom", "Custom");
-  const shopPackages = tiersToOptions(shopTiers, "Shop Custom", "Shop Custom");
+  const sitePackages = tiersToOptions(websiteTiers, t.customLabel, t.customLabel, t.customDesc);
+  const shopPackages = tiersToOptions(shopTiers, t.shopCustomLabel, t.shopCustomLabel, t.customDesc);
 
   const showPackages = serviceType === "site-web" || serviceType === "magazin-online";
   const packageList = serviceType === "site-web" ? sitePackages : serviceType === "magazin-online" ? shopPackages : [];
-  const isCustomPackage = selectedPackage === "Custom" || selectedPackage === "Shop Custom";
+  const isCustomPackage = selectedPackage === t.customLabel || selectedPackage === t.shopCustomLabel;
 
   const showSiteUrl = serviceType ? SERVICES_WITH_SITE_URL.includes(serviceType) : false;
   const showDetails = serviceType
@@ -85,7 +81,7 @@ export default function ContactForm({
     const digits = cui.replace(/\D/g, "");
     if (!digits) {
       setAnafStatus("error");
-      setAnafMessage("Introdu mai întâi un CUI valid.");
+      setAnafMessage(t.anafErrorNoCui);
       return;
     }
     setAnafStatus("loading");
@@ -99,15 +95,15 @@ export default function ContactForm({
       const data = await res.json();
       if (!res.ok) {
         setAnafStatus("error");
-        setAnafMessage(data.error || "Nu am găsit firma. Completează denumirea manual.");
+        setAnafMessage(data.error || t.anafErrorNotFound);
         return;
       }
       setCompany(data.denumire || "");
       setAnafStatus("success");
-      setAnafMessage(data.adresa ? `Preluat din ANAF: ${data.adresa}` : "Date preluate din ANAF.");
+      setAnafMessage(data.adresa ? `${t.anafSuccessPrefix}${data.adresa}` : t.anafSuccessGeneric);
     } catch {
       setAnafStatus("error");
-      setAnafMessage("Nu am putut contacta ANAF. Completează denumirea manual.");
+      setAnafMessage(t.anafErrorContact);
     }
   }
 
@@ -157,13 +153,13 @@ export default function ContactForm({
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
       <div className="grid gap-6 sm:grid-cols-2">
-        <Field label="Nume persoană de contact" name="name" required />
-        <Field label="Email" name="email" type="email" required />
-        <Field label="Telefon" name="phone" type="tel" required />
+        <Field label={t.nameLabel} name="name" required />
+        <Field label={t.emailLabel} name="email" type="email" required />
+        <Field label={t.phoneLabel} name="phone" type="tel" required />
 
         <div>
           <label className="mb-2 block text-sm font-medium text-ink" htmlFor="cui">
-            CUI firmă
+            {t.cuiLabel}
           </label>
           <div className="flex gap-2">
             <input
@@ -173,7 +169,7 @@ export default function ContactForm({
               required
               value={cui}
               onChange={(e) => setCui(e.target.value)}
-              placeholder="ex: RO12345678"
+              placeholder={t.cuiPlaceholder}
               className="w-full rounded-2xl border border-black/10 bg-white/70 px-4 py-3 text-sm outline-none transition focus:border-brand"
             />
             <button
@@ -182,7 +178,7 @@ export default function ContactForm({
               disabled={anafStatus === "loading"}
               className="shrink-0 whitespace-nowrap rounded-2xl border border-black/10 bg-white px-4 py-3 text-xs font-medium text-ink transition hover:border-brand hover:text-brand disabled:opacity-60"
             >
-              {anafStatus === "loading" ? "Se caută..." : "Preia date ANAF"}
+              {anafStatus === "loading" ? t.anafLoading : t.anafButton}
             </button>
           </div>
           {anafMessage && (
@@ -192,7 +188,7 @@ export default function ContactForm({
       </div>
 
       <Field
-        label="Denumire firmă"
+        label={t.companyLabel}
         name="company"
         required
         value={company}
@@ -201,7 +197,7 @@ export default function ContactForm({
 
       <div>
         <label className="mb-2 block text-sm font-medium text-ink" htmlFor="serviceType">
-          Ce servicii te interesează?
+          {t.serviceLabel}
         </label>
         <select
           id="serviceType"
@@ -212,9 +208,9 @@ export default function ContactForm({
           className="w-full rounded-2xl border border-black/10 bg-white/70 px-4 py-3 text-sm outline-none transition focus:border-brand"
         >
           <option value="" disabled>
-            Alege un serviciu
+            {t.serviceChoose}
           </option>
-          {serviceOptions.map((opt) => (
+          {t.serviceOptions.map((opt) => (
             <option key={opt.value} value={opt.value}>
               {opt.label}
             </option>
@@ -224,7 +220,7 @@ export default function ContactForm({
 
       {showPackages && (
         <div>
-          <p className="mb-3 text-sm font-medium text-ink">Alege pachetul</p>
+          <p className="mb-3 text-sm font-medium text-ink">{t.packagesLabel}</p>
           <div className="grid gap-3 sm:grid-cols-2">
             {packageList.map((pkg) => {
               const checked = selectedPackage === pkg.value;
@@ -256,7 +252,7 @@ export default function ContactForm({
 
       {showSiteUrl && (
         <Field
-          label="Link site existent"
+          label={t.siteUrlLabel}
           name="siteUrl"
           type="url"
           required
@@ -267,7 +263,7 @@ export default function ContactForm({
       {showDetails && (
         <div>
           <label className="mb-2 block text-sm font-medium text-ink" htmlFor="message">
-            Detaliază proiectul
+            {t.detailsLabel}
           </label>
           <textarea
             id="message"
@@ -275,14 +271,14 @@ export default function ContactForm({
             required={detailsRequired}
             rows={5}
             className="w-full rounded-2xl border border-black/10 bg-white/70 px-4 py-3 text-sm outline-none transition focus:border-brand"
-            placeholder="Spune-ne câteva cuvinte despre ce ai nevoie."
+            placeholder={t.detailsPlaceholder}
           />
         </div>
       )}
 
       <label className="flex items-start gap-3 text-xs text-mist">
         <input type="checkbox" name="gdpr" required className="mt-0.5 accent-brand" />
-        Sunt de acord cu prelucrarea datelor conform politicii de confidențialitate.
+        {t.gdprText}
       </label>
 
       <button
@@ -290,15 +286,11 @@ export default function ContactForm({
         disabled={status === "loading"}
         className="rounded-full bg-ink px-8 py-3.5 text-sm font-medium text-cream transition hover:bg-brand disabled:opacity-60"
       >
-        {status === "loading" ? "Se trimite..." : "Trimite cererea"}
+        {status === "loading" ? t.submitLoading : t.submitButton}
       </button>
 
-      {status === "success" && (
-        <p className="text-sm text-brand">Mulțumim! Îți răspundem în cel mai scurt timp.</p>
-      )}
-      {status === "error" && (
-        <p className="text-sm text-red-500">A apărut o eroare. Te rugăm să ne contactezi direct.</p>
-      )}
+      {status === "success" && <p className="text-sm text-brand">{t.successMessage}</p>}
+      {status === "error" && <p className="text-sm text-red-500">{t.errorMessage}</p>}
     </form>
   );
 }

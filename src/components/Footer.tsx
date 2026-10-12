@@ -65,7 +65,7 @@ export default function Footer() {
               </Link>
             </li>
             <li>
-              <Link href="/intrebari-frecvente" className="hover:text-brand">
+              <Link href={locale === "en" ? "/en/intrebari-frecvente" : "/intrebari-frecvente"} className="hover:text-brand">
                 {t.footerFaqLabel}
               </Link>
             </li>

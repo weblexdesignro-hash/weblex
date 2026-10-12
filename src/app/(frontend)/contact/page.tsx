@@ -8,7 +8,7 @@ export const metadata: Metadata = {
   title: "Contact — Cere o ofertă pentru site-ul tău",
   description:
     "Cere o ofertă personalizată pentru crearea site-ului de prezentare, magazinului online sau aplicației tale software. Răspundem în maximum o zi lucrătoare.",
-  alternates: { canonical: "/contact" },
+  alternates: { canonical: "/contact", languages: { "ro-RO": "/contact", "en-US": "/en/contact" } },
 };
 
 export const dynamic = "force-dynamic";

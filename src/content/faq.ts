@@ -159,3 +159,154 @@ export const faqCategories: FaqCategory[] = [
     ],
   },
 ];
+
+// Varianta in engleza a intrebarilor frecvente de mai sus — folosita pe
+// /en/intrebari-frecvente. Structura (id-uri de categorie, numar de intrebari)
+// e identica cu faqCategories, doar textul e tradus.
+export const faqCategoriesEn: FaqCategory[] = [
+  {
+    id: "cost",
+    label: "Cost and pricing",
+    items: [
+      {
+        question: "How much does a presentation website cost?",
+        answer:
+          "A presentation website starts at €249 for a single page (the Business Basic package) and goes up depending on the number of pages and features, up to €749 for complex projects with 1-50 pages (the Business Pro package). The final price depends on the content, number of pages and the integrations you need (online booking, chat, map, photo gallery). We give you an exact quote after a short discussion about your business, with no hidden costs.",
+      },
+      {
+        question: "How much does an online store (e-commerce) cost?",
+        answer:
+          "Our online store packages start at €799 for an import of 1-50 products and go up to €1,599 for catalogs of up to 1,000 products. All packages include your own admin panel with no external monthly management fees, automatic shipping calculation, cash-on-delivery and card payment, and a promotions and coupons system.",
+      },
+      {
+        question: "How much does a custom software application or a digitalization project cost?",
+        answer:
+          "Digitalization projects and custom software applications are quoted individually, since they depend on the specific processes you want to automate (admin panels, integrations with other systems, internal workflows). We do a free audit of your requirements and send you a quote with clear pricing and timelines, with no obligation.",
+      },
+      {
+        question: "Do I pay once, or are there monthly costs?",
+        answer:
+          "The project price (website, online store or application) is paid once, on delivery. Recurring costs are separate and optional: the domain (yearly), hosting (yearly) and ongoing maintenance (if you choose it), which you can manage yourself or leave to us.",
+      },
+      {
+        question: "Are there any hidden costs or extra fees?",
+        answer:
+          "No. The quote you receive before the project starts includes everything you need to launch: design, development, basic on-page SEO, an SSL certificate and GDPR compliance. Any additional feature (e.g. integration with an external ERP, multi-language support, custom modules) is discussed and agreed upfront, never added as a surprise on the final invoice.",
+      },
+    ],
+  },
+  {
+    id: "durata",
+    label: "Delivery time",
+    items: [
+      {
+        question: "How long does it take to deliver a presentation website?",
+        answer:
+          "A presentation website with 1-5 pages is delivered, on average, in 2-3 weeks after we receive your content (text, photos, logo). Larger projects, with 20-50 pages, can take 4-6 weeks. The exact timeline is included in the quote, before work begins.",
+      },
+      {
+        question: "How long does it take to deliver an online store?",
+        answer:
+          "An online store with an import of 1-50 products is usually delivered in 3-4 weeks. For larger catalogs (500-1,000 products) or additional integrations (invoicing, couriers, ERP), the timeline can extend to 6-8 weeks, depending on complexity.",
+      },
+      {
+        question: "Can you deliver a website faster, ahead of a deadline (e.g. Start-Up Nation)?",
+        answer:
+          "Yes. For projects with a deadline tied to a funding program (Start-Up Nation, European funds, the digitalization voucher), we deliver the website before the date stated in the funding application and prepare the documents needed for reimbursement directly (invoice, acceptance report, a screenshot of the working website). Let us know the deadline from your application in the first discussion, so we can plan accordingly.",
+      },
+      {
+        question: "What determines the actual duration of a project?",
+        answer:
+          "The biggest factor is how quickly we receive your content (text, photos, logo, domain access). A project where we get all the material in the first week moves much faster than one where content arrives in stages.",
+      },
+    ],
+  },
+  {
+    id: "ce-este-inclus",
+    label: "What's included",
+    items: [
+      {
+        question: "What's included in a presentation website package?",
+        answer:
+          "Every presentation website includes a custom responsive design (not a generic template), a contact form and location map, help setting up your domain and hosting, a custom email address, an SSL certificate, GDPR compliance and a cookie banner, on-page SEO and speed optimization, plus integration with Google Business Profile, Analytics and Search Console.",
+      },
+      {
+        question: "What's included in an online store package?",
+        answer:
+          "An online store we deliver comes with its own admin panel (no external monthly fees), unlimited products, checkout, automatic shipping calculation by zone, cash-on-delivery and card payment, a promotions and coupons system, newsletter and sales reports, on top of on-page SEO and the Google integrations.",
+      },
+      {
+        question: "Does the website include SEO optimization?",
+        answer:
+          "Yes. On-page SEO optimization (correct H1-H3 heading structure, loading speed, Schema.org structured data, meta descriptions, Google Search Console and Analytics integration) is included in every project we deliver, not a separate service with an extra cost.",
+      },
+      {
+        question: "Do you provide the content (text, photos), or do I need to supply it?",
+        answer:
+          "Generally, the core content (text, photos of your products/services) is provided by you, since you know your business best. We guide you with a clear brief on what's needed for each page, and we can write or polish specific copy on request. For online stores, we also offer professional product photography as a separate service.",
+      },
+      {
+        question: "Is the website responsive (does it look good on mobile)?",
+        answer:
+          "Yes, 100%. Every page is designed mobile-first, since almost half of a site's traffic comes from mobile, and only then adapted for tablet and desktop.",
+      },
+    ],
+  },
+  {
+    id: "mentenanta-securitate",
+    label: "Maintenance and security",
+    items: [
+      {
+        question: "What does maintenance mean and why do I need it?",
+        answer:
+          "Maintenance means periodic security updates, regular backups and fast fixes whenever an issue comes up (site down, an error, an attack). Over time, a site that isn't kept up to date becomes vulnerable and can stop working correctly. We recommend ongoing maintenance, especially for online stores, where a problem directly means lost sales.",
+      },
+      {
+        question: "What happens if my website is attacked or goes down?",
+        answer:
+          "Clients with an active maintenance contract get priority response in these situations and a restore from backup. Without maintenance, we can still step in on a one-off basis, at an extra cost, but response time is no longer guaranteed.",
+      },
+      {
+        question: "Does the website have an SSL certificate and is it GDPR compliant?",
+        answer:
+          "Yes, the SSL certificate (the padlock in the browser, https://) and basic GDPR compliance (privacy policy, cookie banner) are included by default in every project, not optional extras.",
+      },
+      {
+        question: "Can I manage the website myself after it's delivered?",
+        answer:
+          "Yes. The websites and online stores we deliver come with their own admin panel, from which you can edit text, photos, products and prices with no technical knowledge needed. We walk you through how to use it at handover.",
+      },
+    ],
+  },
+  {
+    id: "tehnologii-proces",
+    label: "Technology and process",
+    items: [
+      {
+        question: "What technologies do you use for development?",
+        answer:
+          "We use modern technology (Next.js, React, PostgreSQL databases), which ensures fast loading times and long-term scalability, for both websites and online stores as well as custom software applications and digitalization projects.",
+      },
+      {
+        question: "What are the steps of a project with you?",
+        answer:
+          "The process has 5 stages: (1) discussion and brief, where we understand your business and goals; (2) design and concept, when we propose the visual direction; (3) development, when we actually build the website or application; (4) testing and launch, checking speed, SEO and responsiveness on every device; (5) ongoing maintenance, after launch.",
+      },
+      {
+        question: "Do you work with companies outside Romania?",
+        answer:
+          "Yes, we work with clients worldwide, entirely online (video call, email, phone) — there's no need for an in-person meeting to start or finish a project.",
+      },
+      {
+        question: "Can you take over and rebuild an older website?",
+        answer:
+          "Yes. We take over existing websites and rebuild them completely — design, structure and speed — while keeping the visual identity and the valuable content already built up (articles, Google rankings), so you don't lose the traffic you've already earned.",
+      },
+      {
+        question: "Is the website eligible for Start-Up Nation or other European funds?",
+        answer:
+          "Yes, we build presentation websites and online stores that are eligible as an expense under Start-Up Nation and other European funding programs (including the digitalization voucher). We deliver the project on time against your funding application deadline and prepare the documents needed for reimbursement: invoice, acceptance report and a screenshot of the working website.",
+      },
+    ],
+  },
+];
