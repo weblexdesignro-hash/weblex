@@ -2,10 +2,20 @@
 
 import Link from "next/link";
 import dynamic from "next/dynamic";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import AnimatedCounter from "./AnimatedCounter";
 import { ui, contactHref, type Locale } from "@/content/i18n";
+import type { NetworkGlobeHandle } from "./NetworkGlobeBackground";
+
+// Apel sigur de repetat (gsap il ignora dupa prima inregistrare) — il facem
+// si aici, nu doar in SmoothScrollProvider, ca Hero sa functioneze corect
+// chiar daca ar fi folosit vreodata in afara acelui provider.
+if (typeof window !== "undefined") {
+  gsap.registerPlugin(ScrollTrigger);
+}
 
 // Incarcat dinamic (fara SSR) si deci intr-un chunk JS separat, descarcat/executat
 // DUPA hidratarea initiala a paginii — globul de fundal e doar decorativ (nu
@@ -56,8 +66,55 @@ export default function Hero({
     return () => mq.removeEventListener("change", onChange);
   }, []);
 
+  // ---- "Tunel" la scroll: Hero ramane fixat pe ecran cat timp derulezi primul
+  // ecran, iar globul "accelereaza" spre privitor pana se stinge, dand loc
+  // sectiunii urmatoare — vezi NetworkGlobeBackground.tsx pentru desenul in
+  // canvas. Activ doar pe ecrane >= 768px si doar daca utilizatorul nu a cerut
+  // "prefers-reduced-motion": pe mobil si pentru acesti utilizatori, Hero se
+  // comporta normal (fara fixare la scroll), exact ca inainte.
+  const sectionRef = useRef<HTMLElement | null>(null);
+  const textWrapRef = useRef<HTMLDivElement | null>(null);
+  const globeRef = useRef<NetworkGlobeHandle | null>(null);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const mm = gsap.matchMedia();
+
+    mm.add("(min-width: 768px) and (prefers-reduced-motion: no-preference)", () => {
+      const section = sectionRef.current;
+      if (!section) return;
+
+      const st = ScrollTrigger.create({
+        trigger: section,
+        start: "top top",
+        end: () => "+=" + Math.round(window.innerHeight * 0.75),
+        pin: true,
+        scrub: 0.6,
+        onUpdate: (self) => {
+          globeRef.current?.setWarp(self.progress);
+          const textWrap = textWrapRef.current;
+          if (textWrap) {
+            const textP = Math.min(self.progress / 0.45, 1);
+            gsap.set(textWrap, {
+              opacity: 1 - textP,
+              y: -textP * 70,
+              scale: 1 - textP * 0.1,
+              pointerEvents: textP > 0.9 ? "none" : "auto",
+            });
+          }
+        },
+      });
+
+      return () => {
+        st.kill();
+      };
+    });
+
+    return () => mm.revert();
+  }, []);
+
   return (
-    <section className="relative overflow-hidden bg-ink pb-24 pt-40 md:pt-48">
+    <section ref={sectionRef} className="relative overflow-hidden bg-ink pb-24 pt-40 md:pt-48">
       {/* Fundal: glob animat + glow radial, in spatele continutului */}
       <div
         className="absolute inset-0"
@@ -66,7 +123,7 @@ export default function Hero({
             "radial-gradient(ellipse 80% 60% at 50% 38%, rgba(61,90,254,0.22) 0%, #141414 70%)",
         }}
       />
-      {showGlobe && <NetworkGlobeBackground />}
+      {showGlobe && <NetworkGlobeBackground ref={globeRef} />}
       {/* Vinieta: intareste contrastul textului peste glob si face tranzitia catre sectiunea urmatoare */}
       <div
         className="pointer-events-none absolute inset-0"
@@ -76,7 +133,7 @@ export default function Hero({
         }}
       />
 
-      <div className="container-px relative mx-auto max-w-6xl text-center">
+      <div ref={textWrapRef} className="container-px relative mx-auto max-w-6xl text-center">
         <motion.p
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
