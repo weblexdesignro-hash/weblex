@@ -142,7 +142,7 @@ const NetworkGlobeBackground = forwardRef<NetworkGlobeHandle, object>(
       // De la ce valoare a warp-ului incepe sa se stinga tot canvas-ul, ca
       // sectiunea urmatoare sa preia lin ecranul chiar inainte sa se termine
       // "fixarea" (pin-ul) sectiunii Hero.
-      const FADE_START = 0.72;
+      const FADE_START = 0.48;
 
       function draw() {
         if (!running || !ctx || !canvas) return;
@@ -268,8 +268,8 @@ const NetworkGlobeBackground = forwardRef<NetworkGlobeHandle, object>(
 
         // Fulger discret in centru chiar inainte de capatul tunelului — momentul
         // de "clim ax" al tranzitiei, imediat inainte sa se stinga tot canvas-ul.
-        if (warp > 0.78) {
-          const climax = Math.min((warp - 0.78) / 0.22, 1);
+        if (warp > 0.55) {
+          const climax = Math.min((warp - 0.55) / 0.3, 1);
           const glow = ctx.createRadialGradient(cx, cy, 0, cx, cy, Math.max(W, H) * 0.5);
           glow.addColorStop(0, `rgba(180,244,97,${(0.22 * climax).toFixed(3)})`);
           glow.addColorStop(1, "rgba(180,244,97,0)");

@@ -84,17 +84,20 @@ export default function Hero({
       const section = sectionRef.current;
       if (!section) return;
 
+      // Distanta totala de scroll "consumata" de tunel — scurtata (era 0.75din
+      // inaltimea ecranului) ca sa nu ramana un gol lung, fara text si fara
+      // finalul tunelului, dupa ce dispare textul.
       const st = ScrollTrigger.create({
         trigger: section,
         start: "top top",
-        end: () => "+=" + Math.round(window.innerHeight * 0.75),
+        end: () => "+=" + Math.round(window.innerHeight * 0.5),
         pin: true,
         scrub: 0.6,
         onUpdate: (self) => {
           globeRef.current?.setWarp(self.progress);
           const textWrap = textWrapRef.current;
           if (textWrap) {
-            const textP = Math.min(self.progress / 0.45, 1);
+            const textP = Math.min(self.progress / 0.4, 1);
             gsap.set(textWrap, {
               opacity: 1 - textP,
               y: -textP * 70,
