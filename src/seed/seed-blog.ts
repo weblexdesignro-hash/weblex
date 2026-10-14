@@ -19,24 +19,53 @@ import { getPayload } from "payload";
 import config from "@payload-config";
 import { blogArticlesRound1, type BlogArticle, type ContentBlock } from "../content/blog-articles-round1";
 import { blogArticlesRound2 } from "../content/blog-articles-round2";
+import { blogArticlesFunding } from "../content/blog-articles-funding";
 
 // Pe masura ce scriem rundele urmatoare (3-5), le adaugam aici — scriptul le
-// populeaza pe toate intr-o singura rulare.
-const ROUND_FILES: BlogArticle[][] = [blogArticlesRound1, blogArticlesRound2];
+// populeaza pe toate intr-o singura rulare. blogArticlesFunding e seria GEO
+// dedicata fondurilor nerambursabile (vezi blog-articles-funding.ts) —
+// Articolul 1 indeplineste item-ul #23 din blog-plan.ts.
+const ROUND_FILES: BlogArticle[][] = [blogArticlesRound1, blogArticlesRound2, blogArticlesFunding];
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 // Imagini de coperta generate pentru articole, denumite exact ca slug-ul
 // articolului: src/seed/blog-images/<slug>.webp
 const imagesDir = path.join(__dirname, "blog-images");
 
-function textNode(text: string) {
-  return { type: "text", detail: 0, format: 0, mode: "normal", style: "", text, version: 1 };
+function textNode(text: string, bold = false) {
+  // format: 1 = bold, in formatul bitmask Lexical standard.
+  return { type: "text", detail: 0, format: bold ? 1 : 0, mode: "normal", style: "", text, version: 1 };
+}
+
+// Transforma markdown simplu "**bold**" in mai multe noduri de text (normal +
+// bold), ca sa putem scrie continutul articolelor ca text simplu si sa obtinem
+// totusi cuvinte/sintagme evidentiate in Lexical, fara JSON scris de mana.
+function inlineNodes(text: string) {
+  const parts = text.split(/\*\*(.+?)\*\*/g);
+  const nodes = [];
+  for (let i = 0; i < parts.length; i++) {
+    if (parts[i] === "") continue;
+    // Dupa split cu grup captat, indicii impari sunt mereu continutul dintre **...**.
+    nodes.push(textNode(parts[i], i % 2 === 1));
+  }
+  return nodes.length ? nodes : [textNode(text)];
 }
 
 function paragraphNode(text: string) {
   return {
     type: "paragraph",
-    children: [textNode(text)],
+    children: inlineNodes(text),
+    direction: "ltr",
+    format: "",
+    indent: 0,
+    version: 1,
+  };
+}
+
+function quoteNode(text: string) {
+  return {
+    type: "quote",
+    children: inlineNodes(text),
     direction: "ltr",
     format: "",
     indent: 0,
@@ -48,7 +77,7 @@ function headingNode(text: string, tag: "h2" | "h3" = "h2") {
   return {
     type: "heading",
     tag,
-    children: [textNode(text)],
+    children: inlineNodes(text),
     direction: "ltr",
     format: "",
     indent: 0,
@@ -65,7 +94,7 @@ function listNode(items: string[]) {
     children: items.map((item, i) => ({
       type: "listitem",
       value: i + 1,
-      children: [textNode(item)],
+      children: inlineNodes(item),
       direction: "ltr",
       format: "",
       indent: 0,
@@ -78,13 +107,15 @@ function listNode(items: string[]) {
   };
 }
 
-// Transforma blocurile simple (h2/p/ul) scrise in fisierele de continut intr-un
-// document Lexical valid, in formatul pe care il asteapta campul richText din
-// Payload (@payloadcms/richtext-lexical).
+// Transforma blocurile simple (h2/h3/p/ul/quote) scrise in fisierele de continut
+// intr-un document Lexical valid, in formatul pe care il asteapta campul richText
+// din Payload (@payloadcms/richtext-lexical).
 function blocksToLexical(blocks: ContentBlock[]) {
   const children = blocks.map((b) => {
     if (b.type === "h2") return headingNode(b.text, "h2");
+    if (b.type === "h3") return headingNode(b.text, "h3");
     if (b.type === "ul") return listNode(b.items);
+    if (b.type === "quote") return quoteNode(b.text);
     return paragraphNode(b.text);
   });
   return {
@@ -149,6 +180,7 @@ async function run() {
       seoDescription: article.seoDescription,
       publishedAt: article.publishedAt,
       author: "Weblex Design",
+      ...(article.faq?.length ? { faq: article.faq } : {}),
       ...(coverImageId ? { coverImage: coverImageId } : {}),
     };
 

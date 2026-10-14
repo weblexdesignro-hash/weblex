@@ -338,6 +338,16 @@ export interface BlogPost {
     };
     [k: string]: unknown;
   } | null;
+  /**
+   * Intrebari frecvente afisate la finalul articolului + date structurate Schema.org FAQPage (ajuta Google si AI-urile sa extraga raspunsuri directe).
+   */
+  faq?:
+    | {
+        question: string;
+        answer: string;
+        id?: string | null;
+      }[]
+    | null;
   publishedAt?: string | null;
   author?: string | null;
   seoTitle?: string | null;
@@ -782,6 +792,13 @@ export interface BlogPostsSelect<T extends boolean = true> {
   coverImage?: T;
   excerpt?: T;
   content?: T;
+  faq?:
+    | T
+    | {
+        question?: T;
+        answer?: T;
+        id?: T;
+      };
   publishedAt?: T;
   author?: T;
   seoTitle?: T;

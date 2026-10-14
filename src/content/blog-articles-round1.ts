@@ -3,10 +3,17 @@
 // de seed (src/seed/seed-blog.ts) sa le poata transforma automat in formatul
 // Lexical cerut de Payload, fara sa fie nevoie sa scriem JSON Lexical de mana.
 
+// Textul din blocuri suporta "**bold**" (markdown simplu) pentru cuvinte/sintagme
+// cheie — scriptul de seed il transforma in noduri Lexical cu format bold, fara
+// sa fie nevoie sa scriem JSON Lexical de mana.
 export type ContentBlock =
   | { type: "p"; text: string }
   | { type: "h2"; text: string }
-  | { type: "ul"; items: string[] };
+  | { type: "h3"; text: string }
+  | { type: "ul"; items: string[] }
+  // Caseta "Răspuns Rapid" (TL;DR) de la începutul articolelor GEO — randata ca
+  // blockquote (citat), vizual distincta de restul textului.
+  | { type: "quote"; text: string };
 
 export type BlogArticle = {
   slug: string;
@@ -16,6 +23,9 @@ export type BlogArticle = {
   seoDescription: string;
   publishedAt: string; // ISO
   blocks: ContentBlock[];
+  // Intrebari frecvente optionale — populate in campul `faq` din Payload si
+  // folosite si pentru datele structurate Schema.org FAQPage.
+  faq?: { question: string; answer: string }[];
 };
 
 export const blogArticlesRound1: BlogArticle[] = [

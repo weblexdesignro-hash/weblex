@@ -22,6 +22,19 @@ export const BlogPosts: CollectionConfig = {
       ...AIGenerateTextField("rezumatul scurt (excerpt) al articolului"),
     },
     { name: "content", type: "richText", editor: lexicalEditor(), localized: true },
+    {
+      name: "faq",
+      type: "array",
+      localized: true,
+      admin: {
+        description:
+          "Intrebari frecvente afisate la finalul articolului + date structurate Schema.org FAQPage (ajuta Google si AI-urile sa extraga raspunsuri directe).",
+      },
+      fields: [
+        { name: "question", type: "text", required: true },
+        { name: "answer", type: "textarea", required: true },
+      ],
+    },
     { name: "publishedAt", type: "date" },
     { name: "author", type: "text", defaultValue: "Weblex Design" },
     { name: "seoTitle", type: "text", localized: true, ...AIGenerateTextField("titlul SEO (max 60 caractere)") },
