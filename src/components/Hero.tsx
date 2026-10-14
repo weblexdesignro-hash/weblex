@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import dynamic from "next/dynamic";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -76,7 +76,15 @@ export default function Hero({
   const textWrapRef = useRef<HTMLDivElement | null>(null);
   const globeRef = useRef<NetworkGlobeHandle | null>(null);
 
-  useEffect(() => {
+  // useLayoutEffect (nu useEffect): curatarea (revert-ul ScrollTrigger/pin-spacer)
+  // trebuie sa ruleze INAINTE ca React sa elimine sectiunea Hero din DOM la o
+  // navigare client-side (ex. click pe "Blog" in meniu), nu dupa. ScrollTrigger
+  // cu "pin: true" infasoara sectiunea intr-un div ".pin-spacer" separat de arborele
+  // React — daca React incearca sa elimine sectiunea inainte ca acel wrapper sa fie
+  // scos, structura DOM reala nu mai corespunde cu ce stie React si browserul arunca
+  // "Failed to execute 'removeChild' on 'Node'". useEffect (pasiv) ruleaza DUPA ce
+  // React a facut deja mutatiile DOM pentru navigare, deci era prea tarziu.
+  useLayoutEffect(() => {
     if (typeof window === "undefined") return;
     const mm = gsap.matchMedia();
 
@@ -109,7 +117,10 @@ export default function Hero({
       });
 
       return () => {
-        st.kill();
+        // kill(true) forteaza un revert sincron (scoate pin-spacer-ul si stilurile
+        // inline aplicate de ScrollTrigger imediat, nu la urmatorul refresh), chiar
+        // inainte ca React sa continue cu eliminarea nodurilor din DOM.
+        st.kill(true);
       };
     });
 
