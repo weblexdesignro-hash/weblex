@@ -146,13 +146,25 @@ async function run() {
       limit: 1,
     });
 
-    // Daca exista o imagine generata pentru acest articol (src/seed/blog-images/<slug>.webp),
+    // Daca exista o imagine generata pentru acest articol (src/seed/blog-images/<slug>.<ext>),
     // o incarcam (sau o refolosim, daca a mai fost incarcata o data) si o atasam ca coverImage.
+    // Acceptam mai multe extensii (nu doar .webp) ca sa poti pune direct o poza descarcata
+    // (png/jpg), fara sa fie nevoie sa o convertesti manual inainte de seed.
+    const IMAGE_EXTENSIONS: { ext: string; mimetype: string }[] = [
+      { ext: "webp", mimetype: "image/webp" },
+      { ext: "png", mimetype: "image/png" },
+      { ext: "jpg", mimetype: "image/jpeg" },
+      { ext: "jpeg", mimetype: "image/jpeg" },
+    ];
     let coverImageId: number | undefined;
-    const imagePath = path.join(imagesDir, `${article.slug}.webp`);
-    if (fs.existsSync(imagePath)) {
-      const imgData = fs.readFileSync(imagePath);
-      const filename = `${article.slug}.webp`;
+    const foundImage = IMAGE_EXTENSIONS.map(({ ext, mimetype }) => ({
+      ext,
+      mimetype,
+      imagePath: path.join(imagesDir, `${article.slug}.${ext}`),
+    })).find((candidate) => fs.existsSync(candidate.imagePath));
+    if (foundImage) {
+      const imgData = fs.readFileSync(foundImage.imagePath);
+      const filename = `${article.slug}.${foundImage.ext}`;
       const existingMedia = await payload.find({
         collection: "media",
         where: { filename: { equals: filename } },
@@ -164,7 +176,7 @@ async function run() {
         const media = await payload.create({
           collection: "media",
           data: { alt: article.title },
-          file: { data: imgData, mimetype: "image/webp", name: filename, size: imgData.length },
+          file: { data: imgData, mimetype: foundImage.mimetype, name: filename, size: imgData.length },
         });
         coverImageId = media.id as number;
       }
